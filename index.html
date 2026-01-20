@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RefKit Pro - Gestão de Equipamentos</title>
+    <title>NAFVKIT - Gestão de Equipamentos de árbitros</title>
     <style>
         :root {
             --primary: #1e272e;
@@ -185,15 +185,15 @@
 <body>
 
 <div class="header">
-    <h2 style="margin:0 0 10px 0;">Gestor de Equipamentos</h2>
+    <h2 style="margin:0 0 10px 0;">Gestor de Equipamentos das Eq. de Arbitragem</h2>
     <input type="text" id="search" class="search-bar" placeholder="🔍 Pesquisar colega...">
 </div>
 
-<div id="loading" class="loading">A carregar dados do Excel...</div>
+<div id="loading" class="loading">A carregar dados...</div>
 <div class="grid" id="mainGrid"></div>
 
 <div id="teamBar" class="team-bar">
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar Convocatória para WhatsApp 📱</button>
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar lista de equipamentos por WhatsApp 📱</button>
     <div id="selectedContainer" class="selected-container"></div>
 </div>
 
@@ -308,13 +308,13 @@
     }
 
     function sendWhatsApp() {
-        let msg = "📋 *LOGÍSTICA DE NOMEAÇÃO*\n\n";
+        let msg = "📋 *Equipamentos Eq. Arbitragem*\n\n";
         selecionados.forEach(s => {
             msg += `👤 *${s.nome}* (${s.tam})\n`;
             let kits = Object.entries(s.inv).filter(e => e[1] > 0).map(e => `${e[1]}x ${KITS_BASE[e[0]].m} ${KITS_BASE[e[0]].c}`);
             msg += `👕 ${kits.join(' | ')}\n\n`;
         });
-        msg += "_Qual a cor para o jogo?_";
+        msg += "_QUais destes não estão disponiveis?_";
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -330,4 +330,5 @@
 
 </body>
 </html>
+
 
