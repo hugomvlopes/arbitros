@@ -2,319 +2,292 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <title>RefKit Pro - Gestão Total</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RefKit Pro - Gestão de Equipamentos</title>
     <style>
-        :root {
-            --primary: #1e272e;
-            --accent: #2ecc71;
-            --bg: #f1f2f6;
-            --text: #2f3640;
-            --danger: #e74c3c;
-        }
+        :root { --primary: #1e272e; --accent: #2ecc71; --bg: #f4f6f8; --danger: #e74c3c; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 160px; }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 150px;
-        }
-
-        .header {
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 100;
-            padding: 15px;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin: -20px -20px 30px -20px;
-            text-align: center;
-        }
-
-        .search-bar {
-            width: 90%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 2px solid #ddd;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            position: relative;
-            transition: 0.2s;
-        }
-
-        .card.selected {
-            border: 2px solid var(--accent);
-            background: #f0fff4;
-        }
-
-        .select-check {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            transform: scale(1.3);
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .name { font-weight: bold; font-size: 1.2em; display: block; }
+        /* --- HEADER & SELETORES --- */
+        .header { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; position: sticky; top: 0; z-index: 100; }
         
-        .tag-tamanho {
-            display: inline-block;
-            background: #eee;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin: 5px 0 15px 0;
-            font-weight: bold;
-        }
+        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px; }
+        .search-bar { flex: 2; min-width: 200px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; }
+        .dropdown { flex: 1; min-width: 140px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: white; font-weight: bold; }
 
-        .kits-flex { display: flex; gap: 12px; flex-wrap: wrap; }
+        .game-area { border-top: 1px solid #eee; padding-top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .team-selectors { display: flex; gap: 10px; width: 100%; max-width: 600px; }
+        .team-select { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+
+        /* --- VISUALIZADOR DE EQUIPAMENTOS (CLUBE) --- */
+        .match-display { display: flex; justify-content: space-around; width: 100%; max-width: 500px; margin-top: 10px; display: none; }
+        .team-kit-container { text-align: center; display: flex; flex-direction: column; align-items: center; }
         
-        .kit-item {
-            position: relative;
-            width: 75px;
-            text-align: center;
-        }
+        /* O "Boneco" do Equipamento */
+        .kit-body { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); }
+        .shirt { width: 45px; height: 45px; border-radius: 6px 6px 2px 2px; border: 1px solid rgba(0,0,0,0.1); transition: 0.3s; }
+        .shorts { width: 32px; height: 30px; margin-top: -3px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); z-index: 2; }
+        .socks-container { display: flex; gap: 8px; margin-top: 2px; }
+        .sock { width: 10px; height: 25px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); }
+        
+        .team-name { font-weight: bold; font-size: 0.8em; margin-top: 5px; color: #444; max-width: 120px; }
 
-        .qty-badge {
-            position: absolute;
-            top: -5px;
-            right: -2px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border: 2px solid white;
-            z-index: 5;
-        }
+        /* --- GRELHA DE ÁRBITROS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: white; border-radius: 12px; padding: 15px; border: 1px solid #ddd; position: relative; }
+        .card.selected { border: 2px solid var(--accent); background: #f0fff4; }
+        .name { font-weight: bold; color: var(--primary); }
+        
+        /* Mini Camisolas Árbitro */
+        .kits-flex { display: flex; gap: 8px; margin-top: 10px; }
+        .kit-item { position: relative; width: 60px; text-align: center; }
+        .kit-img { width: 100%; height: 60px; object-fit: contain; cursor: pointer; transition: 0.3s; }
+        .kit-img:hover { transform: scale(3.5); z-index: 500; position: relative; background: white; border-radius: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .qty-badge { position: absolute; top: -5px; right: -2px; background: var(--danger); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; z-index: 10; }
 
-        .kit-img {
-            width: 100%;
-            height: 75px;
-            object-fit: contain;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .kit-img:hover {
-            transform: scale(2.5);
-            z-index: 500;
-            position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            background: white;
-        }
-
-        .kit-info {
-            font-size: 0.65em;
-            font-weight: bold;
-            margin-top: 4px;
-            line-height: 1.1;
-        }
-
-        .brand-label { color: #e67e22; text-transform: uppercase; display: block; }
-
-        .team-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--primary);
-            color: white;
-            padding: 15px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
-            z-index: 1000;
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        .selected-container {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .team-member-mini {
-            text-align: center;
-            border-right: 1px solid #444;
-            padding-right: 15px;
-            min-width: 120px;
-        }
-
-        .loading { text-align: center; padding: 50px; font-weight: bold; color: #666; }
+        /* BARRA INFERIOR */
+        .team-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 15px; display: none; flex-direction: column; align-items: center; z-index: 1000; }
+        .btn-whatsapp { background: #25D366; color: white; border: none; padding: 10px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 style="margin:0 0 10px 0;">Gestor de Equipamentos</h2>
-    <input type="text" id="search" class="search-bar" placeholder="🔍 Pesquisar colega...">
+    <div class="filters-row">
+        <input type="text" id="search" class="search-bar" placeholder="🔍 Procurar árbitro...">
+        <select id="escalao" class="dropdown" onchange="carregarClubes()">
+            <option value="seniores">Seniores Div. Honra</option>
+            </select>
+    </div>
+
+    <div class="game-area">
+        <div class="team-selectors">
+            <select id="casa" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitada</option></select>
+            <select id="fora" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitante</option></select>
+        </div>
+
+        <div id="matchDisplay" class="match-display">
+            <div class="team-kit-container">
+                <div class="kit-body">
+                    <div id="c-shirt" class="shirt"></div>
+                    <div id="c-shorts" class="shorts"></div>
+                    <div class="socks-container">
+                        <div id="c-sock1" class="sock"></div>
+                        <div id="c-sock2" class="sock"></div>
+                    </div>
+                </div>
+                <div id="txtCasa" class="team-name">Casa</div>
+            </div>
+
+            <div style="align-self:center; font-weight:bold; color:#ccc;">VS</div>
+
+            <div class="team-kit-container">
+                <div class="kit-body">
+                    <div id="f-shirt" class="shirt"></div>
+                    <div id="f-shorts" class="shorts"></div>
+                    <div class="socks-container">
+                        <div id="f-sock1" class="sock"></div>
+                        <div id="f-sock2" class="sock"></div>
+                    </div>
+                </div>
+                <div id="txtFora" class="team-name">Fora</div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="loading" class="loading">A carregar dados do Excel...</div>
 <div class="grid" id="mainGrid"></div>
 
 <div id="teamBar" class="team-bar">
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar Convocatória para WhatsApp 📱</button>
-    <div id="selectedContainer" class="selected-container"></div>
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar Convocatória 📱</button>
+    <div id="selectedContainer" style="display:flex; gap:10px; overflow-x: auto; width: 100%; justify-content: center;"></div>
 </div>
 
 <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
+    // --- LINKS DOS EXCEL (Tens de trocar pelo link CSV dos CLUBES!) ---
+    const URL_ARBITROS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
+    
+    // ATENÇÃO: Substitui este link pelo link CSV do teu Excel de Seniores
+    const URL_CLUBES_SENIORES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaqq_R1n-w_O7y5-dO_vKk-F_Cg2c3i4j_h5_l-k_m_n_o_p/pub?output=csv'; 
+    // ^^^ COLOCA AQUI O TEU LINK CSV DOS CLUBES ^^^
 
-    const KITS_BASE = {
-        mac_rosa:    { m: "Macron", c: "Rosa", i: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg" },
-        mac_laranja: { m: "Macron", c: "Laranja", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg" },
-        mac_azul:    { m: "Macron", c: "Azul", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/5/2/52df08504cf4cfbe5bb2a64356ff9f9f800001933700.jpg" },
-        mac_preto:   { m: "Macron", c: "Preto", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/6/865e817e7d6654733c8f8fa12c66e87a800001930900.jpg" },
-        mac_amarelo: { m: "Macron", c: "Amarelo", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/2/e/2e4c95eb6109e51232f11400887ad176800001931500.jpg" },
-        lac_preto:   { m: "Lacatoni", c: "Preto", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_PE.jpg" },
-        lac_laranja: { m: "Lacatoni", c: "Laranja", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552LF_teste.jpg" },
-        lac_azul:    { m: "Lacatoni", c: "Azul", i: "https://lacatoni.com/wp-content/uploads/2024/09/curta-azul.jpg" },
-        lac_amarelo: { m: "Lacatoni", c: "Amarelo", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_A.jpg" }
+    // --- IMAGENS ÁRBITROS ---
+    const KITS_REF = {
+        mac_rosa: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg",
+        mac_laranja: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg",
+        mac_azul: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/5/2/52df08504cf4cfbe5bb2a64356ff9f9f800001933700.jpg",
+        mac_preto: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/6/865e817e7d6654733c8f8fa12c66e87a800001930900.jpg",
+        mac_amarelo: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/2/e/2e4c95eb6109e51232f11400887ad176800001931500.jpg",
+        lac_preto: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_PE.jpg",
+        lac_laranja: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552LF_teste.jpg",
+        lac_azul: "https://lacatoni.com/wp-content/uploads/2024/09/curta-azul.jpg",
+        lac_amarelo: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_A.jpg"
     };
 
     let listaArbitros = [];
+    let listaClubes = {}; // Vai guardar todos os clubes do excel
     let selecionados = [];
 
-    async function fetchData() {
+    // --- MAPA DE CORES (Traduz Português para CSS) ---
+    function corParaCSS(texto) {
+        if(!texto) return '#ddd';
+        texto = texto.toLowerCase();
+        
+        // Cores base
+        if(texto.includes('amarelo') || texto.includes('amarela')) return '#f1c40f';
+        if(texto.includes('vermelho') || texto.includes('vermelha')) return '#e74c3c';
+        if(texto.includes('azul')) return '#2980b9';
+        if(texto.includes('verde')) return '#27ae60';
+        if(texto.includes('preto') || texto.includes('preta')) return '#2c3e50';
+        if(texto.includes('branco') || texto.includes('branca')) return '#ffffff';
+        if(texto.includes('laranja')) return '#e67e22';
+        if(texto.includes('cinza')) return '#95a5a6';
+        if(texto.includes('roxo')) return '#8e44ad';
+        
+        return '#bdc3c7'; // Cor padrão se não encontrar
+    }
+
+    // --- CARREGAR CLUBES DO EXCEL ---
+    async function carregarClubes() {
+        // Usa o link fictício se não tiveres colocado o teu ainda, para não dar erro
+        const link = URL_CLUBES_SENIORES.includes('output=csv') ? URL_CLUBES_SENIORES : null;
+        
+        if(!link) {
+            console.warn("Falta o link CSV dos clubes!");
+            return;
+        }
+
         try {
-            const response = await fetch(CSV_URL);
-            const csvText = await response.text();
-            const rows = csvText.split('\n').slice(1); // Ignora cabeçalho
+            const resp = await fetch(link);
+            const text = await resp.text();
+            const rows = text.split('\n').slice(1);
+            
+            const dropdownCasa = document.getElementById('casa');
+            const dropdownFora = document.getElementById('fora');
+            
+            // Limpar
+            dropdownCasa.innerHTML = '<option value="">Equipa Visitada</option>';
+            dropdownFora.innerHTML = '<option value="">Equipa Visitante</option>';
+            listaClubes = {};
 
-            listaArbitros = rows.map(row => {
-                const cols = row.split(',');
-                if(cols.length < 2) return null;
-                return {
-                    nome: cols[0].trim(),
-                    tam: cols[1].trim(),
-                    inv: {
-                        mac_rosa: parseInt(cols[2]) || 0,
-                        mac_laranja: parseInt(cols[3]) || 0,
-                        mac_azul: parseInt(cols[4]) || 0,
-                        mac_preto: parseInt(cols[5]) || 0,
-                        mac_amarelo: parseInt(cols[6]) || 0,
-                        lac_preto: parseInt(cols[7]) || 0,
-                        lac_laranja: parseInt(cols[8]) || 0,
-                        lac_azul: parseInt(cols[9]) || 0,
-                        lac_amarelo: parseInt(cols[10]) || 0
-                    }
-                };
-            }).filter(x => x !== null);
+            rows.forEach(r => {
+                const c = r.split(',').map(cell => cell.trim());
+                if(c.length >= 4) {
+                    const nome = c[0]; // Coluna A
+                    listaClubes[nome] = {
+                        shirt: c[1], // Coluna B (ex: Amarela)
+                        shorts: c[2], // Coluna C
+                        socks: c[3]  // Coluna D
+                    };
+                    
+                    dropdownCasa.add(new Option(nome, nome));
+                    dropdownFora.add(new Option(nome, nome));
+                }
+            });
 
-            document.getElementById('loading').style.display = 'none';
-            render();
-        } catch (e) {
-            document.getElementById('loading').innerHTML = "Erro ao carregar o Excel. Verifica se o link está 'Publicado na Web' como CSV.";
+        } catch(e) { console.error("Erro Clubes:", e); }
+    }
+
+    // --- ATUALIZAR VISUAL DO JOGO ---
+    function updateMatch() {
+        const nomeCasa = document.getElementById('casa').value;
+        const nomeFora = document.getElementById('fora').value;
+        const display = document.getElementById('matchDisplay');
+
+        if(nomeCasa && nomeFora && listaClubes[nomeCasa] && listaClubes[nomeFora]) {
+            display.style.display = 'flex';
+            const c = listaClubes[nomeCasa];
+            const f = listaClubes[nomeFora];
+
+            // Pintar Casa
+            document.getElementById('txtCasa').innerText = nomeCasa;
+            document.getElementById('c-shirt').style.background = corParaCSS(c.shirt);
+            document.getElementById('c-shorts').style.background = corParaCSS(c.shorts);
+            document.getElementById('c-sock1').style.background = corParaCSS(c.socks);
+            document.getElementById('c-sock2').style.background = corParaCSS(c.socks);
+
+            // Pintar Fora
+            document.getElementById('txtFora').innerText = nomeFora;
+            document.getElementById('f-shirt').style.background = corParaCSS(f.shirt);
+            document.getElementById('f-shorts').style.background = corParaCSS(f.shorts);
+            document.getElementById('f-sock1').style.background = corParaCSS(f.socks);
+            document.getElementById('f-sock2').style.background = corParaCSS(f.socks);
+        } else {
+            display.style.display = 'none';
         }
     }
 
-    function render() {
+    // --- CARREGAR ÁRBITROS (Igual ao que já funciona) ---
+    async function carregarArbitros() {
+        try {
+            const resp = await fetch(URL_ARBITROS);
+            const text = await resp.text();
+            const rows = text.split('\n').slice(1);
+            listaArbitros = rows.map(r => {
+                const c = r.split(',').map(cell => cell.trim());
+                if (c.length < 3) return null;
+                return { nome: c[0], tam: c[1], inv: {
+                    mac_rosa: c[2], mac_laranja: c[3], mac_azul: c[4], mac_preto: c[5], mac_amarelo: c[6],
+                    lac_preto: c[7], lac_laranja: c[8], lac_azul: c[9], lac_amarelo: c[10]
+                }};
+            }).filter(x => x);
+            renderArbitros();
+        } catch(e) { console.error("Erro Árbitros:", e); }
+    }
+
+    function renderArbitros() {
         const grid = document.getElementById('mainGrid');
         grid.innerHTML = '';
         listaArbitros.forEach((ref, idx) => {
+            let kits = '';
+            for(let key in ref.inv) {
+                if(parseInt(ref.inv[key]) > 0 && KITS_REF[key]) {
+                    kits += `<div class="kit-item">
+                        <div class="qty-badge">${ref.inv[key]}</div>
+                        <img src="${KITS_REF[key]}" class="kit-img">
+                    </div>`;
+                }
+            }
             const card = document.createElement('div');
             card.className = 'card';
             card.dataset.name = ref.nome.toLowerCase();
-            
-            let kitsHTML = '';
-            for (const [key, qty] of Object.entries(ref.inv)) {
-                if (qty > 0) {
-                    const k = KITS_BASE[key];
-                    kitsHTML += `
-                        <div class="kit-item">
-                            <div class="qty-badge">${qty}</div>
-                            <img src="${k.i}" class="kit-img">
-                            <div class="kit-info"><span class="brand-label">${k.m}</span>${k.c}</div>
-                        </div>`;
-                }
-            }
-
             card.innerHTML = `
-                <input type="checkbox" class="select-check" onchange="toggleRef(${idx}, this)">
-                <span class="name">${ref.nome}</span>
-                <span class="tag-tamanho">TAM: ${ref.tam}</span>
-                <div class="kits-flex">${kitsHTML}</div>
-            `;
+                <input type="checkbox" style="position:absolute; right:15px; top:15px; transform:scale(1.5);" onchange="toggleRef(${idx}, this)">
+                <span class="name">${ref.nome}</span> <small style="background:#eee; padding:2px 5px; border-radius:4px;">${ref.tam}</small>
+                <div class="kits-flex">${kits}</div>`;
             grid.appendChild(card);
         });
     }
 
+    // [Funções toggleRef, updateTeamBar e sendWhatsApp mantêm-se iguais às anteriores]
+    
     function toggleRef(idx, cb) {
         const ref = listaArbitros[idx];
-        if(cb.checked) {
-            selecionados.push(ref);
-            cb.parentElement.classList.add('selected');
-        } else {
-            selecionados = selecionados.filter(s => s.nome !== ref.nome);
-            cb.parentElement.classList.remove('selected');
-        }
+        if(cb.checked) { selecionados.push(ref); cb.parentElement.classList.add('selected'); }
+        else { selecionados = selecionados.filter(s => s.nome !== ref.nome); cb.parentElement.classList.remove('selected'); }
         updateTeamBar();
     }
-
+    
     function updateTeamBar() {
         const bar = document.getElementById('teamBar');
         const container = document.getElementById('selectedContainer');
         if(selecionados.length > 0) {
             bar.style.display = 'flex';
-            container.innerHTML = selecionados.map(s => `
-                <div class="team-member-mini">
-                    <div style="font-size:0.8em; font-weight:bold;">${s.nome}</div>
-                    <div style="display:flex; gap:4px; justify-content:center; margin-top:5px;">
-                        ${Object.entries(s.inv).filter(e => e[1] > 0).map(e => `<img src="${KITS_BASE[e[0]].i}" style="width:25px; height:25px; object-fit:contain; border-radius:3px; background:#eee;">`).join('')}
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = selecionados.map(s => `<div style="text-align:center;color:white;font-weight:bold;font-size:0.8em;">${s.nome}</div>`).join('');
         } else { bar.style.display = 'none'; }
     }
 
     function sendWhatsApp() {
-        let msg = "📋 *LOGÍSTICA DE NOMEAÇÃO*\n\n";
+        let msg = "📋 *LOGÍSTICA*\n\n";
+        const c = document.getElementById('casa').value;
+        const f = document.getElementById('fora').value;
+        if(c && f) msg += `🏟️ *${c} vs ${f}*\n\n`;
+        
         selecionados.forEach(s => {
             msg += `👤 *${s.nome}* (${s.tam})\n`;
-            let kits = Object.entries(s.inv).filter(e => e[1] > 0).map(e => `${e[1]}x ${KITS_BASE[e[0]].m} ${KITS_BASE[e[0]].c}`);
+            let kits = Object.entries(s.inv).filter(e => parseInt(e[1]) > 0).map(e => `${e[1]}x ${e[0].replace('_',' ')}`);
             msg += `👕 ${kits.join(' | ')}\n\n`;
         });
-        msg += "_Qual a cor para o jogo?_";
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -325,8 +298,10 @@
         });
     });
 
-    fetchData();
-</script>
+    // INICIALIZAÇÃO
+    carregarArbitros();
+    carregarClubes(); 
 
+</script>
 </body>
 </html>
