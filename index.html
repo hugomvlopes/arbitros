@@ -11,35 +11,34 @@
         /* --- HEADER & SELETORES --- */
         .header { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; position: sticky; top: 0; z-index: 100; }
         
-        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px; }
+        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
         .search-bar { flex: 2; min-width: 200px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; }
         .dropdown { flex: 1; min-width: 140px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: white; font-weight: bold; }
 
-        .game-area { border-top: 1px solid #eee; padding-top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
-        .team-selectors { display: flex; gap: 10px; width: 100%; max-width: 600px; }
-        .team-select { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+        .game-area { border-top: 1px solid #eee; padding-top: 15px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .team-selectors { display: flex; gap: 10px; width: 100%; max-width: 600px; justify-content: center; }
+        .team-select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; max-width: 45%; }
 
-        /* --- VISUALIZADOR DE EQUIPAMENTOS (CLUBE) --- */
-        .match-display { display: flex; justify-content: space-around; width: 100%; max-width: 500px; margin-top: 10px; display: none; }
-        .team-kit-container { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        /* --- VISUALIZADOR DE EQUIPAMENTOS (BONECOS) --- */
+        .match-display { display: flex; justify-content: center; gap: 30px; width: 100%; max-width: 500px; margin-top: 10px; display: none; background: #fafafa; padding: 15px; border-radius: 15px; border: 1px solid #eee; }
+        .team-kit-container { text-align: center; display: flex; flex-direction: column; align-items: center; width: 120px; }
         
-        /* O "Boneco" do Equipamento */
-        .kit-body { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); }
-        .shirt { width: 45px; height: 45px; border-radius: 6px 6px 2px 2px; border: 1px solid rgba(0,0,0,0.1); transition: 0.3s; }
+        /* Boneco CSS */
+        .kit-body { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); transform: scale(1.2); margin-bottom: 10px; }
+        .shirt { width: 45px; height: 45px; border-radius: 6px 6px 2px 2px; border: 1px solid rgba(0,0,0,0.1); transition: 0.3s; background-size: cover; background-position: center; }
         .shorts { width: 32px; height: 30px; margin-top: -3px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); z-index: 2; }
         .socks-container { display: flex; gap: 8px; margin-top: 2px; }
         .sock { width: 10px; height: 25px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); }
         
-        .team-name { font-weight: bold; font-size: 0.8em; margin-top: 5px; color: #444; max-width: 120px; }
+        .team-name { font-weight: bold; font-size: 0.8em; color: #444; line-height: 1.2; }
 
         /* --- GRELHA DE ÁRBITROS --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
         .card { background: white; border-radius: 12px; padding: 15px; border: 1px solid #ddd; position: relative; }
         .card.selected { border: 2px solid var(--accent); background: #f0fff4; }
         .name { font-weight: bold; color: var(--primary); }
         
-        /* Mini Camisolas Árbitro */
-        .kits-flex { display: flex; gap: 8px; margin-top: 10px; }
+        .kits-flex { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .kit-item { position: relative; width: 60px; text-align: center; }
         .kit-img { width: 100%; height: 60px; object-fit: contain; cursor: pointer; transition: 0.3s; }
         .kit-img:hover { transform: scale(3.5); z-index: 500; position: relative; background: white; border-radius: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
@@ -56,13 +55,14 @@
     <div class="filters-row">
         <input type="text" id="search" class="search-bar" placeholder="🔍 Procurar árbitro...">
         <select id="escalao" class="dropdown" onchange="carregarClubes()">
-            <option value="seniores">Seniores Div. Honra</option>
+            <option value="seniores">Seniores Honra</option>
             </select>
     </div>
 
     <div class="game-area">
         <div class="team-selectors">
             <select id="casa" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitada</option></select>
+            <div style="align-self:center; font-weight:bold;">VS</div>
             <select id="fora" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitante</option></select>
         </div>
 
@@ -78,8 +78,6 @@
                 </div>
                 <div id="txtCasa" class="team-name">Casa</div>
             </div>
-
-            <div style="align-self:center; font-weight:bold; color:#ccc;">VS</div>
 
             <div class="team-kit-container">
                 <div class="kit-body">
@@ -104,14 +102,40 @@
 </div>
 
 <script>
-    // --- LINKS DOS EXCEL (Tens de trocar pelo link CSV dos CLUBES!) ---
+    // --- LINKS E DADOS ---
+    
+    // 1. DADOS DOS CLUBES JÁ EXTRAÍDOS (FALLBACK PARA FUNCIONAR JÁ)
+    // Extraído do teu link: Divisão Honra 2025/26
+    const CLUBES_DATA_FALLBACK = [
+        { nome: "AD Castro Daire", s: "Verde e Amarelo", sh: "Verde", so: "Verde" },
+        { nome: "GD Oliveira de Frades", s: "Azul e Preta", sh: "Preto", so: "Preto" },
+        { nome: "GD Mangualde", s: "Amarela", sh: "Azul", so: "Amarela" },
+        { nome: "CR Ferreira de Aves", s: "Preta", sh: "Preto", so: "Preto" },
+        { nome: "SL Nelas", s: "Vermelha", sh: "Branco", so: "Vermelha" },
+        { nome: "CF Carregal do Sal", s: "Branca com Azul", sh: "Branco", so: "Branco" },
+        { nome: "CDR Moimenta da Beira", s: "Listada Azul e Branca", sh: "Azul", so: "Azul" },
+        { nome: "UD Sampedrense", s: "Preta", sh: "Preta", so: "Preta" },
+        { nome: "Nespereira FC", s: "Branco", sh: "Branco", so: "Branco" },
+        { nome: "Carvalhais FC", s: "Azul", sh: "Azul", so: "Azul" },
+        { nome: "SC Penalva do Castelo", s: "Preto/Branco", sh: "Preto", so: "Pretas" },
+        { nome: "GD Campia", s: "Branco e Azul", sh: "Azul", so: "Azul" },
+        { nome: "AD Sátão", s: "Verde", sh: "Branco", so: "Branco" },
+        { nome: "SC Vale de Açores", s: "Verde e Branco", sh: "Preto", so: "Verde" },
+        { nome: "AC Travanca", s: "Listada Azul Amarelo", sh: "Azul", so: "Azul" },
+        { nome: "ACDR Lamelas", s: "Azul e Branca", sh: "Azul", so: "Branca" },
+        { nome: "Lusitano FC", s: "Listada Preto e Branco", sh: "Preto", so: "Preto" }
+    ];
+
+    // Link do teu Excel de Árbitros (Este tem de estar publicado como CSV)
     const URL_ARBITROS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
     
-    // ATENÇÃO: Substitui este link pelo link CSV do teu Excel de Seniores
-    const URL_CLUBES_SENIORES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaqq_R1n-w_O7y5-dO_vKk-F_Cg2c3i4j_h5_l-k_m_n_o_p/pub?output=csv'; 
-    // ^^^ COLOCA AQUI O TEU LINK CSV DOS CLUBES ^^^
+    // Link do Excel Clubes (Tentativa via Proxy, se falhar usa o FALLBACK acima)
+    const ID_EXCEL_SENIORES = '14skL1QecWVSke3PBg-kT1zQ6Pc_Dq91y0C1eMNqdMWQ';
+    const GID_SENIORES = '1196073285';
+    // Usamos um proxy CORS para tentar ler o ficheiro não publicado
+    const URL_CLUBES_PROXY = `https://corsproxy.io/?` + encodeURIComponent(`https://docs.google.com/spreadsheets/d/${ID_EXCEL_SENIORES}/export?format=csv&gid=${GID_SENIORES}`);
 
-    // --- IMAGENS ÁRBITROS ---
+    // Imagens Kits Árbitros
     const KITS_REF = {
         mac_rosa: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg",
         mac_laranja: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg",
@@ -125,142 +149,147 @@
     };
 
     let listaArbitros = [];
-    let listaClubes = {}; // Vai guardar todos os clubes do excel
+    let listaClubes = {}; 
     let selecionados = [];
 
-    // --- MAPA DE CORES (Traduz Português para CSS) ---
-    function corParaCSS(texto) {
-        if(!texto) return '#ddd';
-        texto = texto.toLowerCase();
+    // --- FUNÇÃO INTELIGENTE DE CORES ---
+    function parseColor(txt) {
+        if(!txt) return '#eee';
+        const t = txt.toLowerCase();
         
-        // Cores base
-        if(texto.includes('amarelo') || texto.includes('amarela')) return '#f1c40f';
-        if(texto.includes('vermelho') || texto.includes('vermelha')) return '#e74c3c';
-        if(texto.includes('azul')) return '#2980b9';
-        if(texto.includes('verde')) return '#27ae60';
-        if(texto.includes('preto') || texto.includes('preta')) return '#2c3e50';
-        if(texto.includes('branco') || texto.includes('branca')) return '#ffffff';
-        if(texto.includes('laranja')) return '#e67e22';
-        if(texto.includes('cinza')) return '#95a5a6';
-        if(texto.includes('roxo')) return '#8e44ad';
+        // Padrões Específicos
+        if((t.includes('verde') && t.includes('amarel')) || (t.includes('verde') && t.includes('branc'))) 
+            return 'linear-gradient(to bottom, #27ae60 0%, #27ae60 50%, #f1c40f 50%, #f1c40f 100%)'; // Verde/Amarelo (ex: Castro Daire)
         
-        return '#bdc3c7'; // Cor padrão se não encontrar
+        if(t.includes('listada') || (t.includes('azul') && t.includes('branc')))
+            return 'repeating-linear-gradient(90deg, #2980b9, #2980b9 10px, #fff 10px, #fff 20px)'; // Listas Azul/Branco
+
+        if(t.includes('preto') && t.includes('branco'))
+            return 'repeating-linear-gradient(90deg, #000, #000 10px, #fff 10px, #fff 20px)'; // Listas Preto/Branco
+
+        if(t.includes('azul') && t.includes('pret')) 
+            return 'linear-gradient(to right, #2980b9, #000)'; // Azul e Preto
+
+        // Cores Sólidas
+        if(t.includes('amarel')) return '#f1c40f';
+        if(t.includes('vermelh')) return '#e74c3c';
+        if(t.includes('azul')) return '#2980b9';
+        if(t.includes('verde')) return '#27ae60';
+        if(t.includes('preto') || t.includes('preta')) return '#2c3e50';
+        if(t.includes('branco') || t.includes('branca')) return '#ffffff';
+        if(t.includes('laranja')) return '#e67e22';
+        
+        return '#bdc3c7';
     }
 
-    // --- CARREGAR CLUBES DO EXCEL ---
+    // --- CARREGAR CLUBES (Híbrido: Proxy ou Hardcoded) ---
     async function carregarClubes() {
-        // Usa o link fictício se não tiveres colocado o teu ainda, para não dar erro
-        const link = URL_CLUBES_SENIORES.includes('output=csv') ? URL_CLUBES_SENIORES : null;
-        
-        if(!link) {
-            console.warn("Falta o link CSV dos clubes!");
-            return;
-        }
+        const dropdownCasa = document.getElementById('casa');
+        const dropdownFora = document.getElementById('fora');
+        dropdownCasa.innerHTML = '<option value="">Equipa Visitada</option>';
+        dropdownFora.innerHTML = '<option value="">Equipa Visitante</option>';
+        listaClubes = {};
+
+        let dadosParaUsar = CLUBES_DATA_FALLBACK; // Começa com os dados garantidos
 
         try {
-            const resp = await fetch(link);
-            const text = await resp.text();
-            const rows = text.split('\n').slice(1);
-            
-            const dropdownCasa = document.getElementById('casa');
-            const dropdownFora = document.getElementById('fora');
-            
-            // Limpar
-            dropdownCasa.innerHTML = '<option value="">Equipa Visitada</option>';
-            dropdownFora.innerHTML = '<option value="">Equipa Visitante</option>';
-            listaClubes = {};
-
-            rows.forEach(r => {
-                const c = r.split(',').map(cell => cell.trim());
-                if(c.length >= 4) {
-                    const nome = c[0]; // Coluna A
-                    listaClubes[nome] = {
-                        shirt: c[1], // Coluna B (ex: Amarela)
-                        shorts: c[2], // Coluna C
-                        socks: c[3]  // Coluna D
-                    };
-                    
-                    dropdownCasa.add(new Option(nome, nome));
-                    dropdownFora.add(new Option(nome, nome));
+            // Tenta ir buscar ao Excel via Proxy
+            const resp = await fetch(URL_CLUBES_PROXY);
+            if(resp.ok) {
+                const text = await resp.text();
+                const rows = text.split('\n').slice(1);
+                // Se o download funcionou, processa o Excel real
+                if(rows.length > 5) {
+                     const clubesReais = [];
+                     rows.forEach(r => {
+                        const c = r.split(',').map(x => x.replace(/"/g, '').trim()); // Limpa aspas
+                        if(c.length > 9) {
+                            clubesReais.push({ nome: c[2], s: c[8], sh: c[9], so: c[10] }); // Colunas C, I, J, K
+                        }
+                     });
+                     if(clubesReais.length > 0) dadosParaUsar = clubesReais;
                 }
-            });
+            }
+        } catch(e) { console.log("A usar dados locais de backup para clubes."); }
 
-        } catch(e) { console.error("Erro Clubes:", e); }
+        // Popula Dropdowns
+        dadosParaUsar.sort((a,b) => a.nome.localeCompare(b.nome));
+        dadosParaUsar.forEach(clube => {
+            if(clube.nome) {
+                listaClubes[clube.nome] = clube;
+                dropdownCasa.add(new Option(clube.nome, clube.nome));
+                dropdownFora.add(new Option(clube.nome, clube.nome));
+            }
+        });
     }
 
-    // --- ATUALIZAR VISUAL DO JOGO ---
+    // --- ATUALIZAR BONECOS ---
     function updateMatch() {
-        const nomeCasa = document.getElementById('casa').value;
-        const nomeFora = document.getElementById('fora').value;
-        const display = document.getElementById('matchDisplay');
+        const nomeC = document.getElementById('casa').value;
+        const nomeF = document.getElementById('fora').value;
+        const disp = document.getElementById('matchDisplay');
 
-        if(nomeCasa && nomeFora && listaClubes[nomeCasa] && listaClubes[nomeFora]) {
-            display.style.display = 'flex';
-            const c = listaClubes[nomeCasa];
-            const f = listaClubes[nomeFora];
+        if(nomeC && nomeF) {
+            disp.style.display = 'flex';
+            const c = listaClubes[nomeC];
+            const f = listaClubes[nomeF];
 
-            // Pintar Casa
-            document.getElementById('txtCasa').innerText = nomeCasa;
-            document.getElementById('c-shirt').style.background = corParaCSS(c.shirt);
-            document.getElementById('c-shorts').style.background = corParaCSS(c.shorts);
-            document.getElementById('c-sock1').style.background = corParaCSS(c.socks);
-            document.getElementById('c-sock2').style.background = corParaCSS(c.socks);
+            document.getElementById('txtCasa').innerText = nomeC;
+            document.getElementById('c-shirt').style.background = parseColor(c.s);
+            document.getElementById('c-shorts').style.background = parseColor(c.sh);
+            document.getElementById('c-sock1').style.background = parseColor(c.so);
+            document.getElementById('c-sock2').style.background = parseColor(c.so);
 
-            // Pintar Fora
-            document.getElementById('txtFora').innerText = nomeFora;
-            document.getElementById('f-shirt').style.background = corParaCSS(f.shirt);
-            document.getElementById('f-shorts').style.background = corParaCSS(f.shorts);
-            document.getElementById('f-sock1').style.background = corParaCSS(f.socks);
-            document.getElementById('f-sock2').style.background = corParaCSS(f.socks);
-        } else {
-            display.style.display = 'none';
-        }
+            document.getElementById('txtFora').innerText = nomeF;
+            document.getElementById('f-shirt').style.background = parseColor(f.s);
+            document.getElementById('f-shorts').style.background = parseColor(f.sh);
+            document.getElementById('f-sock1').style.background = parseColor(f.so);
+            document.getElementById('f-sock2').style.background = parseColor(f.so);
+        } else { disp.style.display = 'none'; }
     }
 
-    // --- CARREGAR ÁRBITROS (Igual ao que já funciona) ---
+    // --- ÁRBITROS ---
     async function carregarArbitros() {
         try {
             const resp = await fetch(URL_ARBITROS);
             const text = await resp.text();
             const rows = text.split('\n').slice(1);
-            listaArbitros = rows.map(r => {
-                const c = r.split(',').map(cell => cell.trim());
-                if (c.length < 3) return null;
-                return { nome: c[0], tam: c[1], inv: {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = '';
+            
+            rows.forEach((r, idx) => {
+                const c = r.split(',');
+                if(c.length < 3) return;
+                const ref = { nome: c[0], tam: c[1], inv: {
                     mac_rosa: c[2], mac_laranja: c[3], mac_azul: c[4], mac_preto: c[5], mac_amarelo: c[6],
                     lac_preto: c[7], lac_laranja: c[8], lac_azul: c[9], lac_amarelo: c[10]
                 }};
-            }).filter(x => x);
-            renderArbitros();
-        } catch(e) { console.error("Erro Árbitros:", e); }
-    }
+                
+                listaArbitros.push(ref);
 
-    function renderArbitros() {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = '';
-        listaArbitros.forEach((ref, idx) => {
-            let kits = '';
-            for(let key in ref.inv) {
-                if(parseInt(ref.inv[key]) > 0 && KITS_REF[key]) {
-                    kits += `<div class="kit-item">
-                        <div class="qty-badge">${ref.inv[key]}</div>
-                        <img src="${KITS_REF[key]}" class="kit-img">
-                    </div>`;
+                let kitsHTML = '';
+                for(let k in ref.inv) {
+                    if(parseInt(ref.inv[k]) > 0 && KITS_REF[k]) {
+                        kitsHTML += `<div class="kit-item">
+                            <div class="qty-badge">${ref.inv[k]}</div>
+                            <img src="${KITS_REF[k]}" class="kit-img">
+                        </div>`;
+                    }
                 }
-            }
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.dataset.name = ref.nome.toLowerCase();
-            card.innerHTML = `
-                <input type="checkbox" style="position:absolute; right:15px; top:15px; transform:scale(1.5);" onchange="toggleRef(${idx}, this)">
-                <span class="name">${ref.nome}</span> <small style="background:#eee; padding:2px 5px; border-radius:4px;">${ref.tam}</small>
-                <div class="kits-flex">${kits}</div>`;
-            grid.appendChild(card);
-        });
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.name = ref.nome.toLowerCase();
+                card.innerHTML = `
+                    <input type="checkbox" style="position:absolute; right:15px; top:15px; transform:scale(1.5);" onchange="toggleRef(${idx}, this)">
+                    <span class="name">${ref.nome}</span> <small style="background:#eee; padding:2px 5px; border-radius:4px;">${ref.tam}</small>
+                    <div class="kits-flex">${kitsHTML}</div>`;
+                grid.appendChild(card);
+            });
+        } catch(e) { console.error("Erro Árbitros", e); }
     }
 
-    // [Funções toggleRef, updateTeamBar e sendWhatsApp mantêm-se iguais às anteriores]
-    
+    // [Funções toggleRef, updateTeamBar e sendWhatsApp iguais às anteriores]
     function toggleRef(idx, cb) {
         const ref = listaArbitros[idx];
         if(cb.checked) { selecionados.push(ref); cb.parentElement.classList.add('selected'); }
@@ -270,10 +299,10 @@
     
     function updateTeamBar() {
         const bar = document.getElementById('teamBar');
-        const container = document.getElementById('selectedContainer');
+        const cont = document.getElementById('selectedContainer');
         if(selecionados.length > 0) {
             bar.style.display = 'flex';
-            container.innerHTML = selecionados.map(s => `<div style="text-align:center;color:white;font-weight:bold;font-size:0.8em;">${s.nome}</div>`).join('');
+            cont.innerHTML = selecionados.map(s => `<div style="text-align:center;color:white;font-weight:bold;font-size:0.8em;">${s.nome}</div>`).join('');
         } else { bar.style.display = 'none'; }
     }
 
@@ -282,7 +311,6 @@
         const c = document.getElementById('casa').value;
         const f = document.getElementById('fora').value;
         if(c && f) msg += `🏟️ *${c} vs ${f}*\n\n`;
-        
         selecionados.forEach(s => {
             msg += `👤 *${s.nome}* (${s.tam})\n`;
             let kits = Object.entries(s.inv).filter(e => parseInt(e[1]) > 0).map(e => `${e[1]}x ${e[0].replace('_',' ')}`);
@@ -290,17 +318,15 @@
         });
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
-
+    
     document.getElementById('search').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.display = c.dataset.name.includes(val) ? 'block' : 'none';
-        });
+        document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.name.includes(val) ? 'block' : 'none');
     });
 
-    // INICIALIZAÇÃO
+    // Iniciar
     carregarArbitros();
-    carregarClubes(); 
+    carregarClubes();
 
 </script>
 </body>
