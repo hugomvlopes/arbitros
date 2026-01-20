@@ -2,338 +2,332 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>RefKit Pro - Viseu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RefKit Pro - Gestão de Equipamentos</title>
     <style>
-        :root { --primary: #1e272e; --accent: #2ecc71; --bg: #f4f6f8; --danger: #e74c3c; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 160px; }
+        :root {
+            --primary: #1e272e;
+            --accent: #2ecc71;
+            --bg: #f1f2f6;
+            --text: #2f3640;
+            --danger: #e74c3c;
+        }
 
-        /* --- HEADER & SELETORES --- */
-        .header { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; position: sticky; top: 0; z-index: 100; }
-        
-        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
-        .search-bar { flex: 2; min-width: 200px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; }
-        .dropdown { flex: 1; min-width: 140px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: white; font-weight: bold; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 150px;
+        }
 
-        .game-area { border-top: 1px solid #eee; padding-top: 15px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .team-selectors { display: flex; gap: 10px; width: 100%; max-width: 600px; justify-content: center; align-items: center; }
-        .team-select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; max-width: 45%; font-weight: bold; color: #333; }
+        .header {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+            padding: 15px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: -20px -20px 30px -20px;
+            text-align: center;
+        }
 
-        /* --- VISUALIZADOR DE EQUIPAMENTOS (BONECOS) --- */
-        .match-display { display: flex; justify-content: center; gap: 40px; width: 100%; max-width: 600px; margin-top: 10px; display: none; background: #fafafa; padding: 20px; border-radius: 20px; border: 1px solid #eee; }
-        .team-kit-container { text-align: center; display: flex; flex-direction: column; align-items: center; width: 130px; }
-        
-        /* Boneco CSS Melhorado */
-        .kit-body { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.15)); transform: scale(1.3); margin-bottom: 15px; }
-        .shirt { width: 50px; height: 50px; border-radius: 8px 8px 3px 3px; border: 1px solid rgba(0,0,0,0.15); transition: 0.3s; background-color: #ddd; position: relative; }
-        /* Mangas */
-        .shirt::before { content:''; position: absolute; top:0; left:-10px; width: 10px; height: 20px; background: inherit; border-radius: 5px 0 0 5px; border: 1px solid rgba(0,0,0,0.1); border-right: none; }
-        .shirt::after { content:''; position: absolute; top:0; right:-10px; width: 10px; height: 20px; background: inherit; border-radius: 0 5px 5px 0; border: 1px solid rgba(0,0,0,0.1); border-left: none; }
-        
-        .shorts { width: 36px; height: 32px; margin-top: -4px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); z-index: 2; background-color: #333; }
-        .socks-container { display: flex; gap: 8px; margin-top: 3px; }
-        .sock { width: 11px; height: 28px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); background-color: #333; }
-        
-        .team-name { font-weight: bold; font-size: 0.85em; color: #2c3e50; line-height: 1.2; margin-top: 5px; min-height: 35px; display: flex; align-items: center; justify-content: center; }
+        .search-bar {
+            width: 90%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+            outline: none;
+        }
 
-        /* --- GRELHA DE ÁRBITROS --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
-        .card { background: white; border-radius: 12px; padding: 15px; border: 1px solid #ddd; position: relative; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); border-color: #bbb; }
-        .card.selected { border: 2px solid var(--accent); background: #f0fff4; }
-        .name { font-weight: bold; color: var(--primary); font-size: 1.1em; }
-        
-        .kits-flex { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .kit-item { position: relative; width: 60px; text-align: center; }
-        .kit-img { width: 100%; height: 60px; object-fit: contain; cursor: pointer; transition: 0.3s; }
-        .kit-img:hover { transform: scale(3.0); z-index: 500; position: relative; background: white; border-radius: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #ddd; }
-        .qty-badge { position: absolute; top: -5px; right: -2px; background: var(--danger); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-        /* BARRA INFERIOR */
-        .team-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); color: white; padding: 15px; display: none; flex-direction: column; align-items: center; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
-        .btn-whatsapp { background: #25D366; color: white; border: none; padding: 10px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-bottom: 10px; font-size: 1em; }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .card.selected {
+            border: 2px solid var(--accent);
+            background: #f0fff4;
+        }
+
+        .select-check {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            transform: scale(1.3);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .name { font-weight: bold; font-size: 1.2em; display: block; }
+        
+        .tag-tamanho {
+            display: inline-block;
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 5px 0 15px 0;
+            font-weight: bold;
+        }
+
+        .kits-flex { display: flex; gap: 12px; flex-wrap: wrap; }
+        
+        .kit-item {
+            position: relative;
+            width: 75px;
+            text-align: center;
+        }
+
+        .qty-badge {
+            position: absolute;
+            top: -5px;
+            right: -2px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+            z-index: 5;
+        }
+
+        .kit-img {
+            width: 100%;
+            height: 75px;
+            object-fit: contain;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .kit-img:hover {
+            transform: scale(2.5);
+            z-index: 500;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: white;
+        }
+
+        .kit-info {
+            font-size: 0.65em;
+            font-weight: bold;
+            margin-top: 4px;
+            line-height: 1.1;
+        }
+
+        .brand-label { color: #e67e22; text-transform: uppercase; display: block; }
+
+        .team-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+            z-index: 1000;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .selected-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .team-member-mini {
+            text-align: center;
+            border-right: 1px solid #444;
+            padding-right: 15px;
+            min-width: 120px;
+        }
+
+        .loading { text-align: center; padding: 50px; font-weight: bold; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="filters-row">
-        <input type="text" id="search" class="search-bar" placeholder="🔍 Procurar árbitro...">
-        <select id="escalao" class="dropdown" onchange="carregarClubes()">
-            <option value="seniores">Seniores Honra</option>
-        </select>
-    </div>
-
-    <div class="game-area">
-        <div class="team-selectors">
-            <select id="casa" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitada</option></select>
-            <div style="font-weight:900; font-size: 1.2em; color: #555;">VS</div>
-            <select id="fora" class="team-select" onchange="updateMatch()"><option value="">Equipa Visitante</option></select>
-        </div>
-
-        <div id="matchDisplay" class="match-display">
-            <div class="team-kit-container">
-                <div class="kit-body">
-                    <div id="c-shirt" class="shirt"></div>
-                    <div id="c-shorts" class="shorts"></div>
-                    <div class="socks-container">
-                        <div id="c-sock1" class="sock"></div>
-                        <div id="c-sock2" class="sock"></div>
-                    </div>
-                </div>
-                <div id="txtCasa" class="team-name">Casa</div>
-            </div>
-
-            <div class="team-kit-container">
-                <div class="kit-body">
-                    <div id="f-shirt" class="shirt"></div>
-                    <div id="f-shorts" class="shorts"></div>
-                    <div class="socks-container">
-                        <div id="f-sock1" class="sock"></div>
-                        <div id="f-sock2" class="sock"></div>
-                    </div>
-                </div>
-                <div id="txtFora" class="team-name">Fora</div>
-            </div>
-        </div>
-    </div>
+    <h2 style="margin:0 0 10px 0;">Gestor de Equipamentos</h2>
+    <input type="text" id="search" class="search-bar" placeholder="🔍 Pesquisar colega...">
 </div>
 
+<div id="loading" class="loading">A carregar dados do Excel...</div>
 <div class="grid" id="mainGrid"></div>
 
 <div id="teamBar" class="team-bar">
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar Convocatória 📱</button>
-    <div id="selectedContainer" style="display:flex; gap:10px; overflow-x: auto; width: 100%; justify-content: center;"></div>
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar Convocatória para WhatsApp 📱</button>
+    <div id="selectedContainer" class="selected-container"></div>
 </div>
 
 <script>
-    // --- DADOS DOS CLUBES (BACKUP MANUAL PARA GARANTIR FUNCIONAMENTO) ---
-    // Estes dados entram em ação se o Excel falhar ou demorar.
-    const CLUBES_MANUAL = [
-        { nome: "Grupo Desportivo de Oliveira de Frades", s: "Azul e Preto", sh: "Preto", so: "Preto" },
-        { nome: "LUSITANO FUTEBOL CLUBE", s: "Listada Azul Branco", sh: "Preto", so: "Preto" },
-        { nome: "AD Castro Daire", s: "Verde Amarelo", sh: "Verde", so: "Verde" },
-        { nome: "GD Mangualde", s: "Amarela", sh: "Azul", so: "Amarela" },
-        { nome: "SL Nelas", s: "Vermelha", sh: "Branco", so: "Vermelha" },
-        { nome: "CF Carregal do Sal", s: "Branca", sh: "Branco", so: "Branco" },
-        { nome: "CDR Moimenta da Beira", s: "Azul", sh: "Azul", so: "Azul" },
-        { nome: "CR Ferreira de Aves", s: "Preta", sh: "Preto", so: "Preto" },
-        { nome: "SC Penalva do Castelo", s: "Cinza", sh: "Preto", so: "Preto" },
-        { nome: "SC Vale de Açores", s: "Verde", sh: "Preto", so: "Verde" },
-        { nome: "Lusitano FC", s: "Listada Preto Branco", sh: "Preto", so: "Preto" }
-    ];
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
 
-    // --- LINKS (CSV) ---
-    const URL_ARBITROS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
-    const URL_CLUBES_PROXY = 'https://corsproxy.io/?' + encodeURIComponent('https://docs.google.com/spreadsheets/d/14skL1QecWVSke3PBg-kT1zQ6Pc_Dq91y0C1eMNqdMWQ/export?format=csv&gid=1196073285');
-
-    // --- IMAGENS KITS ÁRBITROS ---
-    const KITS_REF = {
-        mac_rosa: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg",
-        mac_laranja: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg",
-        mac_azul: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/5/2/52df08504cf4cfbe5bb2a64356ff9f9f800001933700.jpg",
-        mac_preto: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/6/865e817e7d6654733c8f8fa12c66e87a800001930900.jpg",
-        mac_amarelo: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/2/e/2e4c95eb6109e51232f11400887ad176800001931500.jpg",
-        lac_preto: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_PE.jpg",
-        lac_laranja: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552LF_teste.jpg",
-        lac_azul: "https://lacatoni.com/wp-content/uploads/2024/09/curta-azul.jpg",
-        lac_amarelo: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_A.jpg"
+    const KITS_BASE = {
+        mac_rosa:    { m: "Macron", c: "Rosa", i: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg" },
+        mac_laranja: { m: "Macron", c: "Laranja", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg" },
+        mac_azul:    { m: "Macron", c: "Azul", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/5/2/52df08504cf4cfbe5bb2a64356ff9f9f800001933700.jpg" },
+        mac_preto:   { m: "Macron", c: "Preto", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/6/865e817e7d6654733c8f8fa12c66e87a800001930900.jpg" },
+        mac_amarelo: { m: "Macron", c: "Amarelo", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/2/e/2e4c95eb6109e51232f11400887ad176800001931500.jpg" },
+        lac_preto:   { m: "Lacatoni", c: "Preto", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_PE.jpg" },
+        lac_laranja: { m: "Lacatoni", c: "Laranja", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552LF_teste.jpg" },
+        lac_azul:    { m: "Lacatoni", c: "Azul", i: "https://lacatoni.com/wp-content/uploads/2024/09/curta-azul.jpg" },
+        lac_amarelo: { m: "Lacatoni", c: "Amarelo", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_A.jpg" }
     };
 
     let listaArbitros = [];
-    let listaClubes = {};
     let selecionados = [];
 
-    // --- TRADUTOR DE CORES PARA CSS (MELHORADO) ---
-    function parseColor(txt) {
-        if(!txt) return '#bdc3c7'; // Cinza padrão se vazio
-        const t = txt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
-
-        // PADRÕES COMPLEXOS (RISCAS, ETC)
-        if(t.includes('list') || (t.includes('azul') && t.includes('branc')))
-            return 'repeating-linear-gradient(90deg, #2980b9, #2980b9 12px, #fff 12px, #fff 24px)'; // Listas Azul/Branco (Lusitano)
-        
-        if(t.includes('pret') && t.includes('branc'))
-            return 'repeating-linear-gradient(90deg, #000, #000 12px, #fff 12px, #fff 24px)'; // Listas Preto/Branco
-
-        if(t.includes('azul') && t.includes('pret'))
-            return 'linear-gradient(to right, #2980b9 50%, #111 50%)'; // Azul e Preto (Oliveira Frades)
-        
-        if(t.includes('verde') && t.includes('amarel'))
-            return 'linear-gradient(to right, #27ae60 50%, #f1c40f 50%)'; // Verde e Amarelo (Castro Daire)
-
-        if(t.includes('branc') && t.includes('azul'))
-             return 'linear-gradient(to bottom, #fff 50%, #2980b9 50%)'; // Branco e Azul
-
-        // CORES SÓLIDAS
-        if(t.includes('amarel')) return '#f1c40f';
-        if(t.includes('vermelh')) return '#e74c3c';
-        if(t.includes('laranj')) return '#e67e22';
-        if(t.includes('azul')) return '#2980b9';
-        if(t.includes('verde')) return '#27ae60';
-        if(t.includes('pret')) return '#222';
-        if(t.includes('branc')) return '#fff';
-        if(t.includes('cinz')) return '#95a5a6';
-        if(t.includes('rox')) return '#8e44ad';
-
-        return '#95a5a6'; // Cinza se não perceber a cor
-    }
-
-    // --- CARREGAR CLUBES (EXCEL + BACKUP) ---
-    async function carregarClubes() {
-        const dropC = document.getElementById('casa');
-        const dropF = document.getElementById('fora');
-        dropC.innerHTML = '<option value="">Equipa Visitada</option>';
-        dropF.innerHTML = '<option value="">Equipa Visitante</option>';
-        listaClubes = {};
-
-        // 1. Carregar Manual primeiro (para garantir que funciona já)
-        CLUBES_MANUAL.forEach(c => { listaClubes[c.nome] = c; });
-
-        // 2. Tentar carregar do Excel (Live)
+    async function fetchData() {
         try {
-            const resp = await fetch(URL_CLUBES_PROXY);
-            if(resp.ok) {
-                const text = await resp.text();
-                const rows = text.split('\n').slice(1);
-                
-                rows.forEach(r => {
-                    // Parser simples de CSV que lida com vírgulas dentro de aspas
-                    const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
-                    let c = [];
-                    let match;
-                    while ((match = regex.exec(r)) !== null) { c.push(match[0].replace(/"/g, '')); }
+            const response = await fetch(CSV_URL);
+            const csvText = await response.text();
+            const rows = csvText.split('\n').slice(1); // Ignora cabeçalho
 
-                    // Verifica se tem colunas suficientes (ajusta o índice conforme o teu excel)
-                    // Pela tua imagem, Nome é C (index 2), Camisola é I (index 8)...
-                    if(c.length > 5) {
-                        const nome = c[2]; // Assumindo coluna C
-                        // Procura cores nas colunas seguintes (ajustar indices se necessario)
-                        if(nome && nome.length > 2) {
-                            listaClubes[nome] = { 
-                                nome: nome, 
-                                s: c[8] || "Cinza", // I
-                                sh: c[9] || "Preto", // J
-                                so: c[10] || "Preto" // K
-                            };
-                        }
+            listaArbitros = rows.map(row => {
+                const cols = row.split(',');
+                if(cols.length < 2) return null;
+                return {
+                    nome: cols[0].trim(),
+                    tam: cols[1].trim(),
+                    inv: {
+                        mac_rosa: parseInt(cols[2]) || 0,
+                        mac_laranja: parseInt(cols[3]) || 0,
+                        mac_azul: parseInt(cols[4]) || 0,
+                        mac_preto: parseInt(cols[5]) || 0,
+                        mac_amarelo: parseInt(cols[6]) || 0,
+                        lac_preto: parseInt(cols[7]) || 0,
+                        lac_laranja: parseInt(cols[8]) || 0,
+                        lac_azul: parseInt(cols[9]) || 0,
+                        lac_amarelo: parseInt(cols[10]) || 0
                     }
-                });
-            }
-        } catch(e) { console.log("Usando lista manual devido a erro de rede."); }
+                };
+            }).filter(x => x !== null);
 
-        // Preencher Dropdowns ordenados
-        Object.keys(listaClubes).sort().forEach(nome => {
-            dropC.add(new Option(nome, nome));
-            dropF.add(new Option(nome, nome));
-        });
-    }
-
-    function updateMatch() {
-        const nC = document.getElementById('casa').value;
-        const nF = document.getElementById('fora').value;
-        const disp = document.getElementById('matchDisplay');
-
-        if(nC && nF) {
-            disp.style.display = 'flex';
-            const c = listaClubes[nC];
-            const f = listaClubes[nF];
-
-            document.getElementById('txtCasa').innerText = nC;
-            document.getElementById('c-shirt').style.background = parseColor(c.s);
-            document.getElementById('c-shorts').style.background = parseColor(c.sh);
-            document.getElementById('c-sock1').style.background = parseColor(c.so);
-            document.getElementById('c-sock2').style.background = parseColor(c.so);
-
-            document.getElementById('txtFora').innerText = nF;
-            document.getElementById('f-shirt').style.background = parseColor(f.s);
-            document.getElementById('f-shorts').style.background = parseColor(f.sh);
-            document.getElementById('f-sock1').style.background = parseColor(f.so);
-            document.getElementById('f-sock2').style.background = parseColor(f.so);
-        } else {
-            disp.style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            render();
+        } catch (e) {
+            document.getElementById('loading').innerHTML = "Erro ao carregar o Excel. Verifica se o link está 'Publicado na Web' como CSV.";
         }
     }
 
-    // --- CARREGAR ÁRBITROS ---
-    async function carregarArbitros() {
-        try {
-            const resp = await fetch(URL_ARBITROS);
-            const text = await resp.text();
-            const rows = text.split('\n').slice(1);
-            const grid = document.getElementById('mainGrid');
-            grid.innerHTML = '';
+    function render() {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = '';
+        listaArbitros.forEach((ref, idx) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.name = ref.nome.toLowerCase();
             
-            listaArbitros = [];
-            rows.forEach((r, idx) => {
-                const c = r.split(',');
-                if(c.length < 3) return;
-                const ref = { nome: c[0].replace(/"/g,''), tam: c[1], inv: {
-                    mac_rosa: c[2], mac_laranja: c[3], mac_azul: c[4], mac_preto: c[5], mac_amarelo: c[6],
-                    lac_preto: c[7], lac_laranja: c[8], lac_azul: c[9], lac_amarelo: c[10]
-                }};
-                listaArbitros.push(ref);
-
-                let kitsHTML = '';
-                for(let k in ref.inv) {
-                    if(parseInt(ref.inv[k]) > 0 && KITS_REF[k]) {
-                        kitsHTML += `<div class="kit-item">
-                            <div class="qty-badge">${ref.inv[k]}</div>
-                            <img src="${KITS_REF[k]}" class="kit-img">
+            let kitsHTML = '';
+            for (const [key, qty] of Object.entries(ref.inv)) {
+                if (qty > 0) {
+                    const k = KITS_BASE[key];
+                    kitsHTML += `
+                        <div class="kit-item">
+                            <div class="qty-badge">${qty}</div>
+                            <img src="${k.i}" class="kit-img">
+                            <div class="kit-info"><span class="brand-label">${k.m}</span>${k.c}</div>
                         </div>`;
-                    }
                 }
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.dataset.name = ref.nome.toLowerCase();
-                card.innerHTML = `
-                    <input type="checkbox" style="position:absolute; right:15px; top:15px; transform:scale(1.5); cursor:pointer;" onchange="toggleRef(${idx}, this)">
-                    <div style="margin-right:20px;">
-                        <span class="name">${ref.nome}</span> <span style="background:#eee; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:0.8em;">${ref.tam}</span>
-                    </div>
-                    <div class="kits-flex">${kitsHTML}</div>`;
-                grid.appendChild(card);
-            });
-        } catch(e) { console.error(e); }
+            }
+
+            card.innerHTML = `
+                <input type="checkbox" class="select-check" onchange="toggleRef(${idx}, this)">
+                <span class="name">${ref.nome}</span>
+                <span class="tag-tamanho">TAM: ${ref.tam}</span>
+                <div class="kits-flex">${kitsHTML}</div>
+            `;
+            grid.appendChild(card);
+        });
     }
 
     function toggleRef(idx, cb) {
         const ref = listaArbitros[idx];
-        if(cb.checked) { selecionados.push(ref); cb.parentElement.classList.add('selected'); }
-        else { selecionados = selecionados.filter(s => s.nome !== ref.nome); cb.parentElement.classList.remove('selected'); }
+        if(cb.checked) {
+            selecionados.push(ref);
+            cb.parentElement.classList.add('selected');
+        } else {
+            selecionados = selecionados.filter(s => s.nome !== ref.nome);
+            cb.parentElement.classList.remove('selected');
+        }
         updateTeamBar();
     }
-    
+
     function updateTeamBar() {
         const bar = document.getElementById('teamBar');
-        const cont = document.getElementById('selectedContainer');
+        const container = document.getElementById('selectedContainer');
         if(selecionados.length > 0) {
             bar.style.display = 'flex';
-            cont.innerHTML = selecionados.map(s => `<div style="text-align:center;color:white;font-weight:bold;font-size:0.8em;">${s.nome}</div>`).join('');
+            container.innerHTML = selecionados.map(s => `
+                <div class="team-member-mini">
+                    <div style="font-size:0.8em; font-weight:bold;">${s.nome}</div>
+                    <div style="display:flex; gap:4px; justify-content:center; margin-top:5px;">
+                        ${Object.entries(s.inv).filter(e => e[1] > 0).map(e => `<img src="${KITS_BASE[e[0]].i}" style="width:25px; height:25px; object-fit:contain; border-radius:3px; background:#eee;">`).join('')}
+                    </div>
+                </div>
+            `).join('');
         } else { bar.style.display = 'none'; }
     }
 
     function sendWhatsApp() {
-        let msg = "📋 *LOGÍSTICA*\n\n";
-        const c = document.getElementById('casa').value;
-        const f = document.getElementById('fora').value;
-        if(c && f) msg += `🏟️ *${c} vs ${f}*\n\n`;
+        let msg = "📋 *LOGÍSTICA DE NOMEAÇÃO*\n\n";
         selecionados.forEach(s => {
             msg += `👤 *${s.nome}* (${s.tam})\n`;
-            let kits = Object.entries(s.inv).filter(e => parseInt(e[1]) > 0).map(e => `${e[1]}x ${e[0].replace('_',' ')}`);
+            let kits = Object.entries(s.inv).filter(e => e[1] > 0).map(e => `${e[1]}x ${KITS_BASE[e[0]].m} ${KITS_BASE[e[0]].c}`);
             msg += `👕 ${kits.join(' | ')}\n\n`;
         });
+        msg += "_Qual a cor para o jogo?_";
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     document.getElementById('search').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.name.includes(val) ? 'block' : 'none');
+        document.querySelectorAll('.card').forEach(c => {
+            c.style.display = c.dataset.name.includes(val) ? 'block' : 'none';
+        });
     });
 
-    carregarArbitros();
-    carregarClubes();
-
+    fetchData();
 </script>
+
 </body>
 </html>
+
