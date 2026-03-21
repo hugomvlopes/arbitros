@@ -401,6 +401,10 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
         </select>
       </div>
     </div>
+    <div class="field">
+  <label>URL da fotografia (opcional)</label>
+  <input type="url" id="arb-foto" placeholder="https://…"/>
+</div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-add-arb');openAdminPanel()">Cancelar</button>
       <button class="btn-primary" id="btn-save-arb" onclick="saveArb()">Guardar</button>
@@ -648,8 +652,7 @@ async function saveArb(){
   const btn=document.getElementById('btn-save-arb');
   btn.disabled=true; btn.textContent='A guardar…';
   try {
-    const rows = await sb.post('arbitros', { nome, funcao: document.getElementById('arb-funcao').value });
-    ARBITROS.push(rows[0]);
+const rows = await sb.post('arbitros', { nome, funcao: document.getElementById('arb-funcao').value, foto_url: document.getElementById('arb-foto').value.trim() });    ARBITROS.push(rows[0]);
     ARBITROS.sort((a,b)=>a.nome.localeCompare(b.nome));
     closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
   } catch(e){ toast('Erro: '+e.message,'err'); }
@@ -804,7 +807,7 @@ function buildCard(a){
       <div class="sel-check" onclick="toggleSel(${a.id})">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div class="avatar" onclick="openCard(${a.id})">${initials(a.nome)}</div>
+     <div class="avatar" onclick="openCard(${a.id})">${avatarHtml(a)}</div>
       <div class="card-info" onclick="openCard(${a.id})">
         <h3>${a.nome}</h3>
         <div class="meta">${a.funcao}</div>
@@ -894,7 +897,10 @@ function toast(msg, type=''){
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
 }
-
+function avatarHtml(a) {
+  if (a.foto_url) return `<img src="${a.foto_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="${a.nome}"/>`;
+  return initials(a.nome);
+}
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
