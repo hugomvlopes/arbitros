@@ -378,6 +378,39 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </div>
 
+  <!-- ══ EDDITAR ÁRBITRO ══ -->
+  <div class="modal-overlay" id="modal-edit-arb">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Editar Árbitro</h2>
+      <button class="modal-close" onclick="closeModal('modal-edit-arb');openAdminPanel()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="edit-arb-nome"/>
+      </div>
+      <div class="field">
+        <label>Função</label>
+        <select id="edit-arb-funcao">
+          <option>Árbitro Principal</option>
+          <option>Árbitro Assistente</option>
+          <option>4.º Árbitro</option>
+          <option>Árbitro VAR</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>URL da fotografia</label>
+        <input type="url" id="edit-arb-foto" placeholder="https://…"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-edit-arb');openAdminPanel()">Cancelar</button>
+      <button class="btn-primary" id="btn-save-edit-arb" onclick="saveEditArb()">Guardar</button>
+    </div>
+  </div>
+</div>
 <!-- ══ NOVO ÁRBITRO ══ -->
 <div class="modal-overlay" id="modal-add-arb">
   <div class="modal sm">
@@ -629,13 +662,14 @@ async function deleteCatalogItem(id){
 function renderAdminArbs(){
   const el=document.getElementById('admin-arb-list');
   if(!ARBITROS.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum árbitro.</div>'; return; }
-  el.innerHTML=ARBITROS.map(a=>`
+ el.innerHTML=ARBITROS.map(a=>`
     <div class="admin-row">
-      <div class="avatar-sm">${initials(a.nome)}</div>
+      <div class="avatar-sm">${avatarHtml(a)}</div>
       <div class="admin-row-info">
         <div class="aname">${a.nome}</div>
         <div class="ameta">${a.funcao} · ${getArbEquip(a.id).length} peças</div>
       </div>
+      <button class="btn-danger-sm" onclick="openEditArb(${a.id})" style="border-color:var(--accent);color:var(--accent)">Editar</button>
       <button class="btn-danger-sm" onclick="deleteArb(${a.id})">Remover</button>
     </div>`).join('');
 }
@@ -900,6 +934,38 @@ function toast(msg, type=''){
 function avatarHtml(a) {
   if (a.foto_url) return `<img src="${a.foto_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="${a.nome}"/>`;
   return initials(a.nome);
+}
+  let editArbId = null;
+function openEditArb(id) {
+  const a = ARBITROS.find(x=>x.id===id);
+  editArbId = id;
+  document.getElementById('edit-arb-nome').value = a.nome;
+  document.getElementById('edit-arb-funcao').value = a.funcao;
+  document.getElementById('edit-arb-foto').value = a.foto_url || '';
+  closeModal('modal-admin');
+  openModal('modal-edit-arb');
+}
+
+async function saveEditArb() {
+  const btn = document.getElementById('btn-save-edit-arb');
+  btn.disabled=true; btn.textContent='A guardar…';
+  try {
+    await fetch(`${SB_URL}/rest/v1/arbitros?id=eq.${editArbId}`, {
+      method: 'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: document.getElementById('edit-arb-nome').value.trim(),
+        funcao: document.getElementById('edit-arb-funcao').value,
+        foto_url: document.getElementById('edit-arb-foto').value.trim()
+      })
+    });
+    const a = ARBITROS.find(x=>x.id===editArbId);
+    a.nome = document.getElementById('edit-arb-nome').value.trim();
+    a.funcao = document.getElementById('edit-arb-funcao').value;
+    a.foto_url = document.getElementById('edit-arb-foto').value.trim();
+    closeModal('modal-edit-arb'); openAdminPanel(); renderAll(); toast('Árbitro atualizado ✓');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Guardar'; }
 }
 /* ══════════════════════════════════════════
    INIT
