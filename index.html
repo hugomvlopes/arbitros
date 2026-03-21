@@ -48,6 +48,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .section-header h2{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext)}
 .select-hint{font-size:11px;color:var(--muted);display:none}
 
+/* LOADING */
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px;color:var(--subtext)}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-state p{font-size:14px}
+
 /* ÁRBITRO CARDS */
 .cards-list{display:flex;flex-direction:column;gap:10px;padding:0 16px}
 .arb-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
@@ -120,6 +126,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .modal-actions{display:flex;gap:10px;padding:0 20px 20px}
 .btn-primary{flex:1;background:var(--accent);border:none;border-radius:10px;padding:13px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;color:#0c0c0b;cursor:pointer;transition:background .15s}
 .btn-primary:hover{background:var(--accent2)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
 .btn-cancel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 20px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s}
 .btn-cancel:hover{color:var(--text);border-color:var(--muted)}
 .btn-danger-sm{background:none;border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:12px;color:var(--subtext);cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;font-weight:500;white-space:nowrap}
@@ -127,7 +134,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .btn-add-row{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;width:100%}
 .btn-add-row:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ADMIN SECTIONS */
+/* ADMIN */
 .admin-section{margin-bottom:4px}
 .admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext);padding:16px 20px 10px;border-top:1px solid var(--border);margin-top:4px}
 .admin-section:first-child .admin-section-title{border-top:none;padding-top:4px}
@@ -142,7 +149,10 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .add-row-wrap{padding:10px 20px 0}
 .avatar-sm{width:34px;height:34px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0}
 
-/* CATÁLOGO SELECT */
+/* CATALOG PICKER */
+.catalog-scroll{max-height:260px;overflow-y:auto;padding:0 20px 4px}
+.catalog-scroll::-webkit-scrollbar{width:4px}
+.catalog-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .catalog-select-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all .15s;margin-bottom:8px}
 .catalog-select-item:hover,.catalog-select-item.active{border-color:var(--accent);background:rgba(240,208,32,.05)}
 .catalog-select-item.active .csi-check{opacity:1}
@@ -153,10 +163,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .csi-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
 .csi-meta{font-size:11px;color:var(--subtext);margin-top:2px}
 .csi-check{opacity:0;transition:opacity .15s;flex-shrink:0;color:var(--accent)}
-.catalog-scroll{max-height:260px;overflow-y:auto;padding:0 20px}
-.catalog-scroll::-webkit-scrollbar{width:4px}
-.catalog-scroll::-webkit-scrollbar-track{background:transparent}
-.catalog-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .empty-catalog{color:var(--muted);font-size:13px;font-style:italic;padding:12px 0;text-align:center}
 
 /* URL PREVIEW */
@@ -197,17 +203,14 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 /* TOAST */
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#0c0c0b;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;padding:9px 20px;border-radius:8px;opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--danger);color:#fff}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="logo-badge" id="logo-tap" onclick="handleLogoTap()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M19.07 4.93l-4.24 4.24M9.17 9.17l-5.67 5.67"/>
-    </svg>
+    <img src="https://apaf.pt/wp-content/uploads/2023/05/068-150x150.png" style="width:28px;height:28px;object-fit:contain;border-radius:4px"/>
   </div>
   <div class="header-title">
     <h1>AFV Árbitros</h1>
@@ -229,17 +232,24 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 </div>
 
 <div class="stats-bar">
-  <div class="stat-pill"><div class="val" id="s-arb">0</div><div class="lbl">Árbitros</div></div>
-  <div class="stat-pill"><div class="val" id="s-eq">0</div><div class="lbl">Equipamentos</div></div>
-  <div class="stat-pill"><div class="val" id="s-mk">0</div><div class="lbl">Marcas</div></div>
+  <div class="stat-pill"><div class="val" id="s-arb">—</div><div class="lbl">Árbitros</div></div>
+  <div class="stat-pill"><div class="val" id="s-eq">—</div><div class="lbl">Equipamentos</div></div>
+  <div class="stat-pill"><div class="val" id="s-mk">—</div><div class="lbl">Marcas</div></div>
 </div>
 
 <div class="section-header">
   <h2>Árbitros</h2>
   <span class="select-hint" id="sel-hint">Seleciona até 3</span>
 </div>
-<div class="cards-list" id="cards-list"></div>
-<div id="no-results">Nenhum árbitro encontrado.</div>
+
+<div id="main-content">
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>A carregar dados…</p>
+  </div>
+</div>
+<div class="cards-list" id="cards-list" style="display:none"></div>
+<div id="no-results" style="display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px">Nenhum árbitro encontrado.</div>
 
 <!-- COMPARE TRAY -->
 <div class="cmp-tray" id="cmp-tray">
@@ -250,7 +260,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 
 <div class="toast" id="toast"></div>
 
-<!-- ══ MODAL: PIN ══ -->
+<!-- ══ PIN ══ -->
 <div class="modal-overlay" id="modal-pin">
   <div class="modal sm">
     <div class="modal-handle"></div>
@@ -259,11 +269,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <button class="modal-close" onclick="closeModal('modal-pin');resetPin()">×</button>
     </div>
     <div style="padding:0 20px 8px">
-      <div class="pin-dots" id="pin-dots">
-        <div class="pin-dot" id="dot0"></div><div class="pin-dot" id="dot1"></div>
-        <div class="pin-dot" id="dot2"></div><div class="pin-dot" id="dot3"></div>
-        <div class="pin-dot" id="dot4"></div><div class="pin-dot" id="dot5"></div>
-      </div>
+      <div class="pin-dots" id="pin-dots"></div>
       <div class="pin-error" id="pin-error">PIN incorreto. Tenta novamente.</div>
     </div>
     <div class="pin-grid">
@@ -283,7 +289,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </div>
 
-<!-- ══ MODAL: ADMIN ══ -->
+<!-- ══ ADMIN ══ -->
 <div class="modal-overlay" id="modal-admin">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -292,7 +298,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <button class="modal-close" onclick="closeModal('modal-admin')">×</button>
     </div>
 
-    <!-- CATÁLOGO DE EQUIPAMENTOS -->
     <div class="admin-section">
       <div class="admin-section-title">Catálogo de Equipamentos</div>
       <div class="admin-list" id="admin-catalog-list"></div>
@@ -304,7 +309,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       </div>
     </div>
 
-    <!-- ÁRBITROS -->
     <div class="admin-section">
       <div class="admin-section-title">Árbitros</div>
       <div class="admin-list" id="admin-arb-list"></div>
@@ -316,7 +320,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       </div>
     </div>
 
-    <!-- ATRIBUIR EQUIPAMENTO -->
     <div class="admin-section">
       <div class="admin-section-title">Atribuir Equipamento a Árbitro</div>
       <div class="modal-body" style="padding-top:0;gap:10px">
@@ -336,7 +339,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </div>
 
-<!-- ══ MODAL: NOVO ITEM CATÁLOGO ══ -->
+<!-- ══ NOVO CATÁLOGO ══ -->
 <div class="modal-overlay" id="modal-add-catalog">
   <div class="modal sm">
     <div class="modal-handle"></div>
@@ -371,12 +374,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-add-catalog');openAdminPanel()">Cancelar</button>
-      <button class="btn-primary" onclick="saveCatalogItem()">Guardar</button>
+      <button class="btn-primary" id="btn-save-catalog" onclick="saveCatalogItem()">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: NOVO ÁRBITRO ══ -->
+<!-- ══ NOVO ÁRBITRO ══ -->
 <div class="modal-overlay" id="modal-add-arb">
   <div class="modal sm">
     <div class="modal-handle"></div>
@@ -401,12 +404,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-add-arb');openAdminPanel()">Cancelar</button>
-      <button class="btn-primary" onclick="saveArb()">Guardar</button>
+      <button class="btn-primary" id="btn-save-arb" onclick="saveArb()">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: ATRIBUIR EQUIPAMENTO ══ -->
+<!-- ══ ATRIBUIR ══ -->
 <div class="modal-overlay" id="modal-assign">
   <div class="modal sm">
     <div class="modal-handle"></div>
@@ -416,30 +419,30 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
     </div>
     <div class="modal-body" style="gap:10px">
       <div style="font-size:13px;color:var(--subtext)" id="assign-arb-label"></div>
-      <div class="field">
-        <label>Tamanho</label>
-        <select id="assign-tam">
-          <option>XS</option><option>S</option><option selected>M</option>
-          <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
-        </select>
+      <div class="row2">
+        <div class="field">
+          <label>Tamanho</label>
+          <select id="assign-tam">
+            <option>XS</option><option>S</option><option selected>M</option>
+            <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantidade</label>
+          <input type="number" id="assign-qty" value="1" min="1" max="99"/>
+        </div>
       </div>
-      <div class="field">
-        <label>Quantidade</label>
-        <input type="number" id="assign-qty" value="1" min="1" max="99"/>
-      </div>
-      <div class="field">
-        <label>Selecionar do catálogo</label>
-      </div>
+      <div class="field"><label>Selecionar do catálogo</label></div>
     </div>
     <div class="catalog-scroll" id="catalog-picker"></div>
     <div class="modal-actions" style="margin-top:10px">
       <button class="btn-cancel" onclick="closeModal('modal-assign');openAdminPanel()">Cancelar</button>
-      <button class="btn-primary" onclick="saveAssign()">Atribuir</button>
+      <button class="btn-primary" id="btn-save-assign" onclick="saveAssign()">Atribuir</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: COMPARE ══ -->
+<!-- ══ COMPARE ══ -->
 <div class="modal-overlay" id="modal-cmp">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -453,56 +456,84 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 
 <script>
 /* ══════════════════════════════════════════
-   CONFIG
+   SUPABASE CONFIG
 ══════════════════════════════════════════ */
-const PIN = '122900';
+const SB_URL = 'https://aucfjkavnvlmnbjntmlx.supabase.co';
+const SB_KEY = 'sb_publishable_Cu_j6uZdBAqLYKjLZuoHPQ_EBKj7B2f';
+
+const sb = {
+  async req(method, path, body) {
+    const res = await fetch(`${SB_URL}/rest/v1/${path}`, {
+      method,
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': method === 'POST' ? 'return=representation' : '',
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err);
+    }
+    const text = await res.text();
+    return text ? JSON.parse(text) : null;
+  },
+  get: (path) => sb.req('GET', path),
+  post: (path, body) => sb.req('POST', path, body),
+  delete: (path) => sb.req('DELETE', path),
+};
 
 /* ══════════════════════════════════════════
-   DEFAULT DATA
+   STATE
 ══════════════════════════════════════════ */
-const DEFAULT_CATALOG = [
-  {id:'c1', tipo:'Camisola', marca:'Macron', cor:'Amarelo Fluor', url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/7/87c275289aadb48dda3481caa8418d1e58589608.jpg'},
-  {id:'c2', tipo:'Camisola', marca:'Macron', cor:'Azul',          url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/1/61cd158f7d174a6b1f6860a432f6053658589607.jpg'},
-  {id:'c3', tipo:'Calções',  marca:'Macron', cor:'Preto',         url:''},
-  {id:'c4', tipo:'Meias',    marca:'Macron', cor:'Preto',         url:''},
-];
+const PIN = '122900';
+let CATALOG = [];
+let ARBITROS = [];
+let EQUIPAMENTOS = [];
 
-const DEFAULT_DB = [
-  {id:1, nome:'Miguel Ferreira', funcao:'Árbitro Principal', equip:[
-    {id:1, catId:'c1', tamanho:'L', qty:2},
-    {id:2, catId:'c2', tamanho:'L', qty:1},
-    {id:3, catId:'c3', tamanho:'L', qty:2},
-  ]},
-  {id:2, nome:'Rui Costa', funcao:'Árbitro Assistente', equip:[
-    {id:1, catId:'c1', tamanho:'M', qty:1},
-    {id:2, catId:'c4', tamanho:'M', qty:3},
-  ]},
-  {id:3, nome:'Carlos Henriques', funcao:'Árbitro Principal', equip:[
-    {id:1, catId:'c2', tamanho:'XL', qty:2},
-  ]},
-  {id:4, nome:'Pedro Almeida', funcao:'Árbitro Assistente', equip:[
-    {id:1, catId:'c1', tamanho:'S', qty:1},
-    {id:2, catId:'c3', tamanho:'S', qty:1},
-  ]},
-];
-
-let CATALOG = JSON.parse(localStorage.getItem('afv_catalog') || 'null') || DEFAULT_CATALOG;
-let DB      = JSON.parse(localStorage.getItem('afv_db4')     || 'null') || DEFAULT_DB;
-
-function save(){
-  localStorage.setItem('afv_catalog', JSON.stringify(CATALOG));
-  localStorage.setItem('afv_db4',     JSON.stringify(DB));
-}
-
-function getCat(id){ return CATALOG.find(c=>c.id===id) || null; }
+function getCat(id){ return CATALOG.find(c => c.id === id) || null; }
 function initials(n){ return n.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
-function uid(){ return 'c' + Date.now() + Math.random().toString(36).slice(2,6); }
+function getArbEquip(arbId){ return EQUIPAMENTOS.filter(e => e.arbitro_id === arbId); }
+
+/* ══════════════════════════════════════════
+   LOAD DATA
+══════════════════════════════════════════ */
+async function loadAll() {
+  try {
+    const [catalog, arbitros, equip] = await Promise.all([
+      sb.get('catalog?order=tipo,marca,cor'),
+      sb.get('arbitros?order=nome'),
+      sb.get('equipamentos?order=id'),
+    ]);
+    CATALOG     = catalog     || [];
+    ARBITROS    = arbitros    || [];
+    EQUIPAMENTOS= equip       || [];
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('cards-list').style.display   = 'flex';
+    renderAll();
+  } catch(e) {
+    document.getElementById('main-content').innerHTML =
+      `<div class="loading-state"><p style="color:var(--danger)">Erro ao ligar ao Supabase.<br><small>${e.message}</small></p></div>`;
+  }
+}
 
 /* ══════════════════════════════════════════
    PIN
 ══════════════════════════════════════════ */
 let pinTaps=0, pinTimer=null, pinVal='';
 const PIN_LEN = PIN.length;
+
+(function buildDots(){
+  const wrap = document.getElementById('pin-dots');
+  wrap.innerHTML = '';
+  for(let i=0;i<PIN_LEN;i++){
+    const d=document.createElement('div');
+    d.className='pin-dot'; d.id='dot'+i;
+    wrap.appendChild(d);
+  }
+})();
 
 function handleLogoTap(){
   pinTaps++;
@@ -511,12 +542,7 @@ function handleLogoTap(){
   pinTimer=setTimeout(()=>pinTaps=0, 2000);
 }
 function resetPin(){ pinVal=''; updateDots(); document.getElementById('pin-error').style.display='none'; }
-function updateDots(){
-  for(let i=0;i<PIN_LEN;i++){
-    const d=document.getElementById('dot'+i);
-    if(d) d.classList.toggle('filled', i<pinVal.length);
-  }
-}
+function updateDots(){ for(let i=0;i<PIN_LEN;i++){ const d=document.getElementById('dot'+i); if(d) d.classList.toggle('filled',i<pinVal.length); } }
 function pinKey(k){
   if(pinVal.length>=PIN_LEN) return;
   pinVal+=k; updateDots();
@@ -527,24 +553,13 @@ function pinKey(k){
 }
 function pinDel(){ pinVal=pinVal.slice(0,-1); updateDots(); document.getElementById('pin-error').style.display='none'; }
 
-// Build pin dots dynamically based on PIN length
-(function buildDots(){
-  const wrap=document.getElementById('pin-dots');
-  wrap.innerHTML='';
-  for(let i=0;i<PIN_LEN;i++){
-    const d=document.createElement('div');
-    d.className='pin-dot'; d.id='dot'+i;
-    wrap.appendChild(d);
-  }
-})();
-
 /* ══════════════════════════════════════════
    ADMIN PANEL
 ══════════════════════════════════════════ */
 function openAdminPanel(){
   renderAdminCatalog();
   renderAdminArbs();
-  populateArbSelect('adm-arb-sel');
+  populateArbSelect();
   renderAssignedList();
   openModal('modal-admin');
 }
@@ -552,7 +567,7 @@ function openAdminPanel(){
 /* ── Catálogo ── */
 function renderAdminCatalog(){
   const el=document.getElementById('admin-catalog-list');
-  if(!CATALOG.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum equipamento no catálogo.</div>'; return; }
+  if(!CATALOG.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Catálogo vazio.</div>'; return; }
   el.innerHTML=CATALOG.map(c=>`
     <div class="admin-row">
       <div class="admin-row-thumb">${c.url?`<img src="${c.url}" alt="${c.cor}"/>`:`<span class="nophoto">👕</span>`}</div>
@@ -579,71 +594,94 @@ document.getElementById('cat-url').addEventListener('input',function(){
   if(this.value.trim()){ img.src=this.value.trim(); p.style.display='block'; }
   else p.style.display='none';
 });
-function saveCatalogItem(){
+
+async function saveCatalogItem(){
   const marca=document.getElementById('cat-marca').value.trim();
   const cor=document.getElementById('cat-cor').value.trim();
-  if(!marca||!cor){ toast('Preenche marca e cor'); return; }
-  CATALOG.push({
-    id: uid(),
-    tipo: document.getElementById('cat-tipo').value,
-    marca, cor,
-    url: document.getElementById('cat-url').value.trim()
-  });
-  save(); closeModal('modal-add-catalog'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ao catálogo ✓');
+  if(!marca||!cor){ toast('Preenche marca e cor','err'); return; }
+  const btn=document.getElementById('btn-save-catalog');
+  btn.disabled=true; btn.textContent='A guardar…';
+  try {
+    const rows = await sb.post('catalog', {
+      tipo: document.getElementById('cat-tipo').value,
+      marca, cor,
+      url: document.getElementById('cat-url').value.trim()
+    });
+    CATALOG.push(rows[0]);
+    closeModal('modal-add-catalog'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ✓');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Guardar'; }
 }
-function deleteCatalogItem(id){
-  CATALOG=CATALOG.filter(c=>c.id!==id);
-  // also remove from arbitros
-  DB.forEach(a=>{ a.equip=a.equip.filter(e=>e.catId!==id); });
-  save(); renderAdminCatalog(); renderAll(); toast('Removido do catálogo');
+
+async function deleteCatalogItem(id){
+  try {
+    await sb.delete(`catalog?id=eq.${id}`);
+    CATALOG = CATALOG.filter(c=>c.id!==id);
+    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.catalog_id!==id);
+    renderAdminCatalog(); renderAll(); toast('Removido do catálogo');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
 }
 
 /* ── Árbitros ── */
 function renderAdminArbs(){
   const el=document.getElementById('admin-arb-list');
-  if(!DB.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum árbitro.</div>'; return; }
-  el.innerHTML=DB.map(a=>`
+  if(!ARBITROS.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum árbitro.</div>'; return; }
+  el.innerHTML=ARBITROS.map(a=>`
     <div class="admin-row">
       <div class="avatar-sm">${initials(a.nome)}</div>
       <div class="admin-row-info">
         <div class="aname">${a.nome}</div>
-        <div class="ameta">${a.funcao} · ${a.equip.length} peças</div>
+        <div class="ameta">${a.funcao} · ${getArbEquip(a.id).length} peças</div>
       </div>
       <button class="btn-danger-sm" onclick="deleteArb(${a.id})">Remover</button>
     </div>`).join('');
 }
+
 function openAddArb(){
   document.getElementById('arb-nome').value='';
   closeModal('modal-admin');
   openModal('modal-add-arb');
 }
-function saveArb(){
+
+async function saveArb(){
   const nome=document.getElementById('arb-nome').value.trim();
-  if(!nome){ toast('Insere o nome'); return; }
-  const id=DB.length?Math.max(...DB.map(a=>a.id))+1:1;
-  DB.push({id, nome, funcao:document.getElementById('arb-funcao').value, equip:[]});
-  save(); closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
+  if(!nome){ toast('Insere o nome','err'); return; }
+  const btn=document.getElementById('btn-save-arb');
+  btn.disabled=true; btn.textContent='A guardar…';
+  try {
+    const rows = await sb.post('arbitros', { nome, funcao: document.getElementById('arb-funcao').value });
+    ARBITROS.push(rows[0]);
+    ARBITROS.sort((a,b)=>a.nome.localeCompare(b.nome));
+    closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Guardar'; }
 }
-function deleteArb(id){
-  DB=DB.filter(a=>a.id!==id);
-  save(); renderAdminArbs(); populateArbSelect('adm-arb-sel'); renderAssignedList(); renderAll(); toast('Árbitro removido');
+
+async function deleteArb(id){
+  try {
+    await sb.delete(`arbitros?id=eq.${id}`);
+    ARBITROS = ARBITROS.filter(a=>a.id!==id);
+    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.arbitro_id!==id);
+    renderAdminArbs(); populateArbSelect(); renderAssignedList(); renderAll(); toast('Árbitro removido');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
 }
 
 /* ── Atribuir ── */
-function populateArbSelect(selId){
-  const sel=document.getElementById(selId);
+function populateArbSelect(){
+  const sel=document.getElementById('adm-arb-sel');
   const cur=sel.value;
-  sel.innerHTML='<option value="">— Selecionar árbitro —</option>'+DB.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+  sel.innerHTML='<option value="">— Selecionar árbitro —</option>'+ARBITROS.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
   if(cur) sel.value=cur;
 }
+
 function renderAssignedList(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
   const el=document.getElementById('assigned-list');
   if(!arbId){ el.innerHTML=''; return; }
-  const arb=DB.find(a=>a.id===arbId);
-  if(!arb||!arb.equip.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0 8px">Sem equipamentos atribuídos.</div>'; return; }
-  el.innerHTML=arb.equip.map(e=>{
-    const cat=getCat(e.catId);
+  const equips=getArbEquip(arbId);
+  if(!equips.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0 8px">Sem equipamentos atribuídos.</div>'; return; }
+  el.innerHTML=equips.map(e=>{
+    const cat=getCat(e.catalog_id);
     if(!cat) return '';
     return `<div class="admin-row" style="padding:8px 10px;margin-bottom:6px">
       <div class="admin-row-thumb" style="width:36px;height:40px">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto" style="font-size:16px">👕</span>`}</div>
@@ -651,20 +689,24 @@ function renderAssignedList(){
         <div class="aname" style="font-size:13px">${cat.tipo} · ${cat.cor}</div>
         <div class="ameta">${cat.marca} · ${e.tamanho} · ×${e.qty}</div>
       </div>
-      <button class="btn-danger-sm" onclick="removeAssigned(${arbId},${e.id})">Remover</button>
+      <button class="btn-danger-sm" onclick="removeAssigned(${e.id})">Remover</button>
     </div>`;
   }).join('');
 }
-function removeAssigned(arbId,eqId){
-  const arb=DB.find(a=>a.id===arbId);
-  if(arb){ arb.equip=arb.equip.filter(e=>e.id!==eqId); save(); renderAssignedList(); renderAll(); toast('Equipamento removido'); }
+
+async function removeAssigned(eqId){
+  try {
+    await sb.delete(`equipamentos?id=eq.${eqId}`);
+    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.id!==eqId);
+    renderAssignedList(); renderAll(); toast('Equipamento removido');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
 }
 
 let assignSelectedCatId=null;
 function openAssignEquip(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
-  if(!arbId){ toast('Seleciona um árbitro primeiro'); return; }
-  const arb=DB.find(a=>a.id===arbId);
+  if(!arbId){ toast('Seleciona um árbitro primeiro','err'); return; }
+  const arb=ARBITROS.find(a=>a.id===arbId);
   document.getElementById('assign-arb-label').textContent='A atribuir a: '+arb.nome;
   document.getElementById('assign-qty').value='1';
   assignSelectedCatId=null;
@@ -688,18 +730,23 @@ function renderCatalogPicker(){
     </div>`).join('');
 }
 function selectCatItem(id){ assignSelectedCatId=id; renderCatalogPicker(); }
-function saveAssign(){
+
+async function saveAssign(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
-  if(!arbId||!assignSelectedCatId){ toast('Seleciona árbitro e equipamento'); return; }
-  const arb=DB.find(a=>a.id===arbId);
-  const newId=arb.equip.length?Math.max(...arb.equip.map(e=>e.id))+1:1;
-  arb.equip.push({
-    id: newId,
-    catId: assignSelectedCatId,
-    tamanho: document.getElementById('assign-tam').value,
-    qty: parseInt(document.getElementById('assign-qty').value)||1
-  });
-  save(); closeModal('modal-assign'); openAdminPanel(); renderAll(); toast('Equipamento atribuído ✓');
+  if(!arbId||!assignSelectedCatId){ toast('Seleciona árbitro e equipamento','err'); return; }
+  const btn=document.getElementById('btn-save-assign');
+  btn.disabled=true; btn.textContent='A guardar…';
+  try {
+    const rows = await sb.post('equipamentos', {
+      arbitro_id: arbId,
+      catalog_id: assignSelectedCatId,
+      tamanho: document.getElementById('assign-tam').value,
+      qty: parseInt(document.getElementById('assign-qty').value)||1
+    });
+    EQUIPAMENTOS.push(rows[0]);
+    closeModal('modal-assign'); openAdminPanel(); renderAll(); toast('Equipamento atribuído ✓');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Atribuir'; }
 }
 
 /* ══════════════════════════════════════════
@@ -728,7 +775,7 @@ function syncTray(){
   tray.classList.add('vis');
   badge.textContent=selected.size;
   chips.innerHTML=[...selected].map(id=>{
-    const a=DB.find(x=>x.id===id);
+    const a=ARBITROS.find(x=>x.id===id);
     return `<span class="tchip">${a.nome.split(' ')[0]}<button onclick="desel(${id})">×</button></span>`;
   }).join('');
   go.disabled=selected.size<2;
@@ -739,16 +786,17 @@ function desel(id){ selected.delete(id); renderAll(); syncTray(); }
    RENDER
 ══════════════════════════════════════════ */
 function renderAll(q){
-  q=q??document.getElementById('search-input').value;
+  q = q ?? document.getElementById('search-input').value;
   const list=document.getElementById('cards-list');
   const nr=document.getElementById('no-results');
   list.innerHTML='';
-  const filt=DB.filter(a=>a.nome.toLowerCase().includes((q||'').toLowerCase().trim()));
+  const filt=ARBITROS.filter(a=>a.nome.toLowerCase().includes((q||'').toLowerCase().trim()));
   nr.style.display=filt.length?'none':'block';
   filt.forEach(a=>list.appendChild(buildCard(a)));
   updateStats();
 }
 function buildCard(a){
+  const equips = getArbEquip(a.id);
   const el=document.createElement('div');
   el.className='arb-card'+(selected.has(a.id)?' selected':'');
   el.id='card-'+a.id;
@@ -762,18 +810,18 @@ function buildCard(a){
         <h3>${a.nome}</h3>
         <div class="meta">${a.funcao}</div>
       </div>
-      <div class="equip-count" onclick="openCard(${a.id})"><span>${a.equip.length}</span> peças</div>
+      <div class="equip-count" onclick="openCard(${a.id})"><span>${equips.length}</span> peças</div>
       <div class="chevron" onclick="openCard(${a.id})">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
     </div>
     <div class="equip-body" id="eb-${a.id}">
-      ${a.equip.length ? a.equip.map(buildEquipRow).join('') : '<div class="empty-equip">Sem equipamentos atribuídos.</div>'}
+      ${equips.length ? equips.map(buildEquipRow).join('') : '<div class="empty-equip">Sem equipamentos atribuídos.</div>'}
     </div>`;
   return el;
 }
 function buildEquipRow(e){
-  const cat=getCat(e.catId);
+  const cat=getCat(e.catalog_id);
   if(!cat) return '';
   return `
     <div class="equip-item">
@@ -797,8 +845,8 @@ function openCard(id){ document.getElementById('card-'+id).classList.toggle('ope
 function onSearch(v){ document.getElementById('clear-btn').classList.toggle('vis',v.length>0); renderAll(v); }
 function clearSearch(){ document.getElementById('search-input').value=''; document.getElementById('clear-btn').classList.remove('vis'); renderAll(''); }
 function updateStats(){
-  document.getElementById('s-arb').textContent=DB.length;
-  document.getElementById('s-eq').textContent=DB.reduce((s,a)=>s+a.equip.length,0);
+  document.getElementById('s-arb').textContent=ARBITROS.length;
+  document.getElementById('s-eq').textContent=EQUIPAMENTOS.length;
   const mk=new Set(CATALOG.map(c=>c.marca.toLowerCase()));
   document.getElementById('s-mk').textContent=mk.size;
 }
@@ -807,17 +855,17 @@ function updateStats(){
    COMPARE MODAL
 ══════════════════════════════════════════ */
 function openCmpModal(){
-  const arr=[...selected].map(id=>DB.find(a=>a.id===id));
-  const tipos=[...new Set(arr.flatMap(a=>a.equip.map(e=>{ const c=getCat(e.catId); return c?c.tipo:''; }).filter(Boolean)))];
+  const arr=[...selected].map(id=>ARBITROS.find(a=>a.id===id));
+  const tipos=[...new Set(arr.flatMap(a=>getArbEquip(a.id).map(e=>{ const c=getCat(e.catalog_id); return c?c.tipo:''; }).filter(Boolean)))];
   let html=`<table class="cmp-table"><thead><tr><th></th>${arr.map(a=>`<th class="arb-col"><div class="cmp-arb-head"><div class="cmp-av">${initials(a.nome)}</div><div class="cmp-aname">${a.nome}</div><div class="cmp-afuncao">${a.funcao}</div></div></th>`).join('')}</tr></thead><tbody>`;
   tipos.forEach(tipo=>{
     html+=`<tr><td class="row-label">${tipo}</td>`;
     arr.forEach(a=>{
-      const items=a.equip.filter(e=>{ const c=getCat(e.catId); return c&&c.tipo===tipo; });
+      const items=getArbEquip(a.id).filter(e=>{ const c=getCat(e.catalog_id); return c&&c.tipo===tipo; });
       if(!items.length){ html+=`<td class="arb-val"><span class="cmp-none">—</span></td>`; return; }
       html+=`<td class="arb-val"><div class="cmp-pills">`;
       items.forEach(e=>{
-        const cat=getCat(e.catId);
+        const cat=getCat(e.catalog_id);
         html+=`<div class="cmp-pill">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${cat.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${cat.marca}</div></div></div>`;
       });
       html+=`</div></td>`;
@@ -840,12 +888,18 @@ document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click
    TOAST
 ══════════════════════════════════════════ */
 let toastTimer;
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
+function toast(msg, type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(type==='err'?' err':'')+' show';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
 
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
-renderAll('');
+loadAll();
 </script>
 </body>
 </html>
