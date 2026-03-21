@@ -1,334 +1,800 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAFVKIT - Gestão de Equipamentos de árbitros</title>
-    <style>
-        :root {
-            --primary: #1e272e;
-            --accent: #2ecc71;
-            --bg: #f1f2f6;
-            --text: #2f3640;
-            --danger: #e74c3c;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AFV · Equipamentos Árbitros</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0c0c0b;--surface:#131311;--card:#191917;--border:#242420;
+  --accent:#f0d020;--accent2:#c9ad10;--muted:#484840;
+  --text:#ededea;--subtext:#88887c;--danger:#e05a5a;--warn:#e09c3d;--tag-bg:#1e1e1b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;padding-bottom:80px}
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 150px;
-        }
+/* ── HEADER ── */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.logo-badge{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:transform .1s}
+.logo-badge:active{transform:scale(.9)}
+.logo-badge svg{width:20px;height:20px}
+.header-title h1{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;letter-spacing:.04em;line-height:1}
+.header-title span{font-size:10px;color:var(--subtext);letter-spacing:.08em;text-transform:uppercase}
+.compare-btn{margin-left:auto;display:flex;align-items:center;gap:6px;background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s;white-space:nowrap}
+.compare-btn.active{background:rgba(240,208,32,.1);border-color:rgba(240,208,32,.4);color:var(--accent)}
+.cbadge{background:var(--accent);color:#0c0c0b;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:800;line-height:1.4;display:none}
+.compare-btn.active .cbadge{display:inline}
 
-        .header {
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 100;
-            padding: 15px;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin: -20px -20px 30px -20px;
-            text-align: center;
-        }
+/* ── SEARCH ── */
+.search-wrap{padding:14px 16px 0}
+.search-box{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0 14px;gap:10px;transition:border-color .15s}
+.search-box:focus-within{border-color:var(--accent)}
+.search-box svg{color:var(--subtext);flex-shrink:0}
+.search-box input{background:transparent;border:none;outline:none;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;height:44px;width:100%}
+.search-box input::placeholder{color:var(--muted)}
+#clear-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:0;line-height:1;display:none}
+#clear-btn.vis{display:block}
 
-        .search-bar {
-            width: 90%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 2px solid #ddd;
-            font-size: 1rem;
-            outline: none;
-        }
+/* ── STATS ── */
+.stats-bar{display:flex;gap:10px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none}
+.stats-bar::-webkit-scrollbar{display:none}
+.stat-pill{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;white-space:nowrap;flex-shrink:0}
+.stat-pill .val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--accent);line-height:1}
+.stat-pill .lbl{font-size:10px;color:var(--subtext);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+/* ── SECTION ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px}
+.section-header h2{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext)}
+.select-hint{font-size:11px;color:var(--muted);display:none}
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            position: relative;
-            transition: 0.2s;
-        }
+/* ── CARDS ── */
+.cards-list{display:flex;flex-direction:column;gap:10px;padding:0 16px}
+.arb-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
+.arb-card.selected{border-color:rgba(240,208,32,.5);box-shadow:0 0 0 1px rgba(240,208,32,.1)}
+.card-head{display:flex;align-items:center;gap:11px;padding:13px 14px;user-select:none}
+.sel-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);display:none;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .15s;background:var(--tag-bg)}
+.compare-mode .sel-check{display:flex}
+.sel-check:hover{border-color:var(--accent)}
+.arb-card.selected .sel-check{background:var(--accent);border-color:var(--accent)}
+.sel-check svg{display:none}
+.arb-card.selected .sel-check svg{display:block}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer}
+.card-info{flex:1;min-width:0;cursor:pointer}
+.card-info h3{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-info .meta{font-size:12px;color:var(--subtext);margin-top:1px}
+.equip-count{background:var(--tag-bg);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--subtext);flex-shrink:0;cursor:pointer}
+.equip-count span{color:var(--accent)}
+.chevron{color:var(--muted);transition:transform .2s;flex-shrink:0;cursor:pointer;line-height:0}
+.arb-card.open .chevron{transform:rotate(180deg)}
+.equip-body{display:none;border-top:1px solid var(--border);padding:10px;gap:8px;flex-direction:column}
+.arb-card.open .equip-body{display:flex}
 
-        .card.selected {
-            border: 2px solid var(--accent);
-            background: #f0fff4;
-        }
+/* ── EQUIP ITEM ── */
+.equip-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;align-items:stretch}
+.equip-photo{width:70px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.equip-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.equip-photo .nophoto{font-size:24px;padding:10px}
+.equip-right{flex:1;min-width:0;padding:10px 12px}
+.equip-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.02em}
+.equip-sub{font-size:12px;color:var(--subtext);margin-top:2px}
+.equip-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.tag{background:var(--tag-bg);border:1px solid var(--border);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--subtext)}
+.tag.qty{background:rgba(240,208,32,.08);border-color:rgba(240,208,32,.2);color:var(--accent)}
+.tag.size{background:rgba(224,156,61,.08);border-color:rgba(224,156,61,.2);color:var(--warn)}
+.empty-equip{color:var(--muted);font-size:13px;padding:4px 2px}
 
-        .select-check {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            transform: scale(1.3);
-            cursor: pointer;
-            z-index: 10;
-        }
+/* ── NO RESULTS ── */
+#no-results{display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
 
-        .name { font-weight: bold; font-size: 1.2em; display: block; }
-        
-        .tag-tamanho {
-            display: inline-block;
-            background: #eee;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin: 5px 0 15px 0;
-            font-weight: bold;
-        }
+/* ── COMPARE TRAY ── */
+.cmp-tray{position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px 20px;display:none;gap:10px;align-items:center;flex-wrap:wrap}
+.cmp-tray.vis{display:flex}
+.tray-label{font-size:11px;color:var(--subtext);font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+.tray-chips{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tchip{background:rgba(240,208,32,.1);border:1px solid rgba(240,208,32,.3);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:5px}
+.tchip button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:15px;line-height:1;padding:0;opacity:.7}
+.btn-cmp{background:var(--accent);border:none;border-radius:8px;padding:10px 18px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;color:#0c0c0b;cursor:pointer;white-space:nowrap;transition:background .15s;flex-shrink:0}
+.btn-cmp:hover{background:var(--accent2)}
+.btn-cmp:disabled{opacity:.35;cursor:not-allowed}
 
-        .kits-flex { display: flex; gap: 12px; flex-wrap: wrap; }
-        
-        .kit-item {
-            position: relative;
-            width: 75px;
-            text-align: center;
-        }
+/* ── MODALS (generic) ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 12px 40px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:700px;animation:fadeUp .25s ease;margin:auto}
+.modal.sm{max-width:400px}
+@keyframes fadeUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:16px auto 0}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 14px}
+.modal-head h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800}
+.modal-close{background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--subtext);font-size:20px;transition:all .15s}
+.modal-close:hover{border-color:var(--danger);color:var(--danger)}
+.modal-body{padding:0 20px 24px;display:flex;flex-direction:column;gap:14px}
 
-        .qty-badge {
-            position: absolute;
-            top: -5px;
-            right: -2px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border: 2px solid white;
-            z-index: 5;
-        }
+/* ── FORM FIELDS ── */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:700;color:var(--subtext);letter-spacing:.07em;text-transform:uppercase}
+.field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;padding:11px 14px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field select option{background:#191917}
+.field textarea{resize:vertical;min-height:70px;font-size:13px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:10px;padding:0 20px 20px}
+.btn-primary{flex:1;background:var(--accent);border:none;border-radius:10px;padding:13px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;color:#0c0c0b;cursor:pointer;transition:background .15s}
+.btn-primary:hover{background:var(--accent2)}
+.btn-cancel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 20px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s}
+.btn-cancel:hover{color:var(--text);border-color:var(--muted)}
+.btn-danger-sm{background:none;border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:12px;color:var(--subtext);cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;font-weight:500}
+.btn-danger-sm:hover{border-color:var(--danger);color:var(--danger)}
 
-        .kit-img {
-            width: 100%;
-            height: 75px;
-            object-fit: contain;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
+/* ── PIN MODAL ── */
+.pin-display{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;letter-spacing:.3em;text-align:center;color:var(--accent);padding:10px 0 4px;min-height:50px}
+.pin-dots{display:flex;gap:10px;justify-content:center;margin-bottom:4px}
+.pin-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:background .15s}
+.pin-dot.filled{background:var(--accent)}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px 20px}
+.pin-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s;text-align:center}
+.pin-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pin-btn:active{transform:scale(.95)}
+.pin-btn.del{color:var(--subtext);font-size:18px}
+.pin-error{font-size:13px;color:var(--danger);text-align:center;padding:0 20px 10px;display:none}
 
-        .kit-img:hover {
-            transform: scale(2.5);
-            z-index: 500;
-            position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            background: white;
-        }
+/* ── COMPARE TABLE ── */
+.cmp-wrap{padding:0 16px 20px;overflow-x:auto}
+.cmp-table{width:100%;border-collapse:collapse}
+.cmp-table th{padding:10px 12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--text);background:var(--surface);border-bottom:2px solid var(--border);text-align:left;white-space:nowrap}
+.cmp-table th.arb-col{text-align:center;min-width:120px}
+.cmp-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.cmp-table td.row-label{color:var(--subtext);font-weight:600;letter-spacing:.04em;font-size:12px;text-transform:uppercase;white-space:nowrap;background:var(--surface)}
+.cmp-table td.arb-val{text-align:center}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-pills{display:flex;flex-direction:column;gap:6px;align-items:center}
+.cmp-pill{background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;padding:6px 8px;display:flex;align-items:center;gap:7px;width:100%;text-align:left}
+.cmp-pill img{width:34px;height:38px;object-fit:cover;object-position:top;border-radius:5px;background:#111;flex-shrink:0}
+.cmp-pill .nophoto{font-size:20px;width:34px;text-align:center;flex-shrink:0}
+.cmp-pinfo .pname{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;line-height:1.1}
+.cmp-pinfo .pdetail{font-size:10px;color:var(--subtext);margin-top:2px}
+.cmp-none{color:var(--muted);font-size:12px;font-style:italic}
+.cmp-arb-head{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0}
+.cmp-av{width:36px;height:36px;border-radius:50%;background:var(--tag-bg);border:2px solid rgba(240,208,32,.3);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--accent)}
+.cmp-aname{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;line-height:1.2;text-align:center}
+.cmp-afuncao{font-size:10px;color:var(--subtext);text-align:center}
 
-        .kit-info {
-            font-size: 0.65em;
-            font-weight: bold;
-            margin-top: 4px;
-            line-height: 1.1;
-        }
+/* ── ADMIN PANEL ── */
+.admin-section{margin-bottom:20px}
+.admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext);padding:0 20px 10px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.admin-list{display:flex;flex-direction:column;gap:8px;padding:0 20px}
+.admin-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.admin-row-info{flex:1;min-width:0}
+.admin-row-info .aname{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
+.admin-row-info .ameta{font-size:11px;color:var(--subtext);margin-top:2px}
+.color-preview{width:32px;height:32px;border-radius:6px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.color-preview img{width:100%;height:100%;object-fit:cover;object-position:top}
+.color-preview .nophoto{font-size:16px}
+.btn-add-row{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;width:100%}
+.btn-add-row:hover{border-color:var(--accent);color:var(--accent)}
+.admin-equip-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;padding:6px 10px;outline:none;transition:border-color .15s;-webkit-appearance:none;cursor:pointer;min-width:130px}
+.admin-equip-select:focus{border-color:var(--accent)}
+.admin-equip-select option{background:#191917}
 
-        .brand-label { color: #e67e22; text-transform: uppercase; display: block; }
-
-        .team-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--primary);
-            color: white;
-            padding: 15px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
-            z-index: 1000;
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        .selected-container {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .team-member-mini {
-            text-align: center;
-            border-right: 1px solid #444;
-            padding-right: 15px;
-            min-width: 120px;
-        }
-
-        .loading { text-align: center; padding: 50px; font-weight: bold; color: #666; }
-    </style>
+/* toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#0c0c0b;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;padding:9px 20px;border-radius:8px;opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 <body>
 
-<div class="header">
-    <h2 style="margin:0 0 10px 0;">Gestor de Equipamentos das Eq. de Arbitragem</h2>
-    <input type="text" id="search" class="search-bar" placeholder="🔍 Pesquisar colega...">
+<header>
+  <div class="logo-badge" id="logo-tap" onclick="handleLogoTap()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M19.07 4.93l-4.24 4.24M9.17 9.17l-5.67 5.67"/>
+    </svg>
+  </div>
+  <div class="header-title">
+    <h1>AFV Árbitros</h1>
+    <span>Gestão de Equipamentos</span>
+  </div>
+  <button class="compare-btn" id="cmp-toggle" onclick="toggleCmpMode()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4M15 18h4a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4M12 3v18"/></svg>
+    Comparar
+    <span class="cbadge" id="cmp-badge">0</span>
+  </button>
+</header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search-input" placeholder="Pesquisar árbitro…" oninput="onSearch(this.value)"/>
+    <button id="clear-btn" onclick="clearSearch()">×</button>
+  </div>
 </div>
 
-<div id="loading" class="loading">A carregar dados...</div>
-<div class="grid" id="mainGrid"></div>
+<div class="stats-bar">
+  <div class="stat-pill"><div class="val" id="s-arb">0</div><div class="lbl">Árbitros</div></div>
+  <div class="stat-pill"><div class="val" id="s-eq">0</div><div class="lbl">Equipamentos</div></div>
+  <div class="stat-pill"><div class="val" id="s-mk">0</div><div class="lbl">Marcas</div></div>
+</div>
 
-<div id="teamBar" class="team-bar">
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">Enviar lista de equipamentos por WhatsApp 📱</button>
-    <div id="selectedContainer" class="selected-container"></div>
+<div class="section-header">
+  <h2>Árbitros</h2>
+  <span class="select-hint" id="sel-hint">Seleciona até 3</span>
+</div>
+<div class="cards-list" id="cards-list"></div>
+<div id="no-results">Nenhum árbitro encontrado.</div>
+
+<!-- COMPARE TRAY -->
+<div class="cmp-tray" id="cmp-tray">
+  <span class="tray-label">A comparar</span>
+  <div class="tray-chips" id="tray-chips"></div>
+  <button class="btn-cmp" id="btn-cmp-go" onclick="openCmpModal()" disabled>Ver comparativo</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: PIN
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-pin">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Acesso Admin</h2>
+      <button class="modal-close" onclick="closeModal('modal-pin');resetPin()">×</button>
+    </div>
+    <div style="padding:0 20px 10px">
+      <div class="pin-dots" id="pin-dots">
+        <div class="pin-dot" id="dot0"></div>
+        <div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div>
+        <div class="pin-dot" id="dot3"></div>
+      </div>
+      <div class="pin-error" id="pin-error">PIN incorreto. Tenta novamente.</div>
+    </div>
+    <div class="pin-grid">
+      <button class="pin-btn" onclick="pinKey('1')">1</button>
+      <button class="pin-btn" onclick="pinKey('2')">2</button>
+      <button class="pin-btn" onclick="pinKey('3')">3</button>
+      <button class="pin-btn" onclick="pinKey('4')">4</button>
+      <button class="pin-btn" onclick="pinKey('5')">5</button>
+      <button class="pin-btn" onclick="pinKey('6')">6</button>
+      <button class="pin-btn" onclick="pinKey('7')">7</button>
+      <button class="pin-btn" onclick="pinKey('8')">8</button>
+      <button class="pin-btn" onclick="pinKey('9')">9</button>
+      <button class="pin-btn" style="opacity:0;pointer-events:none"></button>
+      <button class="pin-btn" onclick="pinKey('0')">0</button>
+      <button class="pin-btn del" onclick="pinDel()">⌫</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: ADMIN PANEL
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-admin">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>⚙️ Painel Admin</h2>
+      <button class="modal-close" onclick="closeModal('modal-admin')">×</button>
+    </div>
+
+    <!-- CORES / FOTOS -->
+    <div class="admin-section">
+      <div class="admin-section-title">Cores &amp; Fotografias</div>
+      <div class="admin-list" id="admin-cores-list"></div>
+      <div style="padding:10px 20px 0">
+        <button class="btn-add-row" onclick="openAddCor()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nova cor / fotografia
+        </button>
+      </div>
+    </div>
+
+    <!-- ÁRBITROS -->
+    <div class="admin-section">
+      <div class="admin-section-title">Árbitros</div>
+      <div class="admin-list" id="admin-arb-list"></div>
+      <div style="padding:10px 20px 0">
+        <button class="btn-add-row" onclick="openAddArb()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Novo árbitro
+        </button>
+      </div>
+    </div>
+
+    <!-- EQUIPAMENTOS -->
+    <div class="admin-section">
+      <div class="admin-section-title">Adicionar Equipamento</div>
+      <div class="modal-body" style="padding-top:0">
+        <div class="field">
+          <label>Árbitro</label>
+          <select id="adm-eq-arb" onchange="renderAdmEquipList()">
+            <option value="">— Selecionar árbitro —</option>
+          </select>
+        </div>
+        <div id="adm-equip-list" style="display:flex;flex-direction:column;gap:6px"></div>
+        <button class="btn-add-row" onclick="openAddEquip()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Adicionar equipamento ao árbitro
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: NOVA COR
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-cor">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Nova Cor / Foto</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-cor')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Nome da cor (ex: Amarelo Fluor)</label>
+        <input type="text" id="cor-nome" placeholder="Ex: Vermelho, Verde Lima…"/>
+      </div>
+      <div class="field">
+        <label>URL da fotografia (opcional)</label>
+        <input type="url" id="cor-url" placeholder="https://…"/>
+      </div>
+      <div id="cor-preview" style="display:none;text-align:center">
+        <img id="cor-preview-img" style="max-height:100px;border-radius:8px;border:1px solid var(--border)" alt="preview"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-add-cor')">Cancelar</button>
+      <button class="btn-primary" onclick="saveCor()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: NOVO ÁRBITRO
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-arb">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Novo Árbitro</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-arb')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="arb-nome" placeholder="Ex: João Silva"/>
+      </div>
+      <div class="field">
+        <label>Função</label>
+        <select id="arb-funcao">
+          <option>Árbitro Principal</option>
+          <option>Árbitro Assistente</option>
+          <option>4.º Árbitro</option>
+          <option>Árbitro VAR</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-add-arb')">Cancelar</button>
+      <button class="btn-primary" onclick="saveArb()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: NOVO EQUIPAMENTO
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-equip">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Novo Equipamento</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-equip')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Tipo</label>
+        <select id="eq-tipo">
+          <option>Camisola</option><option>Calções</option><option>Meias</option>
+          <option>Casaco</option><option>Fato de Treino</option><option>Luvas</option>
+          <option>Boné</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Marca</label>
+        <input type="text" id="eq-marca" placeholder="Ex: Macron, Adidas…"/>
+      </div>
+      <div class="field">
+        <label>Cor</label>
+        <select id="eq-cor"></select>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Tamanho</label>
+          <select id="eq-tam">
+            <option>XS</option><option>S</option><option selected>M</option>
+            <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantidade</label>
+          <input type="number" id="eq-qty" value="1" min="1" max="99"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-add-equip')">Cancelar</button>
+      <button class="btn-primary" onclick="saveEquip()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: COMPARE
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-cmp">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Comparativo de Equipamentos</h2>
+      <button class="modal-close" onclick="closeModal('modal-cmp')">×</button>
+    </div>
+    <div class="cmp-wrap" id="cmp-grid"></div>
+  </div>
 </div>
 
 <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQA5bOF7QHkouyM3bsEtqhKUeiWZJLL4vi14bj1XUJqdLod3M7Tm0MVMuhTnlzaDXuMyJrXixBcIh3d/pub?output=csv';
+/* ══════════════════════════════════════════
+   DATA
+══════════════════════════════════════════ */
+const PIN = '1904';
 
-    const KITS_BASE = {
-        mac_rosa:    { m: "Macron", c: "Rosa", i: "https://stylfoot.fr/3929-large_default/referee-shirt-women-uefa-pink.jpg" },
-        mac_laranja: { m: "Macron", c: "Laranja", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/d/6d48affab28e0fd655c6e02763bbc04a800001934100.jpg" },
-        mac_azul:    { m: "Macron", c: "Azul", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/5/2/52df08504cf4cfbe5bb2a64356ff9f9f800001933700.jpg" },
-        mac_preto:   { m: "Macron", c: "Preto", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/6/865e817e7d6654733c8f8fa12c66e87a800001930900.jpg" },
-        mac_amarelo: { m: "Macron", c: "Amarelo", i: "https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/2/e/2e4c95eb6109e51232f11400887ad176800001931500.jpg" },
-        lac_preto:   { m: "Lacatoni", c: "Preto", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_PE.jpg" },
-        lac_laranja: { m: "Lacatoni", c: "Laranja", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552LF_teste.jpg" },
-        lac_azul:    { m: "Lacatoni", c: "Azul", i: "https://lacatoni.com/wp-content/uploads/2024/09/curta-azul.jpg" },
-        lac_amarelo: { m: "Lacatoni", c: "Amarelo", i: "https://lacatoni.com/wp-content/uploads/2020/11/19LC552_A.jpg" }
-    };
+const DEFAULT_CORES = [
+  {id:'amarelo-fluor', nome:'Amarelo Fluor', url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/7/87c275289aadb48dda3481caa8418d1e58589608.jpg'},
+  {id:'azul',          nome:'Azul',          url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/1/61cd158f7d174a6b1f6860a432f6053658589607.jpg'},
+  {id:'preto',         nome:'Preto',          url:''},
+  {id:'vermelho',      nome:'Vermelho',       url:''},
+  {id:'branco',        nome:'Branco',         url:''},
+];
 
-    let listaArbitros = [];
-    let selecionados = [];
+const DEFAULT_DB = [
+  {id:1,nome:'Miguel Ferreira',funcao:'Árbitro Principal',equip:[
+    {id:1,tipo:'Camisola',marca:'Macron',cor:'Amarelo Fluor',tamanho:'L',qty:2},
+    {id:2,tipo:'Camisola',marca:'Macron',cor:'Azul',tamanho:'L',qty:1},
+    {id:3,tipo:'Calções',marca:'Macron',cor:'Preto',tamanho:'L',qty:2},
+  ]},
+  {id:2,nome:'Rui Costa',funcao:'Árbitro Assistente',equip:[
+    {id:1,tipo:'Camisola',marca:'Macron',cor:'Amarelo Fluor',tamanho:'M',qty:1},
+    {id:2,tipo:'Meias',marca:'Macron',cor:'Preto',tamanho:'M',qty:3},
+  ]},
+  {id:3,nome:'Carlos Henriques',funcao:'Árbitro Principal',equip:[
+    {id:1,tipo:'Camisola',marca:'Macron',cor:'Azul',tamanho:'XL',qty:2},
+    {id:2,tipo:'Casaco',marca:'Macron',cor:'Preto',tamanho:'XL',qty:1},
+  ]},
+  {id:4,nome:'Pedro Almeida',funcao:'Árbitro Assistente',equip:[
+    {id:1,tipo:'Camisola',marca:'Adidas',cor:'Amarelo Fluor',tamanho:'S',qty:1},
+    {id:2,tipo:'Calções',marca:'Adidas',cor:'Preto',tamanho:'S',qty:1},
+    {id:3,tipo:'Meias',marca:'Adidas',cor:'Preto',tamanho:'S',qty:2},
+  ]},
+];
 
-    async function fetchData() {
-        try {
-            const response = await fetch(CSV_URL);
-            const csvText = await response.text();
-            const rows = csvText.split('\n').slice(1); // Ignora cabeçalho
+let CORES = JSON.parse(localStorage.getItem('afv_cores') || 'null') || DEFAULT_CORES;
+let DB    = JSON.parse(localStorage.getItem('afv_db3')   || 'null') || DEFAULT_DB;
 
-            listaArbitros = rows.map(row => {
-                const cols = row.split(',');
-                if(cols.length < 2) return null;
-                return {
-                    nome: cols[0].trim(),
-                    tam: cols[1].trim(),
-                    inv: {
-                        mac_rosa: parseInt(cols[2]) || 0,
-                        mac_laranja: parseInt(cols[3]) || 0,
-                        mac_azul: parseInt(cols[4]) || 0,
-                        mac_preto: parseInt(cols[5]) || 0,
-                        mac_amarelo: parseInt(cols[6]) || 0,
-                        lac_preto: parseInt(cols[7]) || 0,
-                        lac_laranja: parseInt(cols[8]) || 0,
-                        lac_azul: parseInt(cols[9]) || 0,
-                        lac_amarelo: parseInt(cols[10]) || 0
-                    }
-                };
-            }).filter(x => x !== null);
+function save(){ localStorage.setItem('afv_cores', JSON.stringify(CORES)); localStorage.setItem('afv_db3', JSON.stringify(DB)); }
+function initials(n){ return n.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
 
-            document.getElementById('loading').style.display = 'none';
-            render();
-        } catch (e) {
-            document.getElementById('loading').innerHTML = "Erro ao carregar o Excel. Verifica se o link está 'Publicado na Web' como CSV.";
-        }
-    }
+function getFoto(e){
+  if(!['Camisola','Casaco'].includes(e.tipo)) return null;
+  const c = CORES.find(x=>x.nome.toLowerCase()===e.cor.toLowerCase());
+  return c && c.url ? c.url : null;
+}
 
-    function render() {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = '';
-        listaArbitros.forEach((ref, idx) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.dataset.name = ref.nome.toLowerCase();
-            
-            let kitsHTML = '';
-            for (const [key, qty] of Object.entries(ref.inv)) {
-                if (qty > 0) {
-                    const k = KITS_BASE[key];
-                    kitsHTML += `
-                        <div class="kit-item">
-                            <div class="qty-badge">${qty}</div>
-                            <img src="${k.i}" class="kit-img">
-                            <div class="kit-info"><span class="brand-label">${k.m}</span>${k.c}</div>
-                        </div>`;
-                }
-            }
+/* ══════════════════════════════════════════
+   PIN
+══════════════════════════════════════════ */
+let pinTaps=0, pinTimer=null, pinVal='';
 
-            card.innerHTML = `
-                <input type="checkbox" class="select-check" onchange="toggleRef(${idx}, this)">
-                <span class="name">${ref.nome}</span>
-                <span class="tag-tamanho">TAM: ${ref.tam}</span>
-                <div class="kits-flex">${kitsHTML}</div>
-            `;
-            grid.appendChild(card);
-        });
-    }
+function handleLogoTap(){
+  pinTaps++;
+  clearTimeout(pinTimer);
+  if(pinTaps>=5){ pinTaps=0; resetPin(); openModal('modal-pin'); return; }
+  pinTimer=setTimeout(()=>pinTaps=0, 2000);
+}
 
-    function toggleRef(idx, cb) {
-        const ref = listaArbitros[idx];
-        if(cb.checked) {
-            selecionados.push(ref);
-            cb.parentElement.classList.add('selected');
-        } else {
-            selecionados = selecionados.filter(s => s.nome !== ref.nome);
-            cb.parentElement.classList.remove('selected');
-        }
-        updateTeamBar();
-    }
+function resetPin(){ pinVal=''; updateDots(); document.getElementById('pin-error').style.display='none'; }
+function updateDots(){ for(let i=0;i<4;i++) document.getElementById('dot'+i).classList.toggle('filled', i<pinVal.length); }
+function pinKey(k){
+  if(pinVal.length>=4) return;
+  pinVal+=k; updateDots();
+  if(pinVal.length===4){
+    if(pinVal===PIN){ setTimeout(()=>{ closeModal('modal-pin'); resetPin(); openAdminPanel(); }, 200); }
+    else{ document.getElementById('pin-error').style.display='block'; setTimeout(resetPin,1000); }
+  }
+}
+function pinDel(){ pinVal=pinVal.slice(0,-1); updateDots(); document.getElementById('pin-error').style.display='none'; }
 
-    function updateTeamBar() {
-        const bar = document.getElementById('teamBar');
-        const container = document.getElementById('selectedContainer');
-        if(selecionados.length > 0) {
-            bar.style.display = 'flex';
-            container.innerHTML = selecionados.map(s => `
-                <div class="team-member-mini">
-                    <div style="font-size:0.8em; font-weight:bold;">${s.nome}</div>
-                    <div style="display:flex; gap:4px; justify-content:center; margin-top:5px;">
-                        ${Object.entries(s.inv).filter(e => e[1] > 0).map(e => `<img src="${KITS_BASE[e[0]].i}" style="width:25px; height:25px; object-fit:contain; border-radius:3px; background:#eee;">`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        } else { bar.style.display = 'none'; }
-    }
+/* ══════════════════════════════════════════
+   ADMIN PANEL
+══════════════════════════════════════════ */
+function openAdminPanel(){
+  renderAdminCores();
+  renderAdminArbs();
+  populateArbSelect();
+  renderAdmEquipList();
+  openModal('modal-admin');
+}
 
-    function sendWhatsApp() {
-        let msg = "📋 *Equipamentos Eq. Arbitragem*\n\n";
-        selecionados.forEach(s => {
-            msg += `👤 *${s.nome}* (${s.tam})\n`;
-            let kits = Object.entries(s.inv).filter(e => e[1] > 0).map(e => `${e[1]}x ${KITS_BASE[e[0]].m} ${KITS_BASE[e[0]].c}`);
-            msg += `👕 ${kits.join(' | ')}\n\n`;
-        });
-        msg += "_QUais destes não estão disponiveis?_";
-        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-    }
+/* ── cores list ── */
+function renderAdminCores(){
+  const el=document.getElementById('admin-cores-list');
+  el.innerHTML=CORES.map(c=>`
+    <div class="admin-row">
+      <div class="color-preview">${c.url?`<img src="${c.url}" alt="${c.nome}"/>`:`<span class="nophoto">🎨</span>`}</div>
+      <div class="admin-row-info">
+        <div class="aname">${c.nome}</div>
+        <div class="ameta">${c.url?'Com fotografia':'Sem fotografia'}</div>
+      </div>
+      <button class="btn-danger-sm" onclick="deleteCor('${c.id}')">Remover</button>
+    </div>`).join('');
+}
 
-    document.getElementById('search').addEventListener('input', (e) => {
-        const val = e.target.value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.display = c.dataset.name.includes(val) ? 'block' : 'none';
-        });
+function openAddCor(){
+  document.getElementById('cor-nome').value='';
+  document.getElementById('cor-url').value='';
+  document.getElementById('cor-preview').style.display='none';
+  closeModal('modal-admin');
+  openModal('modal-add-cor');
+}
+document.getElementById('cor-url').addEventListener('input',function(){
+  const p=document.getElementById('cor-preview');
+  const img=document.getElementById('cor-preview-img');
+  if(this.value){ img.src=this.value; p.style.display='block'; }
+  else p.style.display='none';
+});
+
+function saveCor(){
+  const nome=document.getElementById('cor-nome').value.trim();
+  if(!nome) return;
+  const url=document.getElementById('cor-url').value.trim();
+  const id=nome.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  if(!CORES.find(c=>c.id===id)) CORES.push({id,nome,url});
+  save(); closeModal('modal-add-cor'); openAdminPanel(); toast('Cor guardada ✓');
+}
+function deleteCor(id){ CORES=CORES.filter(c=>c.id!==id); save(); renderAdminCores(); renderAll(); toast('Cor removida'); }
+
+/* ── árbitros list ── */
+function renderAdminArbs(){
+  const el=document.getElementById('admin-arb-list');
+  el.innerHTML=DB.map(a=>`
+    <div class="admin-row">
+      <div class="avatar" style="cursor:default;width:34px;height:34px;font-size:13px">${initials(a.nome)}</div>
+      <div class="admin-row-info">
+        <div class="aname">${a.nome}</div>
+        <div class="ameta">${a.funcao} · ${a.equip.length} peças</div>
+      </div>
+      <button class="btn-danger-sm" onclick="deleteArb(${a.id})">Remover</button>
+    </div>`).join('');
+}
+
+function openAddArb(){
+  document.getElementById('arb-nome').value='';
+  closeModal('modal-admin');
+  openModal('modal-add-arb');
+}
+function saveArb(){
+  const nome=document.getElementById('arb-nome').value.trim();
+  if(!nome) return;
+  const funcao=document.getElementById('arb-funcao').value;
+  const id=DB.length?Math.max(...DB.map(a=>a.id))+1:1;
+  DB.push({id,nome,funcao,equip:[]});
+  save(); closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
+}
+function deleteArb(id){ DB=DB.filter(a=>a.id!==id); save(); renderAdminArbs(); populateArbSelect(); renderAdmEquipList(); renderAll(); toast('Árbitro removido'); }
+
+/* ── equipamentos section ── */
+function populateArbSelect(){
+  const sel=document.getElementById('adm-eq-arb');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Selecionar árbitro —</option>'+DB.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+  if(cur) sel.value=cur;
+}
+function renderAdmEquipList(){
+  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
+  const el=document.getElementById('adm-equip-list');
+  if(!arbId){ el.innerHTML=''; return; }
+  const arb=DB.find(a=>a.id===arbId);
+  if(!arb||!arb.equip.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0">Sem equipamentos.</div>'; return; }
+  el.innerHTML=arb.equip.map(e=>`
+    <div class="admin-row" style="padding:8px 12px">
+      <div class="admin-row-info">
+        <div class="aname" style="font-size:13px">${e.tipo} · ${e.cor} · ${e.tamanho} · ×${e.qty}</div>
+        <div class="ameta">${e.marca}</div>
+      </div>
+      <button class="btn-danger-sm" onclick="deleteEquip(${arbId},${e.id})">Remover</button>
+    </div>`).join('');
+}
+function deleteEquip(arbId,eqId){
+  const arb=DB.find(a=>a.id===arbId);
+  if(arb){ arb.equip=arb.equip.filter(e=>e.id!==eqId); save(); renderAdmEquipList(); renderAll(); toast('Equipamento removido'); }
+}
+function openAddEquip(){
+  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
+  if(!arbId){ toast('Seleciona um árbitro primeiro'); return; }
+  // populate cor select
+  const sel=document.getElementById('eq-cor');
+  sel.innerHTML=CORES.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
+  document.getElementById('eq-marca').value='';
+  document.getElementById('eq-qty').value='1';
+  closeModal('modal-admin');
+  openModal('modal-add-equip');
+}
+function saveEquip(){
+  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
+  const arb=DB.find(a=>a.id===arbId);
+  if(!arb) return;
+  const marca=document.getElementById('eq-marca').value.trim()||'Macron';
+  const id=arb.equip.length?Math.max(...arb.equip.map(e=>e.id))+1:1;
+  arb.equip.push({
+    id,
+    tipo:document.getElementById('eq-tipo').value,
+    marca,
+    cor:document.getElementById('eq-cor').value,
+    tamanho:document.getElementById('eq-tam').value,
+    qty:parseInt(document.getElementById('eq-qty').value)||1
+  });
+  save(); closeModal('modal-add-equip'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ✓');
+}
+
+/* ══════════════════════════════════════════
+   COMPARE MODE
+══════════════════════════════════════════ */
+let cmpMode=false, selected=new Set();
+
+function toggleCmpMode(){
+  cmpMode=!cmpMode; selected.clear();
+  document.body.classList.toggle('compare-mode',cmpMode);
+  document.getElementById('cmp-toggle').classList.toggle('active',cmpMode);
+  document.getElementById('sel-hint').style.display=cmpMode?'block':'none';
+  renderAll(); syncTray();
+}
+function toggleSel(id){
+  if(!cmpMode) return;
+  if(selected.has(id)) selected.delete(id);
+  else if(selected.size<3) selected.add(id);
+  renderAll(); syncTray();
+}
+function syncTray(){
+  const tray=document.getElementById('cmp-tray');
+  const chips=document.getElementById('tray-chips');
+  const badge=document.getElementById('cmp-badge');
+  const go=document.getElementById('btn-cmp-go');
+  if(!cmpMode||selected.size===0){ tray.classList.remove('vis'); badge.textContent=0; return; }
+  tray.classList.add('vis');
+  badge.textContent=selected.size;
+  chips.innerHTML=[...selected].map(id=>{
+    const a=DB.find(x=>x.id===id);
+    return `<span class="tchip">${a.nome.split(' ')[0]}<button onclick="desel(${id})">×</button></span>`;
+  }).join('');
+  go.disabled=selected.size<2;
+}
+function desel(id){ selected.delete(id); renderAll(); syncTray(); }
+
+/* ══════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════ */
+function renderAll(q){
+  q=q??document.getElementById('search-input').value;
+  const list=document.getElementById('cards-list');
+  const nr=document.getElementById('no-results');
+  list.innerHTML='';
+  const filt=DB.filter(a=>a.nome.toLowerCase().includes((q||'').toLowerCase().trim()));
+  nr.style.display=filt.length?'none':'block';
+  filt.forEach(a=>list.appendChild(buildCard(a)));
+  updateStats();
+}
+function buildCard(a){
+  const el=document.createElement('div');
+  el.className='arb-card'+(selected.has(a.id)?' selected':'');
+  el.id='card-'+a.id;
+  el.innerHTML=`
+    <div class="card-head">
+      <div class="sel-check" onclick="toggleSel(${a.id})">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="avatar" onclick="openCard(${a.id})">${initials(a.nome)}</div>
+      <div class="card-info" onclick="openCard(${a.id})">
+        <h3>${a.nome}</h3>
+        <div class="meta">${a.funcao}</div>
+      </div>
+      <div class="equip-count" onclick="openCard(${a.id})"><span>${a.equip.length}</span> peças</div>
+      <div class="chevron" onclick="openCard(${a.id})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="equip-body" id="eb-${a.id}">
+      ${a.equip.length?a.equip.map(buildEquip).join(''):'<div class="empty-equip">Sem equipamentos registados.</div>'}
+    </div>`;
+  return el;
+}
+function buildEquip(e){
+  const foto=getFoto(e);
+  return `
+    <div class="equip-item">
+      <div class="equip-photo">${foto?`<img src="${foto}" alt="${e.cor}" loading="lazy"/>`:`<span class="nophoto">👕</span>`}</div>
+      <div class="equip-right">
+        <div class="equip-name">${e.tipo}</div>
+        <div class="equip-sub">${e.marca}</div>
+        <div class="equip-tags">
+          <span class="tag">${e.cor}</span>
+          <span class="tag size">${e.tamanho}</span>
+          <span class="tag qty">×${e.qty}</span>
+        </div>
+      </div>
+    </div>`;
+}
+function openCard(id){ document.getElementById('card-'+id).classList.toggle('open'); }
+
+/* ══════════════════════════════════════════
+   SEARCH / STATS
+══════════════════════════════════════════ */
+function onSearch(v){ document.getElementById('clear-btn').classList.toggle('vis',v.length>0); renderAll(v); }
+function clearSearch(){ document.getElementById('search-input').value=''; document.getElementById('clear-btn').classList.remove('vis'); renderAll(''); }
+function updateStats(){
+  document.getElementById('s-arb').textContent=DB.length;
+  document.getElementById('s-eq').textContent=DB.reduce((s,a)=>s+a.equip.length,0);
+  const mk=new Set(DB.flatMap(a=>a.equip.map(e=>e.marca.toLowerCase())));
+  document.getElementById('s-mk').textContent=mk.size;
+}
+
+/* ══════════════════════════════════════════
+   COMPARE MODAL
+══════════════════════════════════════════ */
+function openCmpModal(){
+  const arr=[...selected].map(id=>DB.find(a=>a.id===id));
+  const tipos=[...new Set(arr.flatMap(a=>a.equip.map(e=>e.tipo)))];
+  let html=`<table class="cmp-table"><thead><tr><th></th>${arr.map(a=>`<th class="arb-col"><div class="cmp-arb-head"><div class="cmp-av">${initials(a.nome)}</div><div class="cmp-aname">${a.nome}</div><div class="cmp-afuncao">${a.funcao}</div></div></th>`).join('')}</tr></thead><tbody>`;
+  tipos.forEach(tipo=>{
+    html+=`<tr><td class="row-label">${tipo}</td>`;
+    arr.forEach(a=>{
+      const items=a.equip.filter(e=>e.tipo===tipo);
+      if(!items.length){ html+=`<td class="arb-val"><span class="cmp-none">—</span></td>`; return; }
+      html+=`<td class="arb-val"><div class="cmp-pills">`;
+      items.forEach(e=>{
+        const f=getFoto(e);
+        html+=`<div class="cmp-pill">${f?`<img src="${f}" alt="${e.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${e.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${e.marca}</div></div></div>`;
+      });
+      html+=`</div></td>`;
     });
+    html+=`</tr>`;
+  });
+  html+=`</tbody></table>`;
+  document.getElementById('cmp-grid').innerHTML=html;
+  openModal('modal-cmp');
+}
 
-    fetchData();
+/* ══════════════════════════════════════════
+   MODAL HELPERS
+══════════════════════════════════════════ */
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+let toastTimer;
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+renderAll('');
 </script>
-
 </body>
 </html>
-
-
