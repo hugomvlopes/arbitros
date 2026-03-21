@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NAFV · Equipamentos Árbitros</title>
+<title>AFV · Equipamentos Árbitros</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -16,15 +16,20 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-
 
 /* HEADER */
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-.logo-badge{width:36px;height:36px;background:#ffffff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:transform .1s}
-.logo-badge:active{transform:scale(.9)}
-.logo-badge svg{width:20px;height:20px}
+.logo-badge{width:36px;height:36px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-badge img{width:28px;height:28px;object-fit:contain;border-radius:4px}
 .header-title h1{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;letter-spacing:.04em;line-height:1}
 .header-title span{font-size:10px;color:var(--subtext);letter-spacing:.08em;text-transform:uppercase}
-.compare-btn{margin-left:auto;display:flex;align-items:center;gap:6px;background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s;white-space:nowrap}
-.compare-btn.active{background:rgba(240,208,32,.1);border-color:rgba(240,208,32,.4);color:var(--accent)}
+.header-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* header buttons */
+.hbtn{display:flex;align-items:center;gap:6px;background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s;white-space:nowrap}
+.hbtn:hover{border-color:var(--muted);color:var(--text)}
+.hbtn.active{background:rgba(240,208,32,.1);border-color:rgba(240,208,32,.4);color:var(--accent)}
+.hbtn.admin-active{background:rgba(240,208,32,.12);border-color:rgba(240,208,32,.5);color:var(--accent)}
 .cbadge{background:var(--accent);color:#0c0c0b;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:800;line-height:1.4;display:none}
-.compare-btn.active .cbadge{display:inline}
+.hbtn.active .cbadge{display:inline}
+.admin-label{font-size:10px;color:var(--subtext);max-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:none}
 
 /* SEARCH */
 .search-wrap{padding:14px 16px 0}
@@ -65,7 +70,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .arb-card.selected .sel-check{background:var(--accent);border-color:var(--accent)}
 .sel-check svg{display:none}
 .arb-card.selected .sel-check svg{display:block}
-.avatar{width:40px;height:40px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
 .card-info{flex:1;min-width:0;cursor:pointer}
 .card-info h3{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-info .meta{font-size:12px;color:var(--subtext);margin-top:1px}
@@ -75,8 +81,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .arb-card.open .chevron{transform:rotate(180deg)}
 .equip-body{display:none;border-top:1px solid var(--border);padding:10px;gap:8px;flex-direction:column}
 .arb-card.open .equip-body{display:flex}
-
-/* EQUIP ITEM */
 .equip-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;align-items:stretch}
 .equip-photo{width:70px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .equip-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
@@ -89,7 +93,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .tag.qty{background:rgba(240,208,32,.08);border-color:rgba(240,208,32,.2);color:var(--accent)}
 .tag.size{background:rgba(224,156,61,.08);border-color:rgba(224,156,61,.2);color:var(--warn)}
 .empty-equip{color:var(--muted);font-size:13px;padding:4px 2px}
-
 #no-results{display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
 
 /* COMPARE TRAY */
@@ -134,6 +137,10 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .btn-add-row{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;width:100%}
 .btn-add-row:hover{border-color:var(--accent);color:var(--accent)}
 
+/* LOGIN MODAL */
+.login-intro{padding:0 20px 16px;font-size:13px;color:var(--subtext);line-height:1.5}
+.login-error{font-size:13px;color:var(--danger);padding:0 20px 4px;display:none}
+
 /* ADMIN */
 .admin-section{margin-bottom:4px}
 .admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext);padding:16px 20px 10px;border-top:1px solid var(--border);margin-top:4px}
@@ -147,7 +154,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .admin-row-info .aname{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .admin-row-info .ameta{font-size:11px;color:var(--subtext);margin-top:2px}
 .add-row-wrap{padding:10px 20px 0}
-.avatar-sm{width:34px;height:34px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0}
+.avatar-sm{width:34px;height:34px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden}
+.avatar-sm img{width:100%;height:100%;object-fit:cover}
 
 /* CATALOG PICKER */
 .catalog-scroll{max-height:260px;overflow-y:auto;padding:0 20px 4px}
@@ -169,16 +177,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .url-preview{display:none;text-align:center;padding:8px 0 0}
 .url-preview img{max-height:90px;border-radius:8px;border:1px solid var(--border)}
 
-/* PIN */
-.pin-dots{display:flex;gap:10px;justify-content:center;margin:4px 0 8px}
-.pin-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:background .15s}
-.pin-dot.filled{background:var(--accent)}
-.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px 20px}
-.pin-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s;text-align:center}
-.pin-btn:hover{border-color:var(--accent);color:var(--accent)}
-.pin-btn:active{transform:scale(.95)}
-.pin-error{font-size:13px;color:var(--danger);text-align:center;padding:0 20px 8px;display:none}
-
 /* COMPARE TABLE */
 .cmp-wrap{padding:0 16px 20px;overflow-x:auto}
 .cmp-table{width:100%;border-collapse:collapse}
@@ -196,7 +194,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .cmp-pinfo .pdetail{font-size:10px;color:var(--subtext);margin-top:2px}
 .cmp-none{color:var(--muted);font-size:12px;font-style:italic}
 .cmp-arb-head{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0}
-.cmp-av{width:36px;height:36px;border-radius:50%;background:var(--tag-bg);border:2px solid rgba(240,208,32,.3);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--accent)}
+.cmp-av{width:36px;height:36px;border-radius:50%;background:var(--tag-bg);border:2px solid rgba(240,208,32,.3);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--accent);overflow:hidden}
+.cmp-av img{width:100%;height:100%;object-fit:cover}
 .cmp-aname{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;line-height:1.2;text-align:center}
 .cmp-afuncao{font-size:10px;color:var(--subtext);text-align:center}
 
@@ -209,18 +208,25 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 <body>
 
 <header>
-  <div class="-badge" id="logo-tap" onclick="handleLogoTap()">
-    <img src="https://apaf.pt/wp-content/uploads/2023/05/068-150x150.png" style="width:28px;height:28px;object-fit:contain;border-radius:4px"/>
+  <div class="logo-badge">
+    <img src="https://apaf.pt/wp-content/uploads/2023/05/068-150x150.png" alt="AFV"/>
   </div>
   <div class="header-title">
     <h1>AFV Árbitros</h1>
     <span>Gestão de Equipamentos</span>
   </div>
-  <button class="compare-btn" id="cmp-toggle" onclick="toggleCmpMode()">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4M15 18h4a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4M12 3v18"/></svg>
-    Verificar equipamentos da equipa
-    <span class="cbadge" id="cmp-badge">0</span>
-  </button>
+  <div class="header-actions">
+    <span class="admin-label" id="admin-label"></span>
+    <button class="hbtn" id="btn-compare" onclick="toggleCmpMode()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4M15 18h4a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4M12 3v18"/></svg>
+      Comparar
+      <span class="cbadge" id="cmp-badge">0</span>
+    </button>
+    <button class="hbtn" id="btn-admin-login" onclick="handleAdminBtn()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="btn-admin-text">Admin</span>
+    </button>
+  </div>
 </header>
 
 <div class="search-wrap">
@@ -243,10 +249,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 </div>
 
 <div id="main-content">
-  <div class="loading-state">
-    <div class="spinner"></div>
-    <p>A carregar dados…</p>
-  </div>
+  <div class="loading-state"><div class="spinner"></div><p>A carregar dados…</p></div>
 </div>
 <div class="cards-list" id="cards-list" style="display:none"></div>
 <div id="no-results" style="display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px">Nenhum árbitro encontrado.</div>
@@ -260,36 +263,34 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 
 <div class="toast" id="toast"></div>
 
-<!-- ══ PIN ══ -->
-<div class="modal-overlay" id="modal-pin">
+<!-- ══ LOGIN MODAL ══ -->
+<div class="modal-overlay" id="modal-login">
   <div class="modal sm">
     <div class="modal-handle"></div>
     <div class="modal-head">
       <h2>Acesso Admin</h2>
-      <button class="modal-close" onclick="closeModal('modal-pin');resetPin()">×</button>
+      <button class="modal-close" onclick="closeModal('modal-login')">×</button>
     </div>
-    <div style="padding:0 20px 8px">
-      <div class="pin-dots" id="pin-dots"></div>
-      <div class="pin-error" id="pin-error">PIN incorreto. Tenta novamente.</div>
+    <p class="login-intro">Acesso restrito. Introduz as tuas credenciais de administrador.</p>
+    <div class="modal-body" style="padding-top:0">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="exemplo@email.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()"/>
+      </div>
     </div>
-    <div class="pin-grid">
-      <button class="pin-btn" onclick="pinKey('1')">1</button>
-      <button class="pin-btn" onclick="pinKey('2')">2</button>
-      <button class="pin-btn" onclick="pinKey('3')">3</button>
-      <button class="pin-btn" onclick="pinKey('4')">4</button>
-      <button class="pin-btn" onclick="pinKey('5')">5</button>
-      <button class="pin-btn" onclick="pinKey('6')">6</button>
-      <button class="pin-btn" onclick="pinKey('7')">7</button>
-      <button class="pin-btn" onclick="pinKey('8')">8</button>
-      <button class="pin-btn" onclick="pinKey('9')">9</button>
-      <button class="pin-btn" style="opacity:0;pointer-events:none"></button>
-      <button class="pin-btn" onclick="pinKey('0')">0</button>
-      <button class="pin-btn" onclick="pinDel()">⌫</button>
+    <p class="login-error" id="login-error">Email ou password incorretos.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-login')">Cancelar</button>
+      <button class="btn-primary" id="btn-do-login" onclick="doLogin()">Entrar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ ADMIN ══ -->
+<!-- ══ ADMIN PANEL ══ -->
 <div class="modal-overlay" id="modal-admin">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -352,24 +353,14 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
         <label>Tipo de peça</label>
         <select id="cat-tipo">
           <option>Camisola</option><option>Calções</option><option>Meias</option>
-          <option>Fato de Treino</option><option>Outro</option>
+          <option>Casaco</option><option>Fato de Treino</option><option>Luvas</option>
+          <option>Boné</option><option>Outro</option>
         </select>
       </div>
-      <div class="field">
-        <label>Marca</label>
-        <input type="text" id="cat-marca" placeholder="Ex: Macron, Adidas, Nike…"/>
-      </div>
-      <div class="field">
-        <label>Cor / Referência</label>
-        <input type="text" id="cat-cor" placeholder="Ex: Amarelo Fluor, Azul Royal…"/>
-      </div>
-      <div class="field">
-        <label>URL da fotografia (opcional)</label>
-        <input type="url" id="cat-url" placeholder="https://…"/>
-      </div>
-      <div class="url-preview" id="cat-preview">
-        <img id="cat-preview-img" alt="preview"/>
-      </div>
+      <div class="field"><label>Marca</label><input type="text" id="cat-marca" placeholder="Ex: Macron, Adidas…"/></div>
+      <div class="field"><label>Cor / Referência</label><input type="text" id="cat-cor" placeholder="Ex: Amarelo Fluor…"/></div>
+      <div class="field"><label>URL da fotografia (opcional)</label><input type="url" id="cat-url" placeholder="https://…"/></div>
+      <div class="url-preview" id="cat-preview"><img id="cat-preview-img" alt="preview"/></div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-add-catalog');openAdminPanel()">Cancelar</button>
@@ -378,39 +369,6 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </div>
 
-  <!-- ══ EDDITAR ÁRBITRO ══ -->
-  <div class="modal-overlay" id="modal-edit-arb">
-  <div class="modal sm">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <h2>Editar Árbitro</h2>
-      <button class="modal-close" onclick="closeModal('modal-edit-arb');openAdminPanel()">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="field">
-        <label>Nome completo</label>
-        <input type="text" id="edit-arb-nome"/>
-      </div>
-      <div class="field">
-        <label>Função</label>
-        <select id="edit-arb-funcao">
-          <option>Árbitro Principal</option>
-          <option>Árbitro Assistente</option>
-          <option>4.º Árbitro</option>
-          <option>Árbitro VAR</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>URL da fotografia</label>
-        <input type="url" id="edit-arb-foto" placeholder="https://…"/>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-edit-arb');openAdminPanel()">Cancelar</button>
-      <button class="btn-primary" id="btn-save-edit-arb" onclick="saveEditArb()">Guardar</button>
-    </div>
-  </div>
-</div>
 <!-- ══ NOVO ÁRBITRO ══ -->
 <div class="modal-overlay" id="modal-add-arb">
   <div class="modal sm">
@@ -420,27 +378,45 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <button class="modal-close" onclick="closeModal('modal-add-arb');openAdminPanel()">×</button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Nome completo</label>
-        <input type="text" id="arb-nome" placeholder="Ex: João Silva"/>
-      </div>
+      <div class="field"><label>Nome completo</label><input type="text" id="arb-nome" placeholder="Ex: João Silva"/></div>
       <div class="field">
         <label>Função</label>
         <select id="arb-funcao">
-          <option>Árbitro Principal</option>
-          <option>Árbitro Assistente</option>
-          <option>4.º Árbitro</option>
-          <option>Árbitro VAR</option>
+          <option>Árbitro Principal</option><option>Árbitro Assistente</option>
+          <option>4.º Árbitro</option><option>Árbitro VAR</option>
         </select>
       </div>
+      <div class="field"><label>URL da fotografia (opcional)</label><input type="url" id="arb-foto" placeholder="https://…"/></div>
     </div>
-    <div class="field">
-  <label>URL da fotografia (opcional)</label>
-  <input type="url" id="arb-foto" placeholder="https://…"/>
-</div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-add-arb');openAdminPanel()">Cancelar</button>
       <button class="btn-primary" id="btn-save-arb" onclick="saveArb()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EDITAR ÁRBITRO ══ -->
+<div class="modal-overlay" id="modal-edit-arb">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2>Editar Árbitro</h2>
+      <button class="modal-close" onclick="closeModal('modal-edit-arb');openAdminPanel()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Nome completo</label><input type="text" id="edit-arb-nome"/></div>
+      <div class="field">
+        <label>Função</label>
+        <select id="edit-arb-funcao">
+          <option>Árbitro Principal</option><option>Árbitro Assistente</option>
+          <option>4.º Árbitro</option><option>Árbitro VAR</option>
+        </select>
+      </div>
+      <div class="field"><label>URL da fotografia</label><input type="url" id="edit-arb-foto" placeholder="https://…"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-edit-arb');openAdminPanel()">Cancelar</button>
+      <button class="btn-primary" id="btn-save-edit-arb" onclick="saveEditArb()">Guardar</button>
     </div>
   </div>
 </div>
@@ -463,10 +439,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
             <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
           </select>
         </div>
-        <div class="field">
-          <label>Quantidade</label>
-          <input type="number" id="assign-qty" value="1" min="1" max="99"/>
-        </div>
+        <div class="field"><label>Quantidade</label><input type="number" id="assign-qty" value="1" min="1" max="99"/></div>
       </div>
       <div class="field"><label>Selecionar do catálogo</label></div>
     </div>
@@ -492,49 +465,138 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 
 <script>
 /* ══════════════════════════════════════════
-   SUPABASE CONFIG
+   SUPABASE
 ══════════════════════════════════════════ */
 const SB_URL = 'https://aucfjkavnvlmnbjntmlx.supabase.co';
 const SB_KEY = 'sb_publishable_Cu_j6uZdBAqLYKjLZuoHPQ_EBKj7B2f';
 
 const sb = {
-  async req(method, path, body) {
-    const res = await fetch(`${SB_URL}/rest/v1/${path}`, {
-      method,
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': `Bearer ${SB_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': method === 'POST' ? 'return=representation' : '',
-      },
-      body: body ? JSON.stringify(body) : undefined
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(err);
-    }
+  async req(method, path, body, token) {
+    const headers = {
+      'apikey': SB_KEY,
+      'Authorization': `Bearer ${token || SB_KEY}`,
+      'Content-Type': 'application/json',
+    };
+    if (method === 'POST') headers['Prefer'] = 'return=representation';
+    const res = await fetch(`${SB_URL}/rest/v1/${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    if (!res.ok) throw new Error(await res.text());
     const text = await res.text();
     return text ? JSON.parse(text) : null;
   },
-  get: (path) => sb.req('GET', path),
-  post: (path, body) => sb.req('POST', path, body),
-  delete: (path) => sb.req('DELETE', path),
+  get: (path, token) => sb.req('GET', path, null, token),
+  post: (path, body, token) => sb.req('POST', path, body, token),
+  patch: async (path, body, token) => {
+    const res = await fetch(`${SB_URL}/rest/v1/${path}`, {
+      method: 'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${token || SB_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(await res.text());
+  },
+  delete: async (path, token) => {
+    const res = await fetch(`${SB_URL}/rest/v1/${path}`, {
+      method: 'DELETE',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${token || SB_KEY}`, 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) throw new Error(await res.text());
+  },
+  async login(email, password) {
+    const res = await fetch(`${SB_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.message || 'Erro de autenticação');
+    return data;
+  },
+  async logout(token) {
+    await fetch(`${SB_URL}/auth/v1/logout`, {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${token}` }
+    });
+  }
 };
+
+/* ══════════════════════════════════════════
+   AUTH STATE
+══════════════════════════════════════════ */
+let authToken = null;
+let authEmail = null;
+let isAdmin = false;
+
+function setAdminUI(email) {
+  isAdmin = true;
+  authEmail = email;
+  const label = document.getElementById('admin-label');
+  label.textContent = email.split('@')[0];
+  label.style.display = 'block';
+  const btn = document.getElementById('btn-admin-login');
+  btn.classList.add('admin-active');
+  document.getElementById('btn-admin-text').textContent = 'Sair';
+}
+function clearAdminUI() {
+  isAdmin = false;
+  authToken = null;
+  authEmail = null;
+  document.getElementById('admin-label').style.display = 'none';
+  const btn = document.getElementById('btn-admin-login');
+  btn.classList.remove('admin-active');
+  document.getElementById('btn-admin-text').textContent = 'Admin';
+}
+
+function handleAdminBtn() {
+  if (isAdmin) {
+    doLogout();
+  } else {
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-error').style.display = 'none';
+    openModal('modal-login');
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if (!email || !pass) return;
+  const btn = document.getElementById('btn-do-login');
+  btn.disabled = true; btn.textContent = 'A entrar…';
+  document.getElementById('login-error').style.display = 'none';
+  try {
+    const data = await sb.login(email, pass);
+    authToken = data.access_token;
+    closeModal('modal-login');
+    setAdminUI(email);
+    toast('Bem-vindo, ' + email.split('@')[0] + '! ✓');
+    openAdminPanel();
+  } catch(e) {
+    document.getElementById('login-error').style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+}
+
+async function doLogout() {
+  try { await sb.logout(authToken); } catch(e) {}
+  clearAdminUI();
+  toast('Sessão terminada');
+}
 
 /* ══════════════════════════════════════════
    STATE
 ══════════════════════════════════════════ */
-const PIN = '122900';
-let CATALOG = [];
-let ARBITROS = [];
-let EQUIPAMENTOS = [];
-
-function getCat(id){ return CATALOG.find(c => c.id === id) || null; }
+let CATALOG = [], ARBITROS = [], EQUIPAMENTOS = [];
+function getCat(id){ return CATALOG.find(c=>c.id===id)||null; }
 function initials(n){ return n.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
-function getArbEquip(arbId){ return EQUIPAMENTOS.filter(e => e.arbitro_id === arbId); }
+function getArbEquip(arbId){ return EQUIPAMENTOS.filter(e=>e.arbitro_id===arbId); }
+function avatarHtml(a, size='40px'){
+  if(a.foto_url) return `<img src="${a.foto_url}" alt="${a.nome}" style="width:100%;height:100%;object-fit:cover"/>`;
+  return initials(a.nome);
+}
 
 /* ══════════════════════════════════════════
-   LOAD DATA
+   LOAD
 ══════════════════════════════════════════ */
 async function loadAll() {
   try {
@@ -543,9 +605,9 @@ async function loadAll() {
       sb.get('arbitros?order=nome'),
       sb.get('equipamentos?order=id'),
     ]);
-    CATALOG     = catalog     || [];
-    ARBITROS    = arbitros    || [];
-    EQUIPAMENTOS= equip       || [];
+    CATALOG      = catalog  || [];
+    ARBITROS     = arbitros || [];
+    EQUIPAMENTOS = equip    || [];
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('cards-list').style.display   = 'flex';
     renderAll();
@@ -556,43 +618,10 @@ async function loadAll() {
 }
 
 /* ══════════════════════════════════════════
-   PIN
-══════════════════════════════════════════ */
-let pinTaps=0, pinTimer=null, pinVal='';
-const PIN_LEN = PIN.length;
-
-(function buildDots(){
-  const wrap = document.getElementById('pin-dots');
-  wrap.innerHTML = '';
-  for(let i=0;i<PIN_LEN;i++){
-    const d=document.createElement('div');
-    d.className='pin-dot'; d.id='dot'+i;
-    wrap.appendChild(d);
-  }
-})();
-
-function handleLogoTap(){
-  pinTaps++;
-  clearTimeout(pinTimer);
-  if(pinTaps>=5){ pinTaps=0; resetPin(); openModal('modal-pin'); return; }
-  pinTimer=setTimeout(()=>pinTaps=0, 2000);
-}
-function resetPin(){ pinVal=''; updateDots(); document.getElementById('pin-error').style.display='none'; }
-function updateDots(){ for(let i=0;i<PIN_LEN;i++){ const d=document.getElementById('dot'+i); if(d) d.classList.toggle('filled',i<pinVal.length); } }
-function pinKey(k){
-  if(pinVal.length>=PIN_LEN) return;
-  pinVal+=k; updateDots();
-  if(pinVal.length===PIN_LEN){
-    if(pinVal===PIN){ setTimeout(()=>{ closeModal('modal-pin'); resetPin(); openAdminPanel(); },200); }
-    else{ document.getElementById('pin-error').style.display='block'; setTimeout(resetPin,1000); }
-  }
-}
-function pinDel(){ pinVal=pinVal.slice(0,-1); updateDots(); document.getElementById('pin-error').style.display='none'; }
-
-/* ══════════════════════════════════════════
    ADMIN PANEL
 ══════════════════════════════════════════ */
 function openAdminPanel(){
+  if(!isAdmin){ openModal('modal-login'); return; }
   renderAdminCatalog();
   renderAdminArbs();
   populateArbSelect();
@@ -600,37 +629,27 @@ function openAdminPanel(){
   openModal('modal-admin');
 }
 
-/* ── Catálogo ── */
 function renderAdminCatalog(){
   const el=document.getElementById('admin-catalog-list');
   if(!CATALOG.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Catálogo vazio.</div>'; return; }
   el.innerHTML=CATALOG.map(c=>`
     <div class="admin-row">
       <div class="admin-row-thumb">${c.url?`<img src="${c.url}" alt="${c.cor}"/>`:`<span class="nophoto">👕</span>`}</div>
-      <div class="admin-row-info">
-        <div class="aname">${c.tipo} · ${c.cor}</div>
-        <div class="ameta">${c.marca}</div>
-      </div>
+      <div class="admin-row-info"><div class="aname">${c.tipo} · ${c.cor}</div><div class="ameta">${c.marca}</div></div>
       <button class="btn-danger-sm" onclick="deleteCatalogItem('${c.id}')">Remover</button>
     </div>`).join('');
 }
 
 function openAddCatalog(){
   document.getElementById('cat-tipo').selectedIndex=0;
-  document.getElementById('cat-marca').value='';
-  document.getElementById('cat-cor').value='';
-  document.getElementById('cat-url').value='';
+  ['cat-marca','cat-cor','cat-url'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('cat-preview').style.display='none';
-  closeModal('modal-admin');
-  openModal('modal-add-catalog');
+  closeModal('modal-admin'); openModal('modal-add-catalog');
 }
 document.getElementById('cat-url').addEventListener('input',function(){
-  const p=document.getElementById('cat-preview');
-  const img=document.getElementById('cat-preview-img');
-  if(this.value.trim()){ img.src=this.value.trim(); p.style.display='block'; }
-  else p.style.display='none';
+  const p=document.getElementById('cat-preview'), img=document.getElementById('cat-preview-img');
+  if(this.value.trim()){ img.src=this.value.trim(); p.style.display='block'; } else p.style.display='none';
 });
-
 async function saveCatalogItem(){
   const marca=document.getElementById('cat-marca').value.trim();
   const cor=document.getElementById('cat-cor').value.trim();
@@ -638,78 +657,87 @@ async function saveCatalogItem(){
   const btn=document.getElementById('btn-save-catalog');
   btn.disabled=true; btn.textContent='A guardar…';
   try {
-    const rows = await sb.post('catalog', {
-      tipo: document.getElementById('cat-tipo').value,
-      marca, cor,
-      url: document.getElementById('cat-url').value.trim()
-    });
+    const rows=await sb.post('catalog',{tipo:document.getElementById('cat-tipo').value,marca,cor,url:document.getElementById('cat-url').value.trim()},authToken);
     CATALOG.push(rows[0]);
     closeModal('modal-add-catalog'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ✓');
   } catch(e){ toast('Erro: '+e.message,'err'); }
   finally{ btn.disabled=false; btn.textContent='Guardar'; }
 }
-
 async function deleteCatalogItem(id){
   try {
-    await sb.delete(`catalog?id=eq.${id}`);
-    CATALOG = CATALOG.filter(c=>c.id!==id);
-    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.catalog_id!==id);
+    await sb.delete(`catalog?id=eq.${id}`,authToken);
+    CATALOG=CATALOG.filter(c=>c.id!==id);
+    EQUIPAMENTOS=EQUIPAMENTOS.filter(e=>e.catalog_id!==id);
     renderAdminCatalog(); renderAll(); toast('Removido do catálogo');
   } catch(e){ toast('Erro: '+e.message,'err'); }
 }
 
-/* ── Árbitros ── */
 function renderAdminArbs(){
   const el=document.getElementById('admin-arb-list');
   if(!ARBITROS.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum árbitro.</div>'; return; }
- el.innerHTML=ARBITROS.map(a=>`
+  el.innerHTML=ARBITROS.map(a=>`
     <div class="admin-row">
       <div class="avatar-sm">${avatarHtml(a)}</div>
-      <div class="admin-row-info">
-        <div class="aname">${a.nome}</div>
-        <div class="ameta">${a.funcao} · ${getArbEquip(a.id).length} peças</div>
-      </div>
-      <button class="btn-danger-sm" onclick="openEditArb(${a.id})" style="border-color:var(--accent);color:var(--accent)">Editar</button>
+      <div class="admin-row-info"><div class="aname">${a.nome}</div><div class="ameta">${a.funcao} · ${getArbEquip(a.id).length} peças</div></div>
+      <button class="btn-danger-sm" onclick="openEditArb(${a.id})" style="border-color:rgba(240,208,32,.4);color:var(--accent)">Editar</button>
       <button class="btn-danger-sm" onclick="deleteArb(${a.id})">Remover</button>
     </div>`).join('');
 }
-
 function openAddArb(){
-  document.getElementById('arb-nome').value='';
-  closeModal('modal-admin');
-  openModal('modal-add-arb');
+  ['arb-nome','arb-foto'].forEach(id=>document.getElementById(id).value='');
+  closeModal('modal-admin'); openModal('modal-add-arb');
 }
-
 async function saveArb(){
   const nome=document.getElementById('arb-nome').value.trim();
   if(!nome){ toast('Insere o nome','err'); return; }
   const btn=document.getElementById('btn-save-arb');
   btn.disabled=true; btn.textContent='A guardar…';
   try {
-const rows = await sb.post('arbitros', { nome, funcao: document.getElementById('arb-funcao').value, foto_url: document.getElementById('arb-foto').value.trim() });    ARBITROS.push(rows[0]);
-    ARBITROS.sort((a,b)=>a.nome.localeCompare(b.nome));
+    const rows=await sb.post('arbitros',{nome,funcao:document.getElementById('arb-funcao').value,foto_url:document.getElementById('arb-foto').value.trim()},authToken);
+    ARBITROS.push(rows[0]); ARBITROS.sort((a,b)=>a.nome.localeCompare(b.nome));
     closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
   } catch(e){ toast('Erro: '+e.message,'err'); }
   finally{ btn.disabled=false; btn.textContent='Guardar'; }
 }
-
 async function deleteArb(id){
   try {
-    await sb.delete(`arbitros?id=eq.${id}`);
-    ARBITROS = ARBITROS.filter(a=>a.id!==id);
-    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.arbitro_id!==id);
+    await sb.delete(`arbitros?id=eq.${id}`,authToken);
+    ARBITROS=ARBITROS.filter(a=>a.id!==id);
+    EQUIPAMENTOS=EQUIPAMENTOS.filter(e=>e.arbitro_id!==id);
     renderAdminArbs(); populateArbSelect(); renderAssignedList(); renderAll(); toast('Árbitro removido');
   } catch(e){ toast('Erro: '+e.message,'err'); }
 }
 
-/* ── Atribuir ── */
+let editArbId=null;
+function openEditArb(id){
+  const a=ARBITROS.find(x=>x.id===id);
+  editArbId=id;
+  document.getElementById('edit-arb-nome').value=a.nome;
+  document.getElementById('edit-arb-funcao').value=a.funcao;
+  document.getElementById('edit-arb-foto').value=a.foto_url||'';
+  closeModal('modal-admin'); openModal('modal-edit-arb');
+}
+async function saveEditArb(){
+  const btn=document.getElementById('btn-save-edit-arb');
+  btn.disabled=true; btn.textContent='A guardar…';
+  try {
+    const nome=document.getElementById('edit-arb-nome').value.trim();
+    const funcao=document.getElementById('edit-arb-funcao').value;
+    const foto_url=document.getElementById('edit-arb-foto').value.trim();
+    await sb.patch(`arbitros?id=eq.${editArbId}`,{nome,funcao,foto_url},authToken);
+    const a=ARBITROS.find(x=>x.id===editArbId);
+    a.nome=nome; a.funcao=funcao; a.foto_url=foto_url;
+    closeModal('modal-edit-arb'); openAdminPanel(); renderAll(); toast('Árbitro atualizado ✓');
+  } catch(e){ toast('Erro: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Guardar'; }
+}
+
 function populateArbSelect(){
   const sel=document.getElementById('adm-arb-sel');
   const cur=sel.value;
   sel.innerHTML='<option value="">— Selecionar árbitro —</option>'+ARBITROS.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
   if(cur) sel.value=cur;
 }
-
 function renderAssignedList(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
   const el=document.getElementById('assigned-list');
@@ -721,19 +749,15 @@ function renderAssignedList(){
     if(!cat) return '';
     return `<div class="admin-row" style="padding:8px 10px;margin-bottom:6px">
       <div class="admin-row-thumb" style="width:36px;height:40px">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto" style="font-size:16px">👕</span>`}</div>
-      <div class="admin-row-info">
-        <div class="aname" style="font-size:13px">${cat.tipo} · ${cat.cor}</div>
-        <div class="ameta">${cat.marca} · ${e.tamanho} · ×${e.qty}</div>
-      </div>
+      <div class="admin-row-info"><div class="aname" style="font-size:13px">${cat.tipo} · ${cat.cor}</div><div class="ameta">${cat.marca} · ${e.tamanho} · ×${e.qty}</div></div>
       <button class="btn-danger-sm" onclick="removeAssigned(${e.id})">Remover</button>
     </div>`;
   }).join('');
 }
-
 async function removeAssigned(eqId){
   try {
-    await sb.delete(`equipamentos?id=eq.${eqId}`);
-    EQUIPAMENTOS = EQUIPAMENTOS.filter(e=>e.id!==eqId);
+    await sb.delete(`equipamentos?id=eq.${eqId}`,authToken);
+    EQUIPAMENTOS=EQUIPAMENTOS.filter(e=>e.id!==eqId);
     renderAssignedList(); renderAll(); toast('Equipamento removido');
   } catch(e){ toast('Erro: '+e.message,'err'); }
 }
@@ -742,43 +766,30 @@ let assignSelectedCatId=null;
 function openAssignEquip(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
   if(!arbId){ toast('Seleciona um árbitro primeiro','err'); return; }
-  const arb=ARBITROS.find(a=>a.id===arbId);
-  document.getElementById('assign-arb-label').textContent='A atribuir a: '+arb.nome;
+  document.getElementById('assign-arb-label').textContent='A atribuir a: '+ARBITROS.find(a=>a.id===arbId).nome;
   document.getElementById('assign-qty').value='1';
   assignSelectedCatId=null;
   renderCatalogPicker();
-  closeModal('modal-admin');
-  openModal('modal-assign');
+  closeModal('modal-admin'); openModal('modal-assign');
 }
 function renderCatalogPicker(){
   const el=document.getElementById('catalog-picker');
-  if(!CATALOG.length){ el.innerHTML='<div class="empty-catalog">Catálogo vazio. Adiciona equipamentos primeiro.</div>'; return; }
+  if(!CATALOG.length){ el.innerHTML='<div class="empty-catalog">Catálogo vazio.</div>'; return; }
   el.innerHTML=CATALOG.map(c=>`
     <div class="catalog-select-item${assignSelectedCatId===c.id?' active':''}" onclick="selectCatItem('${c.id}')">
       <div class="csi-thumb">${c.url?`<img src="${c.url}" alt="${c.cor}"/>`:`<span class="nophoto">👕</span>`}</div>
-      <div class="csi-info">
-        <div class="csi-name">${c.tipo} · ${c.cor}</div>
-        <div class="csi-meta">${c.marca}</div>
-      </div>
-      <div class="csi-check">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
+      <div class="csi-info"><div class="csi-name">${c.tipo} · ${c.cor}</div><div class="csi-meta">${c.marca}</div></div>
+      <div class="csi-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
     </div>`).join('');
 }
 function selectCatItem(id){ assignSelectedCatId=id; renderCatalogPicker(); }
-
 async function saveAssign(){
   const arbId=parseInt(document.getElementById('adm-arb-sel').value);
   if(!arbId||!assignSelectedCatId){ toast('Seleciona árbitro e equipamento','err'); return; }
   const btn=document.getElementById('btn-save-assign');
   btn.disabled=true; btn.textContent='A guardar…';
   try {
-    const rows = await sb.post('equipamentos', {
-      arbitro_id: arbId,
-      catalog_id: assignSelectedCatId,
-      tamanho: document.getElementById('assign-tam').value,
-      qty: parseInt(document.getElementById('assign-qty').value)||1
-    });
+    const rows=await sb.post('equipamentos',{arbitro_id:arbId,catalog_id:assignSelectedCatId,tamanho:document.getElementById('assign-tam').value,qty:parseInt(document.getElementById('assign-qty').value)||1},authToken);
     EQUIPAMENTOS.push(rows[0]);
     closeModal('modal-assign'); openAdminPanel(); renderAll(); toast('Equipamento atribuído ✓');
   } catch(e){ toast('Erro: '+e.message,'err'); }
@@ -786,13 +797,13 @@ async function saveAssign(){
 }
 
 /* ══════════════════════════════════════════
-   COMPARE MODE
+   COMPARE
 ══════════════════════════════════════════ */
 let cmpMode=false, selected=new Set();
 function toggleCmpMode(){
   cmpMode=!cmpMode; selected.clear();
   document.body.classList.toggle('compare-mode',cmpMode);
-  document.getElementById('cmp-toggle').classList.toggle('active',cmpMode);
+  document.getElementById('btn-compare').classList.toggle('active',cmpMode);
   document.getElementById('sel-hint').style.display=cmpMode?'block':'none';
   renderAll(); syncTray();
 }
@@ -803,17 +814,11 @@ function toggleSel(id){
   renderAll(); syncTray();
 }
 function syncTray(){
-  const tray=document.getElementById('cmp-tray');
-  const chips=document.getElementById('tray-chips');
-  const badge=document.getElementById('cmp-badge');
-  const go=document.getElementById('btn-cmp-go');
+  const tray=document.getElementById('cmp-tray'),chips=document.getElementById('tray-chips');
+  const badge=document.getElementById('cmp-badge'),go=document.getElementById('btn-cmp-go');
   if(!cmpMode||selected.size===0){ tray.classList.remove('vis'); badge.textContent=0; return; }
-  tray.classList.add('vis');
-  badge.textContent=selected.size;
-  chips.innerHTML=[...selected].map(id=>{
-    const a=ARBITROS.find(x=>x.id===id);
-    return `<span class="tchip">${a.nome.split(' ')[0]}<button onclick="desel(${id})">×</button></span>`;
-  }).join('');
+  tray.classList.add('vis'); badge.textContent=selected.size;
+  chips.innerHTML=[...selected].map(id=>{ const a=ARBITROS.find(x=>x.id===id); return `<span class="tchip">${a.nome.split(' ')[0]}<button onclick="desel(${id})">×</button></span>`; }).join('');
   go.disabled=selected.size<2;
 }
 function desel(id){ selected.delete(id); renderAll(); syncTray(); }
@@ -822,9 +827,8 @@ function desel(id){ selected.delete(id); renderAll(); syncTray(); }
    RENDER
 ══════════════════════════════════════════ */
 function renderAll(q){
-  q = q ?? document.getElementById('search-input').value;
-  const list=document.getElementById('cards-list');
-  const nr=document.getElementById('no-results');
+  q=q??document.getElementById('search-input').value;
+  const list=document.getElementById('cards-list'),nr=document.getElementById('no-results');
   list.innerHTML='';
   const filt=ARBITROS.filter(a=>a.nome.toLowerCase().includes((q||'').toLowerCase().trim()));
   nr.style.display=filt.length?'none':'block';
@@ -832,7 +836,7 @@ function renderAll(q){
   updateStats();
 }
 function buildCard(a){
-  const equips = getArbEquip(a.id);
+  const equips=getArbEquip(a.id);
   const el=document.createElement('div');
   el.className='arb-card'+(selected.has(a.id)?' selected':'');
   el.id='card-'+a.id;
@@ -841,10 +845,9 @@ function buildCard(a){
       <div class="sel-check" onclick="toggleSel(${a.id})">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-     <div class="avatar" onclick="openCard(${a.id})">${avatarHtml(a)}</div>
+      <div class="avatar" onclick="openCard(${a.id})">${avatarHtml(a)}</div>
       <div class="card-info" onclick="openCard(${a.id})">
-        <h3>${a.nome}</h3>
-        <div class="meta">${a.funcao}</div>
+        <h3>${a.nome}</h3><div class="meta">${a.funcao}</div>
       </div>
       <div class="equip-count" onclick="openCard(${a.id})"><span>${equips.length}</span> peças</div>
       <div class="chevron" onclick="openCard(${a.id})">
@@ -852,39 +855,32 @@ function buildCard(a){
       </div>
     </div>
     <div class="equip-body" id="eb-${a.id}">
-      ${equips.length ? equips.map(buildEquipRow).join('') : '<div class="empty-equip">Sem equipamentos atribuídos.</div>'}
+      ${equips.length?equips.map(buildEquipRow).join(''):'<div class="empty-equip">Sem equipamentos atribuídos.</div>'}
     </div>`;
   return el;
 }
 function buildEquipRow(e){
-  const cat=getCat(e.catalog_id);
-  if(!cat) return '';
-  return `
-    <div class="equip-item">
-      <div class="equip-photo">${cat.url?`<img src="${cat.url}" alt="${cat.cor}" loading="lazy"/>`:`<span class="nophoto">👕</span>`}</div>
-      <div class="equip-right">
-        <div class="equip-name">${cat.tipo}</div>
-        <div class="equip-sub">${cat.marca}</div>
-        <div class="equip-tags">
-          <span class="tag">${cat.cor}</span>
-          <span class="tag size">${e.tamanho}</span>
-          <span class="tag qty">×${e.qty}</span>
-        </div>
+  const cat=getCat(e.catalog_id); if(!cat) return '';
+  return `<div class="equip-item">
+    <div class="equip-photo">${cat.url?`<img src="${cat.url}" alt="${cat.cor}" loading="lazy"/>`:`<span class="nophoto">👕</span>`}</div>
+    <div class="equip-right">
+      <div class="equip-name">${cat.tipo}</div><div class="equip-sub">${cat.marca}</div>
+      <div class="equip-tags">
+        <span class="tag">${cat.cor}</span>
+        <span class="tag size">${e.tamanho}</span>
+        <span class="tag qty">×${e.qty}</span>
       </div>
-    </div>`;
+    </div>
+  </div>`;
 }
 function openCard(id){ document.getElementById('card-'+id).classList.toggle('open'); }
 
-/* ══════════════════════════════════════════
-   SEARCH / STATS
-══════════════════════════════════════════ */
 function onSearch(v){ document.getElementById('clear-btn').classList.toggle('vis',v.length>0); renderAll(v); }
 function clearSearch(){ document.getElementById('search-input').value=''; document.getElementById('clear-btn').classList.remove('vis'); renderAll(''); }
 function updateStats(){
   document.getElementById('s-arb').textContent=ARBITROS.length;
   document.getElementById('s-eq').textContent=EQUIPAMENTOS.length;
-  const mk=new Set(CATALOG.map(c=>c.marca.toLowerCase()));
-  document.getElementById('s-mk').textContent=mk.size;
+  document.getElementById('s-mk').textContent=new Set(CATALOG.map(c=>c.marca.toLowerCase())).size;
 }
 
 /* ══════════════════════════════════════════
@@ -893,17 +889,14 @@ function updateStats(){
 function openCmpModal(){
   const arr=[...selected].map(id=>ARBITROS.find(a=>a.id===id));
   const tipos=[...new Set(arr.flatMap(a=>getArbEquip(a.id).map(e=>{ const c=getCat(e.catalog_id); return c?c.tipo:''; }).filter(Boolean)))];
-  let html=`<table class="cmp-table"><thead><tr><th></th>${arr.map(a=>`<th class="arb-col"><div class="cmp-arb-head"><div class="cmp-av">${initials(a.nome)}</div><div class="cmp-aname">${a.nome}</div><div class="cmp-afuncao">${a.funcao}</div></div></th>`).join('')}</tr></thead><tbody>`;
+  let html=`<table class="cmp-table"><thead><tr><th></th>${arr.map(a=>`<th class="arb-col"><div class="cmp-arb-head"><div class="cmp-av">${avatarHtml(a)}</div><div class="cmp-aname">${a.nome}</div><div class="cmp-afuncao">${a.funcao}</div></div></th>`).join('')}</tr></thead><tbody>`;
   tipos.forEach(tipo=>{
     html+=`<tr><td class="row-label">${tipo}</td>`;
     arr.forEach(a=>{
       const items=getArbEquip(a.id).filter(e=>{ const c=getCat(e.catalog_id); return c&&c.tipo===tipo; });
       if(!items.length){ html+=`<td class="arb-val"><span class="cmp-none">—</span></td>`; return; }
       html+=`<td class="arb-val"><div class="cmp-pills">`;
-      items.forEach(e=>{
-        const cat=getCat(e.catalog_id);
-        html+=`<div class="cmp-pill">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${cat.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${cat.marca}</div></div></div>`;
-      });
+      items.forEach(e=>{ const cat=getCat(e.catalog_id); html+=`<div class="cmp-pill">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${cat.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${cat.marca}</div></div></div>`; });
       html+=`</div></td>`;
     });
     html+=`</tr>`;
@@ -920,56 +913,9 @@ function openModal(id){ document.getElementById(id).classList.add('open'); docum
 function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
 
-/* ══════════════════════════════════════════
-   TOAST
-══════════════════════════════════════════ */
 let toastTimer;
-function toast(msg, type=''){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast'+(type==='err'?' err':'')+' show';
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
-}
-function avatarHtml(a) {
-  if (a.foto_url) return `<img src="${a.foto_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="${a.nome}"/>`;
-  return initials(a.nome);
-}
-  let editArbId = null;
-function openEditArb(id) {
-  const a = ARBITROS.find(x=>x.id===id);
-  editArbId = id;
-  document.getElementById('edit-arb-nome').value = a.nome;
-  document.getElementById('edit-arb-funcao').value = a.funcao;
-  document.getElementById('edit-arb-foto').value = a.foto_url || '';
-  closeModal('modal-admin');
-  openModal('modal-edit-arb');
-}
+function toast(msg,type=''){ const t=document.getElementById('toast'); t.textContent=msg; t.className='toast'+(type==='err'?' err':'')+' show'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
 
-async function saveEditArb() {
-  const btn = document.getElementById('btn-save-edit-arb');
-  btn.disabled=true; btn.textContent='A guardar…';
-  try {
-    await fetch(`${SB_URL}/rest/v1/arbitros?id=eq.${editArbId}`, {
-      method: 'PATCH',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: document.getElementById('edit-arb-nome').value.trim(),
-        funcao: document.getElementById('edit-arb-funcao').value,
-        foto_url: document.getElementById('edit-arb-foto').value.trim()
-      })
-    });
-    const a = ARBITROS.find(x=>x.id===editArbId);
-    a.nome = document.getElementById('edit-arb-nome').value.trim();
-    a.funcao = document.getElementById('edit-arb-funcao').value;
-    a.foto_url = document.getElementById('edit-arb-foto').value.trim();
-    closeModal('modal-edit-arb'); openAdminPanel(); renderAll(); toast('Árbitro atualizado ✓');
-  } catch(e){ toast('Erro: '+e.message,'err'); }
-  finally{ btn.disabled=false; btn.textContent='Guardar'; }
-}
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
 loadAll();
 </script>
 </body>
