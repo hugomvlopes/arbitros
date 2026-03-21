@@ -1202,8 +1202,7 @@ async function shareNom() {
       const conflict = hasConflict(i);
       const equips = getArbEquip(s.arbId);
       const camisolas = equips.map(e => getCat(e.catalog_id)).filter(c => c && c.tipo === 'Camisola');
-      const cors = getCamisolas(s.arbId);
-
+      const cors = getCamisolasComTamanho(s.arbId);
       const borderColor = conflict ? '#e05a5a' : 'rgba(61,220,104,.3)';
       const bgColor = conflict ? 'rgba(224,90,90,.06)' : '#191917';
       const badge = conflict
@@ -1279,7 +1278,12 @@ function downloadBlob(blob) {
   a.click();
   toast('Imagem guardada ✓');
 }
-
+function getCamisolasComTamanho(arbId) {
+  return getArbEquip(arbId)
+    .map(e => ({ cat: getCat(e.catalog_id), tam: e.tamanho }))
+    .filter(({ cat }) => cat && cat.tipo === 'Camisola')
+    .map(({ cat, tam }) => `${cat.cor} (${tam})`);
+}
 /* ══════════════════════════════════════════
    INIT NOMINATIONS
 ══════════════════════════════════════════ */
