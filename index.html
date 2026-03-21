@@ -14,7 +14,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;padding-bottom:80px}
 
-/* ── HEADER ── */
+/* HEADER */
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
 .logo-badge{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:transform .1s}
 .logo-badge:active{transform:scale(.9)}
@@ -26,7 +26,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .cbadge{background:var(--accent);color:#0c0c0b;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:800;line-height:1.4;display:none}
 .compare-btn.active .cbadge{display:inline}
 
-/* ── SEARCH ── */
+/* SEARCH */
 .search-wrap{padding:14px 16px 0}
 .search-box{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0 14px;gap:10px;transition:border-color .15s}
 .search-box:focus-within{border-color:var(--accent)}
@@ -36,19 +36,19 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 #clear-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:0;line-height:1;display:none}
 #clear-btn.vis{display:block}
 
-/* ── STATS ── */
+/* STATS */
 .stats-bar{display:flex;gap:10px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none}
 .stats-bar::-webkit-scrollbar{display:none}
 .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;white-space:nowrap;flex-shrink:0}
 .stat-pill .val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--accent);line-height:1}
 .stat-pill .lbl{font-size:10px;color:var(--subtext);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
 
-/* ── SECTION ── */
+/* SECTION */
 .section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px}
 .section-header h2{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext)}
 .select-hint{font-size:11px;color:var(--muted);display:none}
 
-/* ── CARDS ── */
+/* ÁRBITRO CARDS */
 .cards-list{display:flex;flex-direction:column;gap:10px;padding:0 16px}
 .arb-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
 .arb-card.selected{border-color:rgba(240,208,32,.5);box-shadow:0 0 0 1px rgba(240,208,32,.1)}
@@ -70,7 +70,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .equip-body{display:none;border-top:1px solid var(--border);padding:10px;gap:8px;flex-direction:column}
 .arb-card.open .equip-body{display:flex}
 
-/* ── EQUIP ITEM ── */
+/* EQUIP ITEM */
 .equip-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;align-items:stretch}
 .equip-photo{width:70px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .equip-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
@@ -84,10 +84,9 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .tag.size{background:rgba(224,156,61,.08);border-color:rgba(224,156,61,.2);color:var(--warn)}
 .empty-equip{color:var(--muted);font-size:13px;padding:4px 2px}
 
-/* ── NO RESULTS ── */
 #no-results{display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
 
-/* ── COMPARE TRAY ── */
+/* COMPARE TRAY */
 .cmp-tray{position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px 20px;display:none;gap:10px;align-items:center;flex-wrap:wrap}
 .cmp-tray.vis{display:flex}
 .tray-label{font-size:11px;color:var(--subtext);font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
@@ -98,11 +97,11 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .btn-cmp:hover{background:var(--accent2)}
 .btn-cmp:disabled{opacity:.35;cursor:not-allowed}
 
-/* ── MODALS (generic) ── */
+/* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 12px 40px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:700px;animation:fadeUp .25s ease;margin:auto}
-.modal.sm{max-width:400px}
+.modal.sm{max-width:420px}
 @keyframes fadeUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:16px auto 0}
 .modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 14px}
@@ -111,41 +110,76 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .modal-close:hover{border-color:var(--danger);color:var(--danger)}
 .modal-body{padding:0 20px 24px;display:flex;flex-direction:column;gap:14px}
 
-/* ── FORM FIELDS ── */
+/* FORM FIELDS */
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-size:11px;font-weight:700;color:var(--subtext);letter-spacing:.07em;text-transform:uppercase}
-.field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;padding:11px 14px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field input,.field select{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;padding:11px 14px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:var(--accent)}
 .field select option{background:#191917}
-.field textarea{resize:vertical;min-height:70px;font-size:13px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .modal-actions{display:flex;gap:10px;padding:0 20px 20px}
 .btn-primary{flex:1;background:var(--accent);border:none;border-radius:10px;padding:13px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;color:#0c0c0b;cursor:pointer;transition:background .15s}
 .btn-primary:hover{background:var(--accent2)}
 .btn-cancel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 20px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s}
 .btn-cancel:hover{color:var(--text);border-color:var(--muted)}
-.btn-danger-sm{background:none;border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:12px;color:var(--subtext);cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;font-weight:500}
+.btn-danger-sm{background:none;border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:12px;color:var(--subtext);cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;font-weight:500;white-space:nowrap}
 .btn-danger-sm:hover{border-color:var(--danger);color:var(--danger)}
+.btn-add-row{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;width:100%}
+.btn-add-row:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ── PIN MODAL ── */
-.pin-display{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;letter-spacing:.3em;text-align:center;color:var(--accent);padding:10px 0 4px;min-height:50px}
-.pin-dots{display:flex;gap:10px;justify-content:center;margin-bottom:4px}
+/* ADMIN SECTIONS */
+.admin-section{margin-bottom:4px}
+.admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext);padding:16px 20px 10px;border-top:1px solid var(--border);margin-top:4px}
+.admin-section:first-child .admin-section-title{border-top:none;padding-top:4px}
+.admin-list{display:flex;flex-direction:column;gap:8px;padding:0 20px}
+.admin-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.admin-row-thumb{width:44px;height:48px;border-radius:7px;background:#111;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.admin-row-thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+.admin-row-thumb .nophoto{font-size:20px}
+.admin-row-info{flex:1;min-width:0}
+.admin-row-info .aname{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-row-info .ameta{font-size:11px;color:var(--subtext);margin-top:2px}
+.add-row-wrap{padding:10px 20px 0}
+.avatar-sm{width:34px;height:34px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0}
+
+/* CATÁLOGO SELECT */
+.catalog-select-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all .15s;margin-bottom:8px}
+.catalog-select-item:hover,.catalog-select-item.active{border-color:var(--accent);background:rgba(240,208,32,.05)}
+.catalog-select-item.active .csi-check{opacity:1}
+.csi-thumb{width:40px;height:44px;border-radius:6px;background:#111;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.csi-thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+.csi-thumb .nophoto{font-size:18px}
+.csi-info{flex:1;min-width:0}
+.csi-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
+.csi-meta{font-size:11px;color:var(--subtext);margin-top:2px}
+.csi-check{opacity:0;transition:opacity .15s;flex-shrink:0;color:var(--accent)}
+.catalog-scroll{max-height:260px;overflow-y:auto;padding:0 20px}
+.catalog-scroll::-webkit-scrollbar{width:4px}
+.catalog-scroll::-webkit-scrollbar-track{background:transparent}
+.catalog-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.empty-catalog{color:var(--muted);font-size:13px;font-style:italic;padding:12px 0;text-align:center}
+
+/* URL PREVIEW */
+.url-preview{display:none;text-align:center;padding:8px 0 0}
+.url-preview img{max-height:90px;border-radius:8px;border:1px solid var(--border)}
+
+/* PIN */
+.pin-dots{display:flex;gap:10px;justify-content:center;margin:4px 0 8px}
 .pin-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:background .15s}
 .pin-dot.filled{background:var(--accent)}
 .pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px 20px}
 .pin-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s;text-align:center}
 .pin-btn:hover{border-color:var(--accent);color:var(--accent)}
 .pin-btn:active{transform:scale(.95)}
-.pin-btn.del{color:var(--subtext);font-size:18px}
-.pin-error{font-size:13px;color:var(--danger);text-align:center;padding:0 20px 10px;display:none}
+.pin-error{font-size:13px;color:var(--danger);text-align:center;padding:0 20px 8px;display:none}
 
-/* ── COMPARE TABLE ── */
+/* COMPARE TABLE */
 .cmp-wrap{padding:0 16px 20px;overflow-x:auto}
 .cmp-table{width:100%;border-collapse:collapse}
 .cmp-table th{padding:10px 12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--text);background:var(--surface);border-bottom:2px solid var(--border);text-align:left;white-space:nowrap}
 .cmp-table th.arb-col{text-align:center;min-width:120px}
 .cmp-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
-.cmp-table td.row-label{color:var(--subtext);font-weight:600;letter-spacing:.04em;font-size:12px;text-transform:uppercase;white-space:nowrap;background:var(--surface)}
+.cmp-table td.row-label{color:var(--subtext);font-weight:600;font-size:12px;text-transform:uppercase;white-space:nowrap;background:var(--surface)}
 .cmp-table td.arb-val{text-align:center}
 .cmp-table tr:last-child td{border-bottom:none}
 .cmp-pills{display:flex;flex-direction:column;gap:6px;align-items:center}
@@ -160,30 +194,14 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .cmp-aname{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;line-height:1.2;text-align:center}
 .cmp-afuncao{font-size:10px;color:var(--subtext);text-align:center}
 
-/* ── ADMIN PANEL ── */
-.admin-section{margin-bottom:20px}
-.admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtext);padding:0 20px 10px;border-bottom:1px solid var(--border);margin-bottom:12px}
-.admin-list{display:flex;flex-direction:column;gap:8px;padding:0 20px}
-.admin-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.admin-row-info{flex:1;min-width:0}
-.admin-row-info .aname{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
-.admin-row-info .ameta{font-size:11px;color:var(--subtext);margin-top:2px}
-.color-preview{width:32px;height:32px;border-radius:6px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.color-preview img{width:100%;height:100%;object-fit:cover;object-position:top}
-.color-preview .nophoto{font-size:16px}
-.btn-add-row{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;width:100%}
-.btn-add-row:hover{border-color:var(--accent);color:var(--accent)}
-.admin-equip-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;padding:6px 10px;outline:none;transition:border-color .15s;-webkit-appearance:none;cursor:pointer;min-width:130px}
-.admin-equip-select:focus{border-color:var(--accent)}
-.admin-equip-select option{background:#191917}
-
-/* toast */
+/* TOAST */
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#0c0c0b;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;padding:9px 20px;border-radius:8px;opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="logo-badge" id="logo-tap" onclick="handleLogoTap()">
     <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -230,12 +248,9 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   <button class="btn-cmp" id="btn-cmp-go" onclick="openCmpModal()" disabled>Ver comparativo</button>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: PIN
-════════════════════════════════════════════ -->
+<!-- ══ MODAL: PIN ══ -->
 <div class="modal-overlay" id="modal-pin">
   <div class="modal sm">
     <div class="modal-handle"></div>
@@ -243,12 +258,11 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <h2>Acesso Admin</h2>
       <button class="modal-close" onclick="closeModal('modal-pin');resetPin()">×</button>
     </div>
-    <div style="padding:0 20px 10px">
+    <div style="padding:0 20px 8px">
       <div class="pin-dots" id="pin-dots">
-        <div class="pin-dot" id="dot0"></div>
-        <div class="pin-dot" id="dot1"></div>
-        <div class="pin-dot" id="dot2"></div>
-        <div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot0"></div><div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div><div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot4"></div><div class="pin-dot" id="dot5"></div>
       </div>
       <div class="pin-error" id="pin-error">PIN incorreto. Tenta novamente.</div>
     </div>
@@ -264,14 +278,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <button class="pin-btn" onclick="pinKey('9')">9</button>
       <button class="pin-btn" style="opacity:0;pointer-events:none"></button>
       <button class="pin-btn" onclick="pinKey('0')">0</button>
-      <button class="pin-btn del" onclick="pinDel()">⌫</button>
+      <button class="pin-btn" onclick="pinDel()">⌫</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: ADMIN PANEL
-════════════════════════════════════════════ -->
+<!-- ══ MODAL: ADMIN ══ -->
 <div class="modal-overlay" id="modal-admin">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -280,14 +292,14 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       <button class="modal-close" onclick="closeModal('modal-admin')">×</button>
     </div>
 
-    <!-- CORES / FOTOS -->
+    <!-- CATÁLOGO DE EQUIPAMENTOS -->
     <div class="admin-section">
-      <div class="admin-section-title">Cores &amp; Fotografias</div>
-      <div class="admin-list" id="admin-cores-list"></div>
-      <div style="padding:10px 20px 0">
-        <button class="btn-add-row" onclick="openAddCor()">
+      <div class="admin-section-title">Catálogo de Equipamentos</div>
+      <div class="admin-list" id="admin-catalog-list"></div>
+      <div class="add-row-wrap">
+        <button class="btn-add-row" onclick="openAddCatalog()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Nova cor / fotografia
+          Novo equipamento no catálogo
         </button>
       </div>
     </div>
@@ -296,7 +308,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
     <div class="admin-section">
       <div class="admin-section-title">Árbitros</div>
       <div class="admin-list" id="admin-arb-list"></div>
-      <div style="padding:10px 20px 0">
+      <div class="add-row-wrap">
         <button class="btn-add-row" onclick="openAddArb()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Novo árbitro
@@ -304,65 +316,73 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       </div>
     </div>
 
-    <!-- EQUIPAMENTOS -->
+    <!-- ATRIBUIR EQUIPAMENTO -->
     <div class="admin-section">
-      <div class="admin-section-title">Adicionar Equipamento</div>
-      <div class="modal-body" style="padding-top:0">
+      <div class="admin-section-title">Atribuir Equipamento a Árbitro</div>
+      <div class="modal-body" style="padding-top:0;gap:10px">
         <div class="field">
           <label>Árbitro</label>
-          <select id="adm-eq-arb" onchange="renderAdmEquipList()">
+          <select id="adm-arb-sel" onchange="renderAssignedList()">
             <option value="">— Selecionar árbitro —</option>
           </select>
         </div>
-        <div id="adm-equip-list" style="display:flex;flex-direction:column;gap:6px"></div>
-        <button class="btn-add-row" onclick="openAddEquip()">
+        <div id="assigned-list"></div>
+        <button class="btn-add-row" onclick="openAssignEquip()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Adicionar equipamento ao árbitro
+          Atribuir equipamento
         </button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: NOVA COR
-════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-add-cor">
+<!-- ══ MODAL: NOVO ITEM CATÁLOGO ══ -->
+<div class="modal-overlay" id="modal-add-catalog">
   <div class="modal sm">
     <div class="modal-handle"></div>
     <div class="modal-head">
-      <h2>Nova Cor / Foto</h2>
-      <button class="modal-close" onclick="closeModal('modal-add-cor')">×</button>
+      <h2>Novo Equipamento</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-catalog');openAdminPanel()">×</button>
     </div>
     <div class="modal-body">
       <div class="field">
-        <label>Nome da cor (ex: Amarelo Fluor)</label>
-        <input type="text" id="cor-nome" placeholder="Ex: Vermelho, Verde Lima…"/>
+        <label>Tipo de peça</label>
+        <select id="cat-tipo">
+          <option>Camisola</option><option>Calções</option><option>Meias</option>
+          <option>Casaco</option><option>Fato de Treino</option><option>Luvas</option>
+          <option>Boné</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Marca</label>
+        <input type="text" id="cat-marca" placeholder="Ex: Macron, Adidas, Nike…"/>
+      </div>
+      <div class="field">
+        <label>Cor / Referência</label>
+        <input type="text" id="cat-cor" placeholder="Ex: Amarelo Fluor, Azul Royal…"/>
       </div>
       <div class="field">
         <label>URL da fotografia (opcional)</label>
-        <input type="url" id="cor-url" placeholder="https://…"/>
+        <input type="url" id="cat-url" placeholder="https://…"/>
       </div>
-      <div id="cor-preview" style="display:none;text-align:center">
-        <img id="cor-preview-img" style="max-height:100px;border-radius:8px;border:1px solid var(--border)" alt="preview"/>
+      <div class="url-preview" id="cat-preview">
+        <img id="cat-preview-img" alt="preview"/>
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-add-cor')">Cancelar</button>
-      <button class="btn-primary" onclick="saveCor()">Guardar</button>
+      <button class="btn-cancel" onclick="closeModal('modal-add-catalog');openAdminPanel()">Cancelar</button>
+      <button class="btn-primary" onclick="saveCatalogItem()">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: NOVO ÁRBITRO
-════════════════════════════════════════════ -->
+<!-- ══ MODAL: NOVO ÁRBITRO ══ -->
 <div class="modal-overlay" id="modal-add-arb">
   <div class="modal sm">
     <div class="modal-handle"></div>
     <div class="modal-head">
       <h2>Novo Árbitro</h2>
-      <button class="modal-close" onclick="closeModal('modal-add-arb')">×</button>
+      <button class="modal-close" onclick="closeModal('modal-add-arb');openAdminPanel()">×</button>
     </div>
     <div class="modal-body">
       <div class="field">
@@ -380,63 +400,46 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-add-arb')">Cancelar</button>
+      <button class="btn-cancel" onclick="closeModal('modal-add-arb');openAdminPanel()">Cancelar</button>
       <button class="btn-primary" onclick="saveArb()">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: NOVO EQUIPAMENTO
-════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-add-equip">
+<!-- ══ MODAL: ATRIBUIR EQUIPAMENTO ══ -->
+<div class="modal-overlay" id="modal-assign">
   <div class="modal sm">
     <div class="modal-handle"></div>
     <div class="modal-head">
-      <h2>Novo Equipamento</h2>
-      <button class="modal-close" onclick="closeModal('modal-add-equip')">×</button>
+      <h2>Atribuir Equipamento</h2>
+      <button class="modal-close" onclick="closeModal('modal-assign');openAdminPanel()">×</button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="gap:10px">
+      <div style="font-size:13px;color:var(--subtext)" id="assign-arb-label"></div>
       <div class="field">
-        <label>Tipo</label>
-        <select id="eq-tipo">
-          <option>Camisola</option><option>Calções</option><option>Meias</option>
-          <option>Casaco</option><option>Fato de Treino</option><option>Luvas</option>
-          <option>Boné</option><option>Outro</option>
+        <label>Tamanho</label>
+        <select id="assign-tam">
+          <option>XS</option><option>S</option><option selected>M</option>
+          <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
         </select>
       </div>
       <div class="field">
-        <label>Marca</label>
-        <input type="text" id="eq-marca" placeholder="Ex: Macron, Adidas…"/>
+        <label>Quantidade</label>
+        <input type="number" id="assign-qty" value="1" min="1" max="99"/>
       </div>
       <div class="field">
-        <label>Cor</label>
-        <select id="eq-cor"></select>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label>Tamanho</label>
-          <select id="eq-tam">
-            <option>XS</option><option>S</option><option selected>M</option>
-            <option>L</option><option>XL</option><option>XXL</option><option>3XL</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Quantidade</label>
-          <input type="number" id="eq-qty" value="1" min="1" max="99"/>
-        </div>
+        <label>Selecionar do catálogo</label>
       </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-add-equip')">Cancelar</button>
-      <button class="btn-primary" onclick="saveEquip()">Guardar</button>
+    <div class="catalog-scroll" id="catalog-picker"></div>
+    <div class="modal-actions" style="margin-top:10px">
+      <button class="btn-cancel" onclick="closeModal('modal-assign');openAdminPanel()">Cancelar</button>
+      <button class="btn-primary" onclick="saveAssign()">Atribuir</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: COMPARE
-════════════════════════════════════════════ -->
+<!-- ══ MODAL: COMPARE ══ -->
 <div class="modal-overlay" id="modal-cmp">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -450,55 +453,56 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 
 <script>
 /* ══════════════════════════════════════════
-   DATA
+   CONFIG
 ══════════════════════════════════════════ */
-const PIN = '1904';
+const PIN = '122900';
 
-const DEFAULT_CORES = [
-  {id:'amarelo-fluor', nome:'Amarelo Fluor', url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/7/87c275289aadb48dda3481caa8418d1e58589608.jpg'},
-  {id:'azul',          nome:'Azul',          url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/1/61cd158f7d174a6b1f6860a432f6053658589607.jpg'},
-  {id:'preto',         nome:'Preto',          url:''},
-  {id:'vermelho',      nome:'Vermelho',       url:''},
-  {id:'branco',        nome:'Branco',         url:''},
+/* ══════════════════════════════════════════
+   DEFAULT DATA
+══════════════════════════════════════════ */
+const DEFAULT_CATALOG = [
+  {id:'c1', tipo:'Camisola', marca:'Macron', cor:'Amarelo Fluor', url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/8/7/87c275289aadb48dda3481caa8418d1e58589608.jpg'},
+  {id:'c2', tipo:'Camisola', marca:'Macron', cor:'Azul',          url:'https://www.macron.com/media/catalog/product/cache/7854776c5a059fa4314600f243e72018/6/1/61cd158f7d174a6b1f6860a432f6053658589607.jpg'},
+  {id:'c3', tipo:'Calções',  marca:'Macron', cor:'Preto',         url:''},
+  {id:'c4', tipo:'Meias',    marca:'Macron', cor:'Preto',         url:''},
 ];
 
 const DEFAULT_DB = [
-  {id:1,nome:'Miguel Ferreira',funcao:'Árbitro Principal',equip:[
-    {id:1,tipo:'Camisola',marca:'Macron',cor:'Amarelo Fluor',tamanho:'L',qty:2},
-    {id:2,tipo:'Camisola',marca:'Macron',cor:'Azul',tamanho:'L',qty:1},
-    {id:3,tipo:'Calções',marca:'Macron',cor:'Preto',tamanho:'L',qty:2},
+  {id:1, nome:'Miguel Ferreira', funcao:'Árbitro Principal', equip:[
+    {id:1, catId:'c1', tamanho:'L', qty:2},
+    {id:2, catId:'c2', tamanho:'L', qty:1},
+    {id:3, catId:'c3', tamanho:'L', qty:2},
   ]},
-  {id:2,nome:'Rui Costa',funcao:'Árbitro Assistente',equip:[
-    {id:1,tipo:'Camisola',marca:'Macron',cor:'Amarelo Fluor',tamanho:'M',qty:1},
-    {id:2,tipo:'Meias',marca:'Macron',cor:'Preto',tamanho:'M',qty:3},
+  {id:2, nome:'Rui Costa', funcao:'Árbitro Assistente', equip:[
+    {id:1, catId:'c1', tamanho:'M', qty:1},
+    {id:2, catId:'c4', tamanho:'M', qty:3},
   ]},
-  {id:3,nome:'Carlos Henriques',funcao:'Árbitro Principal',equip:[
-    {id:1,tipo:'Camisola',marca:'Macron',cor:'Azul',tamanho:'XL',qty:2},
-    {id:2,tipo:'Casaco',marca:'Macron',cor:'Preto',tamanho:'XL',qty:1},
+  {id:3, nome:'Carlos Henriques', funcao:'Árbitro Principal', equip:[
+    {id:1, catId:'c2', tamanho:'XL', qty:2},
   ]},
-  {id:4,nome:'Pedro Almeida',funcao:'Árbitro Assistente',equip:[
-    {id:1,tipo:'Camisola',marca:'Adidas',cor:'Amarelo Fluor',tamanho:'S',qty:1},
-    {id:2,tipo:'Calções',marca:'Adidas',cor:'Preto',tamanho:'S',qty:1},
-    {id:3,tipo:'Meias',marca:'Adidas',cor:'Preto',tamanho:'S',qty:2},
+  {id:4, nome:'Pedro Almeida', funcao:'Árbitro Assistente', equip:[
+    {id:1, catId:'c1', tamanho:'S', qty:1},
+    {id:2, catId:'c3', tamanho:'S', qty:1},
   ]},
 ];
 
-let CORES = JSON.parse(localStorage.getItem('afv_cores') || 'null') || DEFAULT_CORES;
-let DB    = JSON.parse(localStorage.getItem('afv_db3')   || 'null') || DEFAULT_DB;
+let CATALOG = JSON.parse(localStorage.getItem('afv_catalog') || 'null') || DEFAULT_CATALOG;
+let DB      = JSON.parse(localStorage.getItem('afv_db4')     || 'null') || DEFAULT_DB;
 
-function save(){ localStorage.setItem('afv_cores', JSON.stringify(CORES)); localStorage.setItem('afv_db3', JSON.stringify(DB)); }
-function initials(n){ return n.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
-
-function getFoto(e){
-  if(!['Camisola','Casaco'].includes(e.tipo)) return null;
-  const c = CORES.find(x=>x.nome.toLowerCase()===e.cor.toLowerCase());
-  return c && c.url ? c.url : null;
+function save(){
+  localStorage.setItem('afv_catalog', JSON.stringify(CATALOG));
+  localStorage.setItem('afv_db4',     JSON.stringify(DB));
 }
+
+function getCat(id){ return CATALOG.find(c=>c.id===id) || null; }
+function initials(n){ return n.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
+function uid(){ return 'c' + Date.now() + Math.random().toString(36).slice(2,6); }
 
 /* ══════════════════════════════════════════
    PIN
 ══════════════════════════════════════════ */
 let pinTaps=0, pinTimer=null, pinVal='';
+const PIN_LEN = PIN.length;
 
 function handleLogoTap(){
   pinTaps++;
@@ -506,74 +510,101 @@ function handleLogoTap(){
   if(pinTaps>=5){ pinTaps=0; resetPin(); openModal('modal-pin'); return; }
   pinTimer=setTimeout(()=>pinTaps=0, 2000);
 }
-
 function resetPin(){ pinVal=''; updateDots(); document.getElementById('pin-error').style.display='none'; }
-function updateDots(){ for(let i=0;i<4;i++) document.getElementById('dot'+i).classList.toggle('filled', i<pinVal.length); }
+function updateDots(){
+  for(let i=0;i<PIN_LEN;i++){
+    const d=document.getElementById('dot'+i);
+    if(d) d.classList.toggle('filled', i<pinVal.length);
+  }
+}
 function pinKey(k){
-  if(pinVal.length>=4) return;
+  if(pinVal.length>=PIN_LEN) return;
   pinVal+=k; updateDots();
-  if(pinVal.length===4){
-    if(pinVal===PIN){ setTimeout(()=>{ closeModal('modal-pin'); resetPin(); openAdminPanel(); }, 200); }
+  if(pinVal.length===PIN_LEN){
+    if(pinVal===PIN){ setTimeout(()=>{ closeModal('modal-pin'); resetPin(); openAdminPanel(); },200); }
     else{ document.getElementById('pin-error').style.display='block'; setTimeout(resetPin,1000); }
   }
 }
 function pinDel(){ pinVal=pinVal.slice(0,-1); updateDots(); document.getElementById('pin-error').style.display='none'; }
 
+// Build pin dots dynamically based on PIN length
+(function buildDots(){
+  const wrap=document.getElementById('pin-dots');
+  wrap.innerHTML='';
+  for(let i=0;i<PIN_LEN;i++){
+    const d=document.createElement('div');
+    d.className='pin-dot'; d.id='dot'+i;
+    wrap.appendChild(d);
+  }
+})();
+
 /* ══════════════════════════════════════════
    ADMIN PANEL
 ══════════════════════════════════════════ */
 function openAdminPanel(){
-  renderAdminCores();
+  renderAdminCatalog();
   renderAdminArbs();
-  populateArbSelect();
-  renderAdmEquipList();
+  populateArbSelect('adm-arb-sel');
+  renderAssignedList();
   openModal('modal-admin');
 }
 
-/* ── cores list ── */
-function renderAdminCores(){
-  const el=document.getElementById('admin-cores-list');
-  el.innerHTML=CORES.map(c=>`
+/* ── Catálogo ── */
+function renderAdminCatalog(){
+  const el=document.getElementById('admin-catalog-list');
+  if(!CATALOG.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum equipamento no catálogo.</div>'; return; }
+  el.innerHTML=CATALOG.map(c=>`
     <div class="admin-row">
-      <div class="color-preview">${c.url?`<img src="${c.url}" alt="${c.nome}"/>`:`<span class="nophoto">🎨</span>`}</div>
+      <div class="admin-row-thumb">${c.url?`<img src="${c.url}" alt="${c.cor}"/>`:`<span class="nophoto">👕</span>`}</div>
       <div class="admin-row-info">
-        <div class="aname">${c.nome}</div>
-        <div class="ameta">${c.url?'Com fotografia':'Sem fotografia'}</div>
+        <div class="aname">${c.tipo} · ${c.cor}</div>
+        <div class="ameta">${c.marca}</div>
       </div>
-      <button class="btn-danger-sm" onclick="deleteCor('${c.id}')">Remover</button>
+      <button class="btn-danger-sm" onclick="deleteCatalogItem('${c.id}')">Remover</button>
     </div>`).join('');
 }
 
-function openAddCor(){
-  document.getElementById('cor-nome').value='';
-  document.getElementById('cor-url').value='';
-  document.getElementById('cor-preview').style.display='none';
+function openAddCatalog(){
+  document.getElementById('cat-tipo').selectedIndex=0;
+  document.getElementById('cat-marca').value='';
+  document.getElementById('cat-cor').value='';
+  document.getElementById('cat-url').value='';
+  document.getElementById('cat-preview').style.display='none';
   closeModal('modal-admin');
-  openModal('modal-add-cor');
+  openModal('modal-add-catalog');
 }
-document.getElementById('cor-url').addEventListener('input',function(){
-  const p=document.getElementById('cor-preview');
-  const img=document.getElementById('cor-preview-img');
-  if(this.value){ img.src=this.value; p.style.display='block'; }
+document.getElementById('cat-url').addEventListener('input',function(){
+  const p=document.getElementById('cat-preview');
+  const img=document.getElementById('cat-preview-img');
+  if(this.value.trim()){ img.src=this.value.trim(); p.style.display='block'; }
   else p.style.display='none';
 });
-
-function saveCor(){
-  const nome=document.getElementById('cor-nome').value.trim();
-  if(!nome) return;
-  const url=document.getElementById('cor-url').value.trim();
-  const id=nome.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  if(!CORES.find(c=>c.id===id)) CORES.push({id,nome,url});
-  save(); closeModal('modal-add-cor'); openAdminPanel(); toast('Cor guardada ✓');
+function saveCatalogItem(){
+  const marca=document.getElementById('cat-marca').value.trim();
+  const cor=document.getElementById('cat-cor').value.trim();
+  if(!marca||!cor){ toast('Preenche marca e cor'); return; }
+  CATALOG.push({
+    id: uid(),
+    tipo: document.getElementById('cat-tipo').value,
+    marca, cor,
+    url: document.getElementById('cat-url').value.trim()
+  });
+  save(); closeModal('modal-add-catalog'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ao catálogo ✓');
 }
-function deleteCor(id){ CORES=CORES.filter(c=>c.id!==id); save(); renderAdminCores(); renderAll(); toast('Cor removida'); }
+function deleteCatalogItem(id){
+  CATALOG=CATALOG.filter(c=>c.id!==id);
+  // also remove from arbitros
+  DB.forEach(a=>{ a.equip=a.equip.filter(e=>e.catId!==id); });
+  save(); renderAdminCatalog(); renderAll(); toast('Removido do catálogo');
+}
 
-/* ── árbitros list ── */
+/* ── Árbitros ── */
 function renderAdminArbs(){
   const el=document.getElementById('admin-arb-list');
+  if(!DB.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:4px 20px">Nenhum árbitro.</div>'; return; }
   el.innerHTML=DB.map(a=>`
     <div class="admin-row">
-      <div class="avatar" style="cursor:default;width:34px;height:34px;font-size:13px">${initials(a.nome)}</div>
+      <div class="avatar-sm">${initials(a.nome)}</div>
       <div class="admin-row-info">
         <div class="aname">${a.nome}</div>
         <div class="ameta">${a.funcao} · ${a.equip.length} peças</div>
@@ -581,7 +612,6 @@ function renderAdminArbs(){
       <button class="btn-danger-sm" onclick="deleteArb(${a.id})">Remover</button>
     </div>`).join('');
 }
-
 function openAddArb(){
   document.getElementById('arb-nome').value='';
   closeModal('modal-admin');
@@ -589,73 +619,93 @@ function openAddArb(){
 }
 function saveArb(){
   const nome=document.getElementById('arb-nome').value.trim();
-  if(!nome) return;
-  const funcao=document.getElementById('arb-funcao').value;
+  if(!nome){ toast('Insere o nome'); return; }
   const id=DB.length?Math.max(...DB.map(a=>a.id))+1:1;
-  DB.push({id,nome,funcao,equip:[]});
+  DB.push({id, nome, funcao:document.getElementById('arb-funcao').value, equip:[]});
   save(); closeModal('modal-add-arb'); openAdminPanel(); renderAll(); toast('Árbitro adicionado ✓');
 }
-function deleteArb(id){ DB=DB.filter(a=>a.id!==id); save(); renderAdminArbs(); populateArbSelect(); renderAdmEquipList(); renderAll(); toast('Árbitro removido'); }
+function deleteArb(id){
+  DB=DB.filter(a=>a.id!==id);
+  save(); renderAdminArbs(); populateArbSelect('adm-arb-sel'); renderAssignedList(); renderAll(); toast('Árbitro removido');
+}
 
-/* ── equipamentos section ── */
-function populateArbSelect(){
-  const sel=document.getElementById('adm-eq-arb');
+/* ── Atribuir ── */
+function populateArbSelect(selId){
+  const sel=document.getElementById(selId);
   const cur=sel.value;
   sel.innerHTML='<option value="">— Selecionar árbitro —</option>'+DB.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
   if(cur) sel.value=cur;
 }
-function renderAdmEquipList(){
-  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
-  const el=document.getElementById('adm-equip-list');
+function renderAssignedList(){
+  const arbId=parseInt(document.getElementById('adm-arb-sel').value);
+  const el=document.getElementById('assigned-list');
   if(!arbId){ el.innerHTML=''; return; }
   const arb=DB.find(a=>a.id===arbId);
-  if(!arb||!arb.equip.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0">Sem equipamentos.</div>'; return; }
-  el.innerHTML=arb.equip.map(e=>`
-    <div class="admin-row" style="padding:8px 12px">
+  if(!arb||!arb.equip.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0 8px">Sem equipamentos atribuídos.</div>'; return; }
+  el.innerHTML=arb.equip.map(e=>{
+    const cat=getCat(e.catId);
+    if(!cat) return '';
+    return `<div class="admin-row" style="padding:8px 10px;margin-bottom:6px">
+      <div class="admin-row-thumb" style="width:36px;height:40px">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto" style="font-size:16px">👕</span>`}</div>
       <div class="admin-row-info">
-        <div class="aname" style="font-size:13px">${e.tipo} · ${e.cor} · ${e.tamanho} · ×${e.qty}</div>
-        <div class="ameta">${e.marca}</div>
+        <div class="aname" style="font-size:13px">${cat.tipo} · ${cat.cor}</div>
+        <div class="ameta">${cat.marca} · ${e.tamanho} · ×${e.qty}</div>
       </div>
-      <button class="btn-danger-sm" onclick="deleteEquip(${arbId},${e.id})">Remover</button>
+      <button class="btn-danger-sm" onclick="removeAssigned(${arbId},${e.id})">Remover</button>
+    </div>`;
+  }).join('');
+}
+function removeAssigned(arbId,eqId){
+  const arb=DB.find(a=>a.id===arbId);
+  if(arb){ arb.equip=arb.equip.filter(e=>e.id!==eqId); save(); renderAssignedList(); renderAll(); toast('Equipamento removido'); }
+}
+
+let assignSelectedCatId=null;
+function openAssignEquip(){
+  const arbId=parseInt(document.getElementById('adm-arb-sel').value);
+  if(!arbId){ toast('Seleciona um árbitro primeiro'); return; }
+  const arb=DB.find(a=>a.id===arbId);
+  document.getElementById('assign-arb-label').textContent='A atribuir a: '+arb.nome;
+  document.getElementById('assign-qty').value='1';
+  assignSelectedCatId=null;
+  renderCatalogPicker();
+  closeModal('modal-admin');
+  openModal('modal-assign');
+}
+function renderCatalogPicker(){
+  const el=document.getElementById('catalog-picker');
+  if(!CATALOG.length){ el.innerHTML='<div class="empty-catalog">Catálogo vazio. Adiciona equipamentos primeiro.</div>'; return; }
+  el.innerHTML=CATALOG.map(c=>`
+    <div class="catalog-select-item${assignSelectedCatId===c.id?' active':''}" onclick="selectCatItem('${c.id}')">
+      <div class="csi-thumb">${c.url?`<img src="${c.url}" alt="${c.cor}"/>`:`<span class="nophoto">👕</span>`}</div>
+      <div class="csi-info">
+        <div class="csi-name">${c.tipo} · ${c.cor}</div>
+        <div class="csi-meta">${c.marca}</div>
+      </div>
+      <div class="csi-check">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
     </div>`).join('');
 }
-function deleteEquip(arbId,eqId){
+function selectCatItem(id){ assignSelectedCatId=id; renderCatalogPicker(); }
+function saveAssign(){
+  const arbId=parseInt(document.getElementById('adm-arb-sel').value);
+  if(!arbId||!assignSelectedCatId){ toast('Seleciona árbitro e equipamento'); return; }
   const arb=DB.find(a=>a.id===arbId);
-  if(arb){ arb.equip=arb.equip.filter(e=>e.id!==eqId); save(); renderAdmEquipList(); renderAll(); toast('Equipamento removido'); }
-}
-function openAddEquip(){
-  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
-  if(!arbId){ toast('Seleciona um árbitro primeiro'); return; }
-  // populate cor select
-  const sel=document.getElementById('eq-cor');
-  sel.innerHTML=CORES.map(c=>`<option value="${c.nome}">${c.nome}</option>`).join('');
-  document.getElementById('eq-marca').value='';
-  document.getElementById('eq-qty').value='1';
-  closeModal('modal-admin');
-  openModal('modal-add-equip');
-}
-function saveEquip(){
-  const arbId=parseInt(document.getElementById('adm-eq-arb').value);
-  const arb=DB.find(a=>a.id===arbId);
-  if(!arb) return;
-  const marca=document.getElementById('eq-marca').value.trim()||'Macron';
-  const id=arb.equip.length?Math.max(...arb.equip.map(e=>e.id))+1:1;
+  const newId=arb.equip.length?Math.max(...arb.equip.map(e=>e.id))+1:1;
   arb.equip.push({
-    id,
-    tipo:document.getElementById('eq-tipo').value,
-    marca,
-    cor:document.getElementById('eq-cor').value,
-    tamanho:document.getElementById('eq-tam').value,
-    qty:parseInt(document.getElementById('eq-qty').value)||1
+    id: newId,
+    catId: assignSelectedCatId,
+    tamanho: document.getElementById('assign-tam').value,
+    qty: parseInt(document.getElementById('assign-qty').value)||1
   });
-  save(); closeModal('modal-add-equip'); openAdminPanel(); renderAll(); toast('Equipamento adicionado ✓');
+  save(); closeModal('modal-assign'); openAdminPanel(); renderAll(); toast('Equipamento atribuído ✓');
 }
 
 /* ══════════════════════════════════════════
    COMPARE MODE
 ══════════════════════════════════════════ */
 let cmpMode=false, selected=new Set();
-
 function toggleCmpMode(){
   cmpMode=!cmpMode; selected.clear();
   document.body.classList.toggle('compare-mode',cmpMode);
@@ -718,20 +768,21 @@ function buildCard(a){
       </div>
     </div>
     <div class="equip-body" id="eb-${a.id}">
-      ${a.equip.length?a.equip.map(buildEquip).join(''):'<div class="empty-equip">Sem equipamentos registados.</div>'}
+      ${a.equip.length ? a.equip.map(buildEquipRow).join('') : '<div class="empty-equip">Sem equipamentos atribuídos.</div>'}
     </div>`;
   return el;
 }
-function buildEquip(e){
-  const foto=getFoto(e);
+function buildEquipRow(e){
+  const cat=getCat(e.catId);
+  if(!cat) return '';
   return `
     <div class="equip-item">
-      <div class="equip-photo">${foto?`<img src="${foto}" alt="${e.cor}" loading="lazy"/>`:`<span class="nophoto">👕</span>`}</div>
+      <div class="equip-photo">${cat.url?`<img src="${cat.url}" alt="${cat.cor}" loading="lazy"/>`:`<span class="nophoto">👕</span>`}</div>
       <div class="equip-right">
-        <div class="equip-name">${e.tipo}</div>
-        <div class="equip-sub">${e.marca}</div>
+        <div class="equip-name">${cat.tipo}</div>
+        <div class="equip-sub">${cat.marca}</div>
         <div class="equip-tags">
-          <span class="tag">${e.cor}</span>
+          <span class="tag">${cat.cor}</span>
           <span class="tag size">${e.tamanho}</span>
           <span class="tag qty">×${e.qty}</span>
         </div>
@@ -748,7 +799,7 @@ function clearSearch(){ document.getElementById('search-input').value=''; docume
 function updateStats(){
   document.getElementById('s-arb').textContent=DB.length;
   document.getElementById('s-eq').textContent=DB.reduce((s,a)=>s+a.equip.length,0);
-  const mk=new Set(DB.flatMap(a=>a.equip.map(e=>e.marca.toLowerCase())));
+  const mk=new Set(CATALOG.map(c=>c.marca.toLowerCase()));
   document.getElementById('s-mk').textContent=mk.size;
 }
 
@@ -757,17 +808,17 @@ function updateStats(){
 ══════════════════════════════════════════ */
 function openCmpModal(){
   const arr=[...selected].map(id=>DB.find(a=>a.id===id));
-  const tipos=[...new Set(arr.flatMap(a=>a.equip.map(e=>e.tipo)))];
+  const tipos=[...new Set(arr.flatMap(a=>a.equip.map(e=>{ const c=getCat(e.catId); return c?c.tipo:''; }).filter(Boolean)))];
   let html=`<table class="cmp-table"><thead><tr><th></th>${arr.map(a=>`<th class="arb-col"><div class="cmp-arb-head"><div class="cmp-av">${initials(a.nome)}</div><div class="cmp-aname">${a.nome}</div><div class="cmp-afuncao">${a.funcao}</div></div></th>`).join('')}</tr></thead><tbody>`;
   tipos.forEach(tipo=>{
     html+=`<tr><td class="row-label">${tipo}</td>`;
     arr.forEach(a=>{
-      const items=a.equip.filter(e=>e.tipo===tipo);
+      const items=a.equip.filter(e=>{ const c=getCat(e.catId); return c&&c.tipo===tipo; });
       if(!items.length){ html+=`<td class="arb-val"><span class="cmp-none">—</span></td>`; return; }
       html+=`<td class="arb-val"><div class="cmp-pills">`;
       items.forEach(e=>{
-        const f=getFoto(e);
-        html+=`<div class="cmp-pill">${f?`<img src="${f}" alt="${e.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${e.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${e.marca}</div></div></div>`;
+        const cat=getCat(e.catId);
+        html+=`<div class="cmp-pill">${cat.url?`<img src="${cat.url}" alt="${cat.cor}"/>`:`<span class="nophoto">👕</span>`}<div class="cmp-pinfo"><div class="pname">${cat.cor}</div><div class="pdetail">${e.tamanho} · ×${e.qty} · ${cat.marca}</div></div></div>`;
       });
       html+=`</div></td>`;
     });
