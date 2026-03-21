@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AFV · Equipamentos Árbitros</title>
+<title>NAFV · Equipamentos Árbitros</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -199,6 +199,59 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 .cmp-aname{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;line-height:1.2;text-align:center}
 .cmp-afuncao{font-size:10px;color:var(--subtext);text-align:center}
 
+/* TABS */
+.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px}
+.tab{padding:12px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--subtext);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* NOMEAÇÕES */
+#view-nom{display:none;padding:16px}
+.nom-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.nom-card-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.nom-card-head h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.04em}
+.nom-card-head .nom-meta{font-size:11px;color:var(--subtext);margin-top:2px}
+.nom-slot-wrap{padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.nom-slot{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;position:relative}
+.nom-slot:hover{border-color:var(--muted)}
+.nom-slot.filled{cursor:default}
+.nom-slot.conflict{border-color:var(--danger);background:rgba(224,90,90,.06)}
+.nom-slot.ok{border-color:rgba(61,220,104,.25)}
+.nom-role{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);min-width:76px;flex-shrink:0}
+.nom-av{width:34px;height:34px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden}
+.nom-av img{width:100%;height:100%;object-fit:cover}
+.nom-slot-info{flex:1;min-width:0}
+.nom-slot-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nom-slot-name.empty{color:var(--muted);font-weight:400;font-size:13px;font-family:'Barlow',sans-serif}
+.nom-slot-equip{font-size:11px;color:var(--subtext);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nom-slot-clear{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0;line-height:1;flex-shrink:0;transition:color .15s}
+.nom-slot-clear:hover{color:var(--danger)}
+.conflict-badge{font-size:10px;font-weight:700;background:rgba(224,90,90,.15);border:1px solid rgba(224,90,90,.3);color:var(--danger);border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0}
+.ok-badge{font-size:10px;font-weight:700;background:rgba(61,220,104,.1);border:1px solid rgba(61,220,104,.2);color:#3ddc68;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0}
+.nom-actions{display:flex;gap:8px;padding:0 16px 16px}
+.btn-nom-share{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);border:none;border-radius:10px;padding:12px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:700;color:#0c0c0b;cursor:pointer;transition:background .15s}
+.btn-nom-share:hover{background:var(--accent2)}
+.btn-nom-share:disabled{opacity:.35;cursor:not-allowed}
+.btn-nom-reset{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;color:var(--subtext);cursor:pointer;transition:all .15s}
+.btn-nom-reset:hover{border-color:var(--muted);color:var(--text)}
+.nom-format-row{display:flex;gap:8px;padding:0 16px 12px}
+.nom-format-btn{flex:1;padding:7px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--tag-bg);border:1px solid var(--border);border-radius:8px;color:var(--subtext);cursor:pointer;transition:all .15s}
+.nom-format-btn.active{background:rgba(240,208,32,.1);border-color:rgba(240,208,32,.4);color:var(--accent)}
+
+/* PICKER MODAL */
+.picker-list{max-height:380px;overflow-y:auto;padding:0 20px 8px}
+.picker-list::-webkit-scrollbar{width:4px}
+.picker-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.picker-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;margin-bottom:8px}
+.picker-item:hover{border-color:var(--accent)}
+.picker-av{width:36px;height:36px;border-radius:50%;background:var(--tag-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden}
+.picker-av img{width:100%;height:100%;object-fit:cover}
+.picker-info{flex:1;min-width:0}
+.picker-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700}
+.picker-meta{font-size:11px;color:var(--subtext);margin-top:2px}
+
+/* SHARE PREVIEW */
+#nom-share-canvas{display:none}
+
 /* TOAST */
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#0c0c0b;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;padding:9px 20px;border-radius:8px;opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -233,6 +286,13 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </header>
 
+<div class="tabs">
+  <div class="tab active" id="tab-arb" onclick="switchTab('arb')">Árbitros</div>
+  <div class="tab" id="tab-nom" onclick="switchTab('nom')">Nomeações</div>
+</div>
+
+<!-- VIEW: ÁRBITROS -->
+<div id="view-arb">
 <div class="search-wrap">
   <div class="search-box">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -257,6 +317,33 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
 </div>
 <div class="cards-list" id="cards-list" style="display:none"></div>
 <div id="no-results" style="display:none;text-align:center;padding:50px 20px;color:var(--muted);font-size:14px">Nenhum árbitro encontrado.</div>
+</div><!-- /view-arb -->
+
+<!-- VIEW: NOMEAÇÕES -->
+<div id="view-nom" style="display:none">
+  <div class="nom-card" id="nom-card">
+    <div class="nom-card-head">
+      <div>
+        <h3>Nova Nomeação</h3>
+        <div class="nom-meta" id="nom-jogo-meta">Seleciona o formato e os árbitros</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="nom-format-btn active" id="fmt-3" onclick="setFormat(3)">1+2</button>
+        <button class="nom-format-btn" id="fmt-2" onclick="setFormat(2)">1+1</button>
+      </div>
+    </div>
+    <div class="nom-slot-wrap" id="nom-slots"></div>
+    <div class="nom-actions">
+      <button class="btn-nom-reset" onclick="resetNom()">Limpar</button>
+      <button class="btn-nom-share" id="btn-share" onclick="shareNom()" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Partilhar Imagem
+      </button>
+    </div>
+  </div>
+</div>
+
+<canvas id="nom-share-canvas"></canvas>
 
 <!-- COMPARE TRAY -->
 <div class="cmp-tray" id="cmp-tray">
@@ -455,6 +542,18 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:1
   </div>
 </div>
 
+<!-- ══ PICKER ÁRBITRO ══ -->
+<div class="modal-overlay" id="modal-picker">
+  <div class="modal sm">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h2 id="picker-title">Selecionar Árbitro</h2>
+      <button class="modal-close" onclick="closeModal('modal-picker')">×</button>
+    </div>
+    <div class="picker-list" id="picker-list"></div>
+  </div>
+</div>
+
 <!-- ══ COMPARE ══ -->
 <div class="modal-overlay" id="modal-cmp">
   <div class="modal">
@@ -617,6 +716,7 @@ async function loadAll() {
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('cards-list').style.display   = 'flex';
     renderAll();
+    initNom();
   } catch(e) {
     document.getElementById('main-content').innerHTML =
       `<div class="loading-state"><p style="color:var(--danger)">Erro ao ligar ao Supabase.<br><small>${e.message}</small></p></div>`;
@@ -921,6 +1021,281 @@ document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click
 
 let toastTimer;
 function toast(msg,type=''){ const t=document.getElementById('toast'); t.textContent=msg; t.className='toast'+(type==='err'?' err':'')+' show'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+let currentTab = 'arb';
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('view-arb').style.display = tab === 'arb' ? 'block' : 'none';
+  document.getElementById('view-nom').style.display = tab === 'nom' ? 'block' : 'none';
+  document.getElementById('tab-arb').classList.toggle('active', tab === 'arb');
+  document.getElementById('tab-nom').classList.toggle('active', tab === 'nom');
+  // hide compare tray when switching to nominations
+  if (tab === 'nom') { cmpMode = false; document.body.classList.remove('compare-mode'); syncTray(); }
+}
+
+/* ══════════════════════════════════════════
+   NOMEAÇÕES
+══════════════════════════════════════════ */
+// Slots: { role, label, arbId }
+let nomFormat = 3; // 3 = 1+2, 2 = 1+1
+let nomSlots = [];
+let pickerSlotIdx = null;
+
+const ROLES = {
+  3: [
+    { role: 'principal',   label: 'Árbitro Principal' },
+    { role: 'assistente1', label: '1.º Assistente' },
+    { role: 'assistente2', label: '2.º Assistente' },
+  ],
+  2: [
+    { role: 'principal',   label: 'Árbitro Principal' },
+    { role: 'assistente1', label: 'Árbitro Assistente' },
+  ]
+};
+
+function setFormat(n) {
+  nomFormat = n;
+  document.getElementById('fmt-3').classList.toggle('active', n === 3);
+  document.getElementById('fmt-2').classList.toggle('active', n === 2);
+  resetNom();
+}
+
+function resetNom() {
+  nomSlots = ROLES[nomFormat].map(r => ({ ...r, arbId: null }));
+  renderNomSlots();
+}
+
+/* ── conflict detection ── */
+function getCamisolas(arbId) {
+  return getArbEquip(arbId)
+    .map(e => getCat(e.catalog_id))
+    .filter(c => c && c.tipo === 'Camisola')
+    .map(c => c.cor.toLowerCase());
+}
+
+function hasConflict(slotIdx) {
+  const slot = nomSlots[slotIdx];
+  if (!slot.arbId) return false;
+  const myCors = getCamisolas(slot.arbId);
+  if (!myCors.length) return false;
+
+  for (let i = 0; i < nomSlots.length; i++) {
+    if (i === slotIdx || !nomSlots[i].arbId) continue;
+    const otherCors = getCamisolas(nomSlots[i].arbId);
+    // shared colours
+    const shared = myCors.filter(c => otherCors.includes(c));
+    if (!shared.length) continue;
+    // conflict only if neither has an alternative
+    const myAlts    = myCors.filter(c => !shared.includes(c));
+    const otherAlts = otherCors.filter(c => !shared.includes(c));
+    if (myAlts.length === 0 && otherAlts.length === 0) return true;
+  }
+  return false;
+}
+
+function nomComplete() {
+  return nomSlots.every(s => s.arbId !== null);
+}
+
+function renderNomSlots() {
+  const wrap = document.getElementById('nom-slots');
+  wrap.innerHTML = nomSlots.map((s, i) => {
+    const arb = s.arbId ? ARBITROS.find(a => a.id === s.arbId) : null;
+    const conflict = hasConflict(i);
+    const cors = arb ? getCamisolas(arb.id) : [];
+    const corsLabel = cors.length ? cors.join(', ') : 'Sem camisola registada';
+
+    let cls = 'nom-slot';
+    if (arb) cls += conflict ? ' conflict filled' : ' ok filled';
+
+    return `<div class="${cls}" onclick="${arb ? '' : `openPicker(${i})`}">
+      <span class="nom-role">${s.label}</span>
+      <div class="nom-av">${arb ? avatarHtml(arb) : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`}</div>
+      <div class="nom-slot-info">
+        ${arb
+          ? `<div class="nom-slot-name">${arb.nome}</div><div class="nom-slot-equip">🎽 ${corsLabel}</div>`
+          : `<div class="nom-slot-name empty">Toca para selecionar…</div>`}
+      </div>
+      ${conflict ? `<span class="conflict-badge">⚠ Conflito</span>` : arb ? `<span class="ok-badge">✓ OK</span>` : ''}
+      ${arb ? `<button class="nom-slot-clear" onclick="clearSlot(${i}, event)">×</button>` : ''}
+    </div>`;
+  }).join('');
+
+  // update share button
+  document.getElementById('btn-share').disabled = !nomComplete();
+
+  // update meta
+  const filled = nomSlots.filter(s => s.arbId).length;
+  const conflicts = nomSlots.filter((s, i) => hasConflict(i)).length;
+  document.getElementById('nom-jogo-meta').textContent = conflicts
+    ? `${filled}/${nomSlots.length} selecionados · ⚠ ${conflicts} conflito${conflicts > 1 ? 's' : ''} de cor`
+    : filled === nomSlots.length
+    ? `${filled}/${nomSlots.length} · ✓ Sem conflitos`
+    : `${filled}/${nomSlots.length} selecionados`;
+}
+
+function clearSlot(idx, e) {
+  e.stopPropagation();
+  nomSlots[idx].arbId = null;
+  renderNomSlots();
+}
+
+/* ── picker ── */
+function openPicker(slotIdx) {
+  pickerSlotIdx = slotIdx;
+  const already = nomSlots.map(s => s.arbId).filter(Boolean);
+  const available = ARBITROS.filter(a => !already.includes(a.id));
+  const el = document.getElementById('picker-list');
+  document.getElementById('picker-title').textContent = nomSlots[slotIdx].label;
+  if (!available.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px 20px">Sem árbitros disponíveis.</div>';
+  } else {
+    el.innerHTML = available.map(a => {
+      const cors = getCamisolas(a.id);
+      return `<div class="picker-item" onclick="pickArb(${a.id})">
+        <div class="picker-av">${avatarHtml(a)}</div>
+        <div class="picker-info">
+          <div class="picker-name">${a.nome}</div>
+          <div class="picker-meta">${a.funcao}${cors.length ? ' · 🎽 ' + cors.join(', ') : ''}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  openModal('modal-picker');
+}
+
+function pickArb(arbId) {
+  nomSlots[pickerSlotIdx].arbId = arbId;
+  closeModal('modal-picker');
+  renderNomSlots();
+}
+
+/* ── share as image ── */
+async function shareNom() {
+  const canvas = document.getElementById('nom-share-canvas');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 600, slotH = 80, padding = 24, headerH = 90, footerH = 50;
+  const H = headerH + nomSlots.length * (slotH + 10) + padding + footerH;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  // background
+  ctx.fillStyle = '#0c0c0b';
+  ctx.fillRect(0, 0, W, H);
+
+  // header bar
+  ctx.fillStyle = '#131311';
+  ctx.beginPath(); ctx.roundRect(padding, padding, W - padding*2, headerH - padding, 12); ctx.fill();
+
+  // logo text
+  ctx.fillStyle = '#f0d020';
+  ctx.font = 'bold 26px "Barlow Condensed", sans-serif';
+  ctx.fillText('AFV Árbitros', padding + 16, padding + 38);
+  ctx.fillStyle = '#88887c';
+  ctx.font = '13px "Barlow", sans-serif';
+  ctx.fillText('Nomeação · ' + new Date().toLocaleDateString('pt-PT'), padding + 16, padding + 58);
+
+  // format badge
+  ctx.fillStyle = 'rgba(240,208,32,0.12)';
+  ctx.beginPath(); ctx.roundRect(W - padding - 70, padding + 20, 60, 26, 8); ctx.fill();
+  ctx.fillStyle = '#f0d020';
+  ctx.font = 'bold 13px "Barlow Condensed", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(nomFormat === 3 ? '1 + 2' : '1 + 1', W - padding - 40, padding + 38);
+  ctx.textAlign = 'left';
+
+  // slots
+  let y = headerH + 8;
+  for (let i = 0; i < nomSlots.length; i++) {
+    const s = nomSlots[i];
+    const arb = ARBITROS.find(a => a.id === s.arbId);
+    const conflict = hasConflict(i);
+
+    // slot bg
+    ctx.fillStyle = conflict ? 'rgba(224,90,90,0.08)' : '#191917';
+    ctx.strokeStyle = conflict ? '#e05a5a' : 'rgba(61,220,104,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.roundRect(padding, y, W - padding*2, slotH, 10); ctx.fill(); ctx.stroke();
+
+    // role label
+    ctx.fillStyle = '#484840';
+    ctx.font = 'bold 10px "Barlow Condensed", sans-serif';
+    ctx.fillText(s.label.toUpperCase(), padding + 14, y + 22);
+
+    // avatar circle
+    const avX = padding + 14, avY = y + 30, avR = 18;
+    ctx.fillStyle = '#1e1e1b';
+    ctx.beginPath(); ctx.arc(avX + avR, avY, avR, 0, Math.PI*2); ctx.fill();
+
+    // avatar initials
+    ctx.fillStyle = '#f0d020';
+    ctx.font = 'bold 14px "Barlow Condensed", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(arb ? initials(arb.nome) : '?', avX + avR, avY + 5);
+    ctx.textAlign = 'left';
+
+    // name
+    ctx.fillStyle = '#ededea';
+    ctx.font = 'bold 17px "Barlow Condensed", sans-serif';
+    ctx.fillText(arb ? arb.nome : '—', padding + 52, y + 36);
+
+    // colours
+    const cors = arb ? getCamisolas(arb.id) : [];
+    ctx.fillStyle = '#88887c';
+    ctx.font = '12px "Barlow", sans-serif';
+    ctx.fillText(cors.length ? '🎽 ' + cors.join(', ') : '', padding + 52, y + 56);
+
+    // conflict / ok badge
+    if (arb) {
+      const badgeText = conflict ? '⚠ Conflito' : '✓ OK';
+      const badgeColor = conflict ? '#e05a5a' : '#3ddc68';
+      const badgeBg = conflict ? 'rgba(224,90,90,0.15)' : 'rgba(61,220,104,0.1)';
+      ctx.font = 'bold 11px "Barlow", sans-serif';
+      const tw = ctx.measureText(badgeText).width;
+      ctx.fillStyle = badgeBg;
+      ctx.beginPath(); ctx.roundRect(W - padding - tw - 22, y + 26, tw + 18, 22, 6); ctx.fill();
+      ctx.fillStyle = badgeColor;
+      ctx.textAlign = 'center';
+      ctx.fillText(badgeText, W - padding - tw/2 - 11, y + 41);
+      ctx.textAlign = 'left';
+    }
+
+    y += slotH + 10;
+  }
+
+  // footer
+  ctx.fillStyle = '#484840';
+  ctx.font = '11px "Barlow", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Associação de Futebol de Viseu', W/2, H - 18);
+  ctx.textAlign = 'left';
+
+  // share
+  canvas.toBlob(async blob => {
+    const file = new File([blob], 'nomeacao-afv.png', { type: 'image/png' });
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: 'Nomeação AFV' }); return; } catch(e) {}
+    }
+    // fallback: download
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'nomeacao-afv.png';
+    a.click();
+    toast('Imagem guardada ✓');
+  }, 'image/png');
+}
+
+/* ══════════════════════════════════════════
+   INIT NOMINATIONS
+══════════════════════════════════════════ */
+function initNom() { resetNom(); }
 
 loadAll();
 </script>
