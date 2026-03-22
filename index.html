@@ -771,6 +771,8 @@ async function loadAll() {
     EQUIPAMENTOS = equip     || [];
     ESCALOES     = escaloes  || [];
     EQUIPAS      = equipas   || [];
+    console.log('ESCALOES:', ESCALOES);
+    console.log('EQUIPAS:', EQUIPAS);
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('cards-list').style.display   = 'flex';
     renderAll();
