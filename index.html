@@ -1265,16 +1265,18 @@ async function shareNom() {
     <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:12px">
       <div style="background:#191917;border:1px solid rgba(240,208,32,.2);border-radius:10px;padding:10px 12px">
         <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#484840;margin-bottom:4px">Casa</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#ededea;margin-bottom:4px">${casa.nome}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#ededea;margin-bottom:6px">${casa.nome}</div>
         <div style="font-size:11px;color:#f0d020">🎽 ${casa.cor_principal}</div>
-        ${casa.cor_alternativo ? `<div style="font-size:10px;color:#e09c3d;margin-top:2px">alt: ${casa.cor_alternativo}</div>` : ''}
+        <div style="font-size:11px;color:#88887c;margin-top:2px">🩳 ${casa.cor_calcao}</div>
+        <div style="font-size:11px;color:#88887c;margin-top:2px">🧦 ${casa.cor_meias}</div>
       </div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:#484840">VS</div>
       <div style="background:#191917;border:1px solid rgba(240,208,32,.2);border-radius:10px;padding:10px 12px">
         <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#484840;margin-bottom:4px">Visitante</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#ededea;margin-bottom:4px">${visit.nome}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#ededea;margin-bottom:6px">${visit.nome}</div>
         <div style="font-size:11px;color:#f0d020">🎽 ${visit.cor_principal}</div>
-        ${visit.cor_alternativo ? `<div style="font-size:10px;color:#e09c3d;margin-top:2px">alt: ${visit.cor_alternativo}</div>` : ''}
+        <div style="font-size:11px;color:#88887c;margin-top:2px">🩳 ${visit.cor_calcao}</div>
+        <div style="font-size:11px;color:#88887c;margin-top:2px">🧦 ${visit.cor_meias}</div>
       </div>
     </div>` : ''}
     ${nomSlots.map((s, i) => {
@@ -1397,7 +1399,8 @@ function equipaBlockHtml(equipa, label) {
     <div class="equipa-name">${equipa.nome}</div>
     <div class="equipa-cores">
       <span class="equipa-cor principal">🎽 ${equipa.cor_principal || '—'}</span>
-      ${equipa.cor_alternativo ? `<span class="equipa-cor alt">alt: ${equipa.cor_alternativo}</span>` : ''}
+      <span class="equipa-cor">🩳 ${equipa.cor_calcao || '—'}</span>
+      <span class="equipa-cor">🧦 ${equipa.cor_meias || '—'}</span>
     </div>`;
 }
 
