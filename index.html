@@ -1372,8 +1372,8 @@ function populateEscaloes() {
 }
 
 function onEscalaoChange() {
-  const escalaoId = parseInt(document.getElementById('nom-escalao').value);
-  const filtered = EQUIPAS.filter(e => e.escalao_id === escalaoId);
+  const escalaoId = document.getElementById('nom-escalao').value;
+  const filtered = EQUIPAS.filter(e => String(e.escalao_id) === String(escalaoId));
   const opts = '<option value="">— Selecionar —</option>' +
     filtered.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
   document.getElementById('nom-casa').innerHTML = opts;
